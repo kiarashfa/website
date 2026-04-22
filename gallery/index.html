@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Kiarash Farajzadehahary - Photo Gallery">
+    <meta name="author" content="Kiarash Farajzadehahary">
+    <title>Gallery | KiarashFa</title>
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="../assets/icons/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="../assets/icons/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/icons/favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../assets/icons/apple-touch-icon.png">
+    <link rel="manifest" href="../assets/icons/site.webmanifest">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../assets/css/variables.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/pages.css">
+    <link rel="stylesheet" href="../assets/css/theme-light.css">
+</head>
+<body>
+    <!-- Custom Cursor -->
+    <div class="cursor"></div>
+
+    <!-- Navigation -->
+    <nav class="nav-bar">
+        <a href="../index.html" class="nav-logo">KF</a>
+        <ul class="nav-links" id="nav-links"></ul>
+        <button class="nav-hamburger" id="nav-hamburger">
+            <i class="fas fa-bars"></i>
+        </button>
+    </nav>
+    <div class="nav-overlay" id="nav-overlay"></div>
+    <div class="nav-drawer" id="nav-drawer"></div>
+
+    <!-- 3D Canvas Background -->
+    <div id="canvas-container"></div>
+    
+    <!-- Gallery Container -->
+    <div class="page-container gallery-container">
+        <!-- Header -->
+        <div class="page-header gallery-header">
+            <h1 class="page-title gallery-title">Gallery</h1>
+            <p class="page-subtitle gallery-subtitle">Moments from my research journey</p>
+        </div>
+        
+        <!-- Filter Tabs -->
+        <div class="filter-container">
+            <button class="filter-btn active" data-filter="all">
+                <i class="fas fa-th"></i> All
+            </button>
+            <button class="filter-btn" data-filter="research">
+                <i class="fas fa-flask"></i> Research
+            </button>
+            <button class="filter-btn" data-filter="conference">
+                <i class="fas fa-users"></i> Conferences
+            </button>
+            <button class="filter-btn" data-filter="teaching">
+                <i class="fas fa-chalkboard-teacher"></i> Teaching
+            </button>
+            <button class="filter-btn" data-filter="travel">
+                <i class="fas fa-plane"></i> Travel
+            </button>
+        </div>
+        
+        <!-- Gallery Grid -->
+        <div class="gallery-grid" id="gallery-grid">
+            <!-- Images will be loaded here dynamically -->
+        </div>
+        
+        <!-- Empty State -->
+        <div class="empty-state" id="empty-state" style="display: none;">
+            <i class="fas fa-images"></i>
+            <p>No images found in this category</p>
+        </div>
+    </div>
+
+    <!-- Lightbox Modal -->
+    <div class="lightbox" id="lightbox">
+        <button class="lightbox-close" id="lightbox-close">
+            <i class="fas fa-times"></i>
+        </button>
+        
+        <div class="lightbox-counter" id="lightbox-counter">
+            1 / 1
+        </div>
+        
+        <button class="lightbox-nav prev" id="lightbox-prev">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        
+        <div class="lightbox-content">
+            <img src="" alt="" class="lightbox-image" id="lightbox-image">
+            <p class="lightbox-caption" id="lightbox-caption"></p>
+        </div>
+        
+        <button class="lightbox-nav next" id="lightbox-next">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+    </div>
+
+    <!-- Three.js Import Map -->
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"
+        }
+    }
+    </script>
+
+    <!-- Three.js Background (theme-aware) -->
+    <script type="module">
+        import { initThreeJS } from '../assets/js/three-background-dark.js';
+        import { initThreeJSLight } from '../assets/js/three-background-light.js';
+
+        let currentBg = null;
+
+        function loadBackground(theme) {
+            if (currentBg && currentBg.dispose) {
+                currentBg.dispose();
+                currentBg = null;
+            }
+            const container = document.getElementById('canvas-container');
+            if (container) container.innerHTML = '';
+
+            if (theme === 'light') {
+                currentBg = initThreeJSLight();
+            } else {
+                currentBg = initThreeJS();
+            }
+        }
+
+        const theme = window.__kfTheme || 'dark';
+        loadBackground(theme);
+
+        window.__swapBackground = loadBackground;
+    </script>
+
+    <!-- Main JavaScript -->
+    <script src="../assets/js/main.js"></script>
+    
+    <!-- Gallery Script -->
+    <script>
+        // Gallery state
+        let galleryData = [];
+        let filteredData = [];
+        let currentFilter = 'all';
+        let currentLightboxIndex = 0;
+        let touchStartX = 0;
+        let touchEndX = 0;
+        
+        // Load gallery data
+        async function loadGallery() {
+            try {
+                const response = await fetch('gallery.json');
+                if (!response.ok) {
+                    throw new Error('Failed to load gallery.json');
+                }
+                galleryData = await response.json();
+                galleryData.sort((a, b) => new Date(b.date) - new Date(a.date));
+                filteredData = galleryData;
+                renderGallery();
+            } catch (error) {
+                console.error('Error loading gallery:', error);
+                document.getElementById('gallery-grid').innerHTML = `
+                    <div class="empty-state" style="grid-column: 1 / -1;">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <p>Failed to load gallery. Please check that gallery.json exists.</p>
+                    </div>
+                `;
+            }
+        }
+        
+        // Render gallery grid
+        function renderGallery() {
+            const grid = document.getElementById('gallery-grid');
+            const emptyState = document.getElementById('empty-state');
+            
+            if (filteredData.length === 0) {
+                grid.innerHTML = '';
+                emptyState.style.display = 'block';
+                return;
+            }
+            
+            emptyState.style.display = 'none';
+            grid.innerHTML = '';
+            
+            filteredData.forEach((item, index) => {
+                const div = document.createElement('div');
+                div.className = 'gallery-item loading';
+                div.dataset.index = index;
+                div.dataset.category = item.category;
+                
+                // Create image element
+                const img = document.createElement('img');
+                img.dataset.src = `./files/${item.filename}`; // Use data-src for lazy loading
+                img.alt = item.caption || 'Gallery image';
+                
+                // Lazy load
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const img = entry.target;
+                            img.src = img.dataset.src;
+                            img.onload = () => {
+                                div.classList.remove('loading');
+                            };
+                            observer.unobserve(img);
+                        }
+                    });
+                }, {
+                    rootMargin: '50px'
+                });
+                
+                observer.observe(img);
+                
+                // Click to open lightbox
+                div.addEventListener('click', () => {
+                    openLightbox(index);
+                });
+                
+                div.appendChild(img);
+                grid.appendChild(div);
+            });
+        }
+        
+        // Filter gallery
+        function filterGallery(category) {
+            currentFilter = category;
+            
+            if (category === 'all') {
+                filteredData = galleryData;
+            } else {
+                filteredData = galleryData.filter(item => item.category === category);
+            }
+            
+            renderGallery();
+        }
+        
+        // Open lightbox
+        function openLightbox(index) {
+            currentLightboxIndex = index;
+            const lightbox = document.getElementById('lightbox');
+            const img = document.getElementById('lightbox-image');
+            const caption = document.getElementById('lightbox-caption');
+            const counter = document.getElementById('lightbox-counter');
+            
+            const item = filteredData[index];
+            img.src = `./files/${item.filename}`;
+            caption.textContent = item.caption || '';
+            counter.textContent = `${index + 1} / ${filteredData.length}`;
+            
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        // Close lightbox
+        function closeLightbox() {
+            const lightbox = document.getElementById('lightbox');
+            lightbox.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        
+        // Navigate lightbox
+        function navigateLightbox(direction) {
+            if (direction === 'next') {
+                currentLightboxIndex = (currentLightboxIndex + 1) % filteredData.length;
+            } else {
+                currentLightboxIndex = (currentLightboxIndex - 1 + filteredData.length) % filteredData.length;
+            }
+            
+            const img = document.getElementById('lightbox-image');
+            const caption = document.getElementById('lightbox-caption');
+            const counter = document.getElementById('lightbox-counter');
+            
+            const item = filteredData[currentLightboxIndex];
+            
+            // Fade effect
+            img.style.opacity = '0';
+            setTimeout(() => {
+                img.src = `./files/${item.filename}`;
+                caption.textContent = item.caption || '';
+                counter.textContent = `${currentLightboxIndex + 1} / ${filteredData.length}`;
+                img.style.opacity = '1';
+            }, 150);
+        }
+        
+        // Event Listeners
+        document.addEventListener('DOMContentLoaded', () => {
+            loadGallery();
+            
+            // Filter buttons
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    filterGallery(btn.dataset.filter);
+                });
+            });
+            
+            // Lightbox controls
+            document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
+            document.getElementById('lightbox-prev').addEventListener('click', () => navigateLightbox('prev'));
+            document.getElementById('lightbox-next').addEventListener('click', () => navigateLightbox('next'));
+            
+            // Close on background click
+            document.getElementById('lightbox').addEventListener('click', (e) => {
+                if (e.target.id === 'lightbox') {
+                    closeLightbox();
+                }
+            });
+            
+            // Keyboard navigation
+            document.addEventListener('keydown', (e) => {
+                if (!document.getElementById('lightbox').classList.contains('active')) return;
+                
+                if (e.key === 'Escape') closeLightbox();
+                if (e.key === 'ArrowLeft') navigateLightbox('prev');
+                if (e.key === 'ArrowRight') navigateLightbox('next');
+            });
+            
+            // Touch/swipe support
+            const lightbox = document.getElementById('lightbox');
+            
+            lightbox.addEventListener('touchstart', (e) => {
+                touchStartX = e.changedTouches[0].screenX;
+            }, { passive: true });
+            
+            lightbox.addEventListener('touchend', (e) => {
+                touchEndX = e.changedTouches[0].screenX;
+                handleSwipe();
+            }, { passive: true });
+            
+            function handleSwipe() {
+                if (touchEndX < touchStartX - 50) {
+                    navigateLightbox('next');
+                }
+                if (touchEndX > touchStartX + 50) {
+                    navigateLightbox('prev');
+                }
+            }
+        });
+        
+        // Smooth image fade transition
+        const style = document.createElement('style');
+        style.textContent = `
+            .lightbox-image {
+                transition: opacity 0.15s ease;
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
