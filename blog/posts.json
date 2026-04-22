@@ -1,0 +1,54 @@
+[
+  {
+    "id": "ml-methods",
+    "title": "The Machine Learning Toolbox: A Guide to Methods and Architectures",
+    "date": "2026-02-05",
+    "excerpt": "From neural networks and decision trees to SVMs and GANs: what each method actually is, how it works, and when to reach for it. Part 2 of a two-part guide.",
+    "tags": ["Machine Learning", "Research"],
+    "image": "2026-02-05-ML_methods.jpg",
+    "imageAlt": "Overview diagram of machine learning methods including ANN, CNN, RNN, autoencoders, GANs, random forests, gradient boosting, and SVM; from Farajzadehahary et al. Progress in Polymer Science 2025",
+    "file": "2026-02-05-ML_methods.md",
+    "readingTime": 15
+  },
+  {
+    "id": "ml-paradigms",
+    "title": "How Machines Learn: A Guide to Machine Learning Paradigms",
+    "date": "2026-02-03",
+    "excerpt": "Supervised, unsupervised, semi-supervised, reinforcement, and transfer learning: what each paradigm means, when to use it, and how they show up in real research. Part 1 of a two-part guide.",
+    "tags": ["Machine Learning", "Research"],
+    "image": "2026-02-03-ML_paradigms.jpg",
+    "imageAlt": "Overview diagram of machine learning paradigms: supervised learning, unsupervised learning, semi-supervised learning, reinforcement learning, and transfer learning; from Farajzadehahary et al. Progress in Polymer Science 2025",
+    "file": "2026-02-03-ML_paradigms.md",
+    "readingTime": 12
+  },
+  {
+    "id": "website-backgrounds",
+    "title": "The Chemistry Behind This Website's Background",
+    "date": "2026-01-05",
+    "excerpt": "Why the dark mode looks like a neural network in deep space and the light mode is a living polymer reactor: the design concept, the chemistry, and how it actually works.",
+    "tags": ["Design", "Polymer Science", "Personal"],
+    "image": "2026-01-05-backgrounds.jpg",
+    "file": "2026-01-05-backgrounds.md",
+    "readingTime": 6
+  },
+  {
+    "id": "polymatai-intro",
+    "title": "PolymatAI: Free Polymer Property Prediction for Everyone",
+    "date": "2025-12-18",
+    "excerpt": "Introduction to our free web tool that lets anyone predict reactivity ratios, Kp, Tg, and water solubility from molecular structure... and how to use it.",
+    "tags": ["Machine Learning", "Tools", "Polymer Science"],
+    "image": "2025-12-18-polymatai.jpg",
+    "file": "2025-12-18-polymatai.md",
+    "readingTime": 5
+  },
+  {
+    "id": "rl-journey",
+    "title": "Reinforcement Learning: My Journey to Control Chemical Reactors",
+    "date": "2025-02-10",
+    "excerpt": "How I went from knowing little about reinforcement learning to using it for real-time control of polymerization reactors. These are the actual notebooks I wrote while teaching myself RL, now cleaned up so you can learn the same way I did.",
+    "tags": ["Research", "Machine Learning", "Personal"],
+    "image": "2025-02-10-RL_Journey.jpg",
+    "file": "2025-02-10-RL_Journey.md",
+    "readingTime": 8
+  }
+]
