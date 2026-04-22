@@ -1,0 +1,1436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="PolyLab - Interactive demonstrations of AI-driven polymer reaction engineering">
+    <meta name="author" content="Kiarash Farajzadehahary">
+    <title>PolyLab | KiarashFa</title>
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="../assets/icons/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="../assets/icons/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/icons/favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../assets/icons/apple-touch-icon.png">
+    <link rel="manifest" href="../assets/icons/site.webmanifest">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Chart.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../assets/css/variables.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/pages.css">
+    <link rel="stylesheet" href="../assets/css/theme-light.css">
+</head>
+<body>
+    <!-- Custom Cursor -->
+    <div class="cursor"></div>
+
+    <!-- Navigation -->
+    <nav class="nav-bar">
+        <a href="../index.html" class="nav-logo">KF</a>
+        <ul class="nav-links" id="nav-links"></ul>
+        <button class="nav-hamburger" id="nav-hamburger">
+            <i class="fas fa-bars"></i>
+        </button>
+    </nav>
+    <div class="nav-overlay" id="nav-overlay"></div>
+    <div class="nav-drawer" id="nav-drawer"></div>
+
+    <!-- 3D Canvas Background -->
+    <div id="canvas-container"></div>
+
+    <!-- Main Content -->
+    <div class="page-container polylab-container">
+
+        <!-- Header -->
+        <div class="page-header polylab-header">
+            <div class="polylab-badge"><i class="fas fa-circle"></i> Interactive</div>
+            <h1 class="page-title polylab-title">PolyLab</h1>
+            <p class="page-subtitle polylab-subtitle">
+                Explore how AI meets polymer chemistry... hands on.<br>
+                Two interactive demos showcasing informed neural networks and reinforcement learning for reactor control.
+            </p>
+        </div>
+
+        <!-- Tabs -->
+        <div class="lab-tabs">
+            <button class="lab-tab active" onclick="switchTab('pcinn')" id="tab-pcinn">
+                <i class="fas fa-atom"></i> Informed Networks
+            </button>
+            <button class="lab-tab" onclick="switchTab('rl')" id="tab-rl">
+                <i class="fas fa-robot"></i> Reactor Control
+            </button>
+        </div>
+
+        <!-- ================================ -->
+        <!-- TAB 1: PCINN DEMO               -->
+        <!-- ================================ -->
+        <div class="tab-content active" id="content-pcinn">
+
+            <div class="lab-card">
+                <h3 class="lab-card-title"><i class="fas fa-info-circle"></i> What you're seeing</h3>
+                <p class="lab-card-desc">
+                    Free radical polymerization of MMA in solution, modeled in three ways.
+                    The <strong style="color:#FF9398;">mechanistic model</strong> uses first-principles kinetic equations (mass and energy balances) but has imperfect rate constants.
+                    The <strong style="color:#f4d03f;">pure neural network</strong> was trained on data within a limited region and fits well there, but has no knowledge of the underlying chemistry.
+                    The <strong style="color:#49c5b6;">PCINN</strong> (polymer chemistry-informed neural network) combines both: it learns from data while respecting the kinetic equations, staying reliable even outside the training region.
+                    Push the sliders beyond the highlighted training zone and watch what happens.
+                </p>
+            </div>
+
+            <!-- Extrapolation warning -->
+            <div class="extrapolation-warning" id="extrap-warning">
+                <i class="fas fa-exclamation-triangle"></i>
+                <span id="extrap-text">You're now outside the training data region. Notice how the pure NN diverges while the PCINN stays physically meaningful.</span>
+            </div>
+
+            <!-- Sliders -->
+            <div class="lab-card">
+                <h3 class="lab-card-title"><i class="fas fa-sliders-h"></i> Reaction Conditions</h3>
+                <div class="sliders-grid">
+                    <div class="slider-group">
+                        <div class="slider-label">
+                            <span>Temperature</span>
+                            <span class="slider-value" id="val-temp">70 °C</span>
+                        </div>
+                        <div class="slider-track">
+                            <div class="training-region" id="train-temp" style="left:25%;width:50%"></div>
+                            <input type="range" id="sl-temp" min="50" max="100" value="70" step="1" oninput="updatePCINN()">
+                        </div>
+                        <div class="training-label">training region: 60–85 °C</div>
+                    </div>
+                    <div class="slider-group">
+                        <div class="slider-label">
+                            <span>Initiator [I₀]</span>
+                            <span class="slider-value" id="val-init">0.05 mol/L</span>
+                        </div>
+                        <div class="slider-track">
+                            <div class="training-region" id="train-init" style="left:20%;width:44%"></div>
+                            <input type="range" id="sl-init" min="0.01" max="0.15" value="0.05" step="0.005" oninput="updatePCINN()">
+                        </div>
+                        <div class="training-label">training region: 0.03–0.08 mol/L</div>
+                    </div>
+                    <div class="slider-group">
+                        <div class="slider-label">
+                            <span>Monomer [M₀]</span>
+                            <span class="slider-value" id="val-mono">6.0 mol/L</span>
+                        </div>
+                        <div class="slider-track">
+                            <div class="training-region" id="train-mono" style="left:22%;width:44%"></div>
+                            <input type="range" id="sl-mono" min="2" max="9" value="6" step="0.5" oninput="updatePCINN()">
+                        </div>
+                        <div class="training-label">training region: 4–7 mol/L</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts -->
+            <div class="charts-grid">
+                <div class="chart-panel">
+                    <canvas id="chart-conv"></canvas>
+                </div>
+                <div class="chart-panel">
+                    <canvas id="chart-mn"></canvas>
+                </div>
+                <div class="chart-panel">
+                    <canvas id="chart-mwd-inline"></canvas>
+                </div>
+                <div class="chart-panel">
+                    <canvas id="chart-disp"></canvas>
+                </div>
+            </div>
+
+            <!-- Legend -->
+            <div class="chart-legend">
+                <div class="legend-item">
+                    <div class="legend-line dashed" style="color:#FF9398;"></div>
+                    <span>Mechanistic Model</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-line dotted" style="color:#f4d03f;"></div>
+                    <span>Pure Neural Network</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-line" style="background:#49c5b6;"></div>
+                    <span>PCINN</span>
+                </div>
+            </div>
+
+            <!-- Insight -->
+            <div class="insight-box" id="pcinn-insight">
+                <strong>Key insight:</strong> Within the training region, all three models agree reasonably well. But polymer data is scarce and experiments are expensive; you can't train on every condition. The PCINN leverages kinetic knowledge to extrapolate reliably, while the pure NN makes physically impossible predictions outside its training data. This is why informed models matter in polymer science.
+            </div>
+        </div>
+
+        <!-- ================================ -->
+        <!-- TAB 2: RL DEMO                  -->
+        <!-- ================================ -->
+        <div class="tab-content" id="content-rl">
+
+            <div class="lab-card">
+                <h3 class="lab-card-title"><i class="fas fa-info-circle"></i> Your mission</h3>
+                <p class="lab-card-desc">
+                    You're running a semibatch free radical polymerization of MMA. Your job: control the monomer feed rate over time to reach the target conversion <em>and</em> the target number-average molecular weight (Mn) simultaneously.
+                    Feed too fast? You'll overshoot Mn. Too slow? You won't reach the target conversion in time.
+                    Design your feed profile below, then hit "Run My Strategy." When you're ready, let the RL agent show you how it's done.
+                </p>
+            </div>
+
+            <!-- Targets -->
+            <div class="rl-target-panel">
+                <div class="target-card">
+                    <div class="target-label">Target Conversion</div>
+                    <div class="target-value">80<span class="target-unit">%</span></div>
+                </div>
+                <div class="target-card">
+                    <div class="target-label">Target Mn</div>
+                    <div class="target-value">50,000<span class="target-unit"> g/mol</span></div>
+                </div>
+                <div class="target-card">
+                    <div class="target-label">Reaction Time</div>
+                    <div class="target-value">4<span class="target-unit"> hours</span></div>
+                </div>
+            </div>
+
+            <!-- Feed profile editor -->
+            <div class="lab-card">
+                <h3 class="lab-card-title"><i class="fas fa-pen-fancy"></i> Design Your Feed Profile</h3>
+                <p class="lab-card-desc" style="margin-bottom:0.8rem;">
+                    Click and drag the control points to shape the monomer feed rate over time. The total monomer added is shown below.
+                </p>
+                <div class="feed-editor-wrapper">
+                    <div class="feed-editor-hint">
+                        <i class="fas fa-hand-pointer"></i> Drag the points to adjust feed rate at each time interval
+                    </div>
+                    <canvas id="feed-canvas"></canvas>
+                </div>
+                <div style="text-align:center; font-size:0.85rem; color:var(--text-ghost); margin-top:0.3rem;">
+                    Total monomer fed: <span id="total-feed" style="color:var(--accent); font-family:'Courier New',monospace;">0.00</span> mol/L
+                </div>
+            </div>
+
+            <!-- Action buttons -->
+            <div class="action-bar">
+                <button class="action-btn primary" onclick="runUserStrategy()" id="btn-run-user">
+                    <i class="fas fa-play"></i> Run My Strategy
+                </button>
+                <button class="action-btn secondary" onclick="runAIStrategy()" id="btn-run-ai">
+                    <i class="fas fa-robot"></i> Let the AI Try
+                </button>
+                <button class="action-btn outline" onclick="resetRL()">
+                    <i class="fas fa-redo"></i> Reset
+                </button>
+            </div>
+
+            <!-- RL Charts -->
+            <div class="charts-grid">
+                <div class="chart-panel">
+                    <canvas id="chart-rl-conv"></canvas>
+                </div>
+                <div class="chart-panel">
+                    <canvas id="chart-rl-mn"></canvas>
+                </div>
+            </div>
+
+            <!-- RL Legend -->
+            <div class="chart-legend">
+                <div class="legend-item">
+                    <div class="legend-line" style="background:#FF9398;"></div>
+                    <span>Your Strategy</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-line" style="background:#49c5b6;"></div>
+                    <span>RL Agent</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-line dashed" style="color:var(--text-whisper);"></div>
+                    <span>Target</span>
+                </div>
+            </div>
+
+            <!-- Score panel -->
+            <div class="score-panel" id="score-panel">
+                <div class="score-card user">
+                    <div class="score-who">Your Score</div>
+                    <div class="score-val" id="user-score">—</div>
+                    <div class="score-detail" id="user-detail"></div>
+                </div>
+                <div class="score-card ai">
+                    <div class="score-who">AI Score</div>
+                    <div class="score-val" id="ai-score">—</div>
+                    <div class="score-detail" id="ai-detail"></div>
+                </div>
+            </div>
+
+            <!-- Insight -->
+            <div class="insight-box" id="rl-insight" style="display:none;">
+                <strong>What just happened:</strong> <span id="rl-insight-text"></span>
+            </div>
+        </div>
+
+        <!-- MWD Modal -->
+        <div class="mwd-overlay" id="mwd-overlay" onclick="closeMWD()">
+            <div class="mwd-modal" onclick="event.stopPropagation()">
+                <button class="mwd-close" onclick="closeMWD()"><i class="fas fa-times"></i></button>
+                <h3><i class="fas fa-chart-area"></i> Molecular Weight Distribution</h3>
+                <canvas id="chart-mwd"></canvas>
+                <div class="chart-legend" style="margin-top:0.5rem;">
+                    <div class="legend-item">
+                        <div class="legend-line dashed" style="color:#FF9398;"></div>
+                        <span>Mechanistic</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-line dotted" style="color:#f4d03f;"></div>
+                        <span>Pure NN</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-line" style="background:#49c5b6;"></div>
+                        <span>PCINN</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer" style="margin-top:4rem;">
+            <p>&copy; 2026 Kiarash Farajzadehahary. All rights reserved.</p>
+            <p style="margin-top: 10px; font-size: 0.85em; opacity: 0.7;">
+                Last updated: February 2026
+            </p>
+        </footer>
+    </div>
+
+    <!-- Three.js Import Map -->
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"
+        }
+    }
+    </script>
+
+    <!-- Three.js Background (theme-aware) -->
+    <script type="module">
+        import { initThreeJS } from '../assets/js/three-background-dark.js';
+        import { initThreeJSLight } from '../assets/js/three-background-light.js';
+
+        let currentBg = null;
+
+        function loadBackground(theme) {
+            if (currentBg && currentBg.dispose) {
+                currentBg.dispose();
+                currentBg = null;
+            }
+            const container = document.getElementById('canvas-container');
+            if (container) container.innerHTML = '';
+
+            if (theme === 'light') {
+                currentBg = initThreeJSLight();
+            } else {
+                currentBg = initThreeJS();
+            }
+        }
+
+        const theme = window.__kfTheme || 'dark';
+        loadBackground(theme);
+
+        window.__swapBackground = loadBackground;
+    </script>
+
+    <!-- Main JavaScript -->
+    <script src="../assets/js/main.js"></script>
+
+    <!-- ================================ -->
+    <!-- POLYLAB ENGINE                   -->
+    <!-- ================================ -->
+    <script>
+    // roundRect polyfill
+    if (!CanvasRenderingContext2D.prototype.roundRect) {
+        CanvasRenderingContext2D.prototype.roundRect = function(x, y, w, h, radii) {
+            const r = Array.isArray(radii) ? radii : [radii, radii, radii, radii];
+            this.moveTo(x + r[0], y);
+            this.lineTo(x + w - r[1], y);
+            this.quadraticCurveTo(x + w, y, x + w, y + r[1]);
+            this.lineTo(x + w, y + h - r[2]);
+            this.quadraticCurveTo(x + w, y + h, x + w - r[2], y + h);
+            this.lineTo(x + r[3], y + h);
+            this.quadraticCurveTo(x, y + h, x, y + h - r[3]);
+            this.lineTo(x, y + r[0]);
+            this.quadraticCurveTo(x, y, x + r[0], y);
+            this.closePath();
+        };
+    }
+
+    // ===========================
+    // TAB SWITCHING
+    // ===========================
+    function switchTab(tab) {
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        document.querySelectorAll('.lab-tab').forEach(t => t.classList.remove('active'));
+        document.getElementById('content-' + tab).classList.add('active');
+        document.getElementById('tab-' + tab).classList.add('active');
+        if (tab === 'rl' && !feedEditorInitialized) initFeedEditor();
+    }
+
+    // ===========================
+    // CHART.JS THEME COLORS
+    // ===========================
+    function getChartThemeColors() {
+        const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+        return {
+            text:       isLight ? 'rgba(26,42,58,0.6)'  : 'rgba(255,255,255,0.6)',
+            textStrong: isLight ? 'rgba(26,42,58,0.7)'  : 'rgba(255,255,255,0.7)',
+            textDim:    isLight ? 'rgba(26,42,58,0.4)'  : 'rgba(255,255,255,0.4)',
+            textBody:   isLight ? 'rgba(26,42,58,0.8)'  : 'rgba(255,255,255,0.8)',
+            border:     isLight ? 'rgba(42,157,143,0.08)': 'rgba(255,255,255,0.06)',
+            grid:       isLight ? 'rgba(42,157,143,0.08)': 'rgba(255,255,255,0.04)',
+            tooltipBg:  isLight ? 'rgba(255,255,255,0.95)' : 'rgba(10,10,15,0.9)',
+            tooltipBorder: isLight ? 'rgba(42,157,143,0.3)' : 'rgba(73,197,182,0.3)',
+            tooltipTitle:  isLight ? '#2a9d8f' : '#49c5b6',
+            accent:     isLight ? '#2a9d8f' : '#49c5b6',
+            // Feed canvas specific
+            canvasGrid:   isLight ? 'rgba(42,157,143,0.1)'  : 'rgba(255,255,255,0.06)',
+            canvasText:   isLight ? 'rgba(26,42,58,0.5)'    : 'rgba(255,255,255,0.4)',
+            canvasStroke: isLight ? 'rgba(42,157,143,0.5)'  : 'rgba(73,197,182,0.5)',
+            canvasHandle: isLight ? '#2a9d8f' : '#49c5b6',
+            canvasHandleActive: isLight ? '#e76f51' : '#FF9398',
+            canvasHandleRing:   isLight ? 'rgba(26,42,58,0.3)' : 'rgba(255,255,255,0.3)',
+            canvasHoverBg:      isLight ? 'rgba(42,157,143,0.08)' : 'rgba(73,197,182,0.1)',
+            canvasHoverBgActive:isLight ? 'rgba(231,111,81,0.1)' : 'rgba(255,147,152,0.15)',
+        };
+    }
+
+    function applyChartDefaults() {
+        const c = getChartThemeColors();
+        Chart.defaults.color = c.text;
+        Chart.defaults.borderColor = c.border;
+    }
+
+    // ===========================
+    // CHART.JS GLOBAL CONFIG
+    // ===========================
+    applyChartDefaults();
+    Chart.defaults.font.family = "'Helvetica Neue', Arial, sans-serif";
+    Chart.defaults.font.weight = 300;
+    Chart.defaults.plugins.legend.display = false;
+    Chart.defaults.animation.duration = 400;
+    Chart.defaults.elements.point.radius = 0;
+
+    // ===========================
+    // ODE SOLVER (RK4)
+    // ===========================
+    function rk4Step(f, t, y, dt) {
+        const k1 = f(t, y);
+        const k2 = f(t + dt/2, y.map((yi, i) => yi + dt/2 * k1[i]));
+        const k3 = f(t + dt/2, y.map((yi, i) => yi + dt/2 * k2[i]));
+        const k4 = f(t + dt, y.map((yi, i) => yi + dt * k3[i]));
+        return y.map((yi, i) => yi + (dt/6) * (k1[i] + 2*k2[i] + 2*k3[i] + k4[i]));
+    }
+
+    function solveODE(f, y0, tSpan, dt) {
+        const results = { t: [tSpan[0]], y: [y0.slice()] };
+        let t = tSpan[0];
+        let y = y0.slice();
+        while (t < tSpan[1] - dt/2) {
+            y = rk4Step(f, t, y, dt);
+            t += dt;
+            // Clamp negatives
+            y = y.map(v => Math.max(v, 0));
+            results.t.push(t);
+            results.y.push(y.slice());
+        }
+        return results;
+    }
+
+    // ===========================
+    // POLYMERIZATION MODEL
+    // (Method of Moments with QSSA for free radical polymerization of MMA in solution)
+    //
+    // Uses Quasi-Steady-State Approximation for radical concentration
+    // (radicals reach steady state almost instantly due to high kt)
+    // This eliminates stiffness and allows stable RK4 integration.
+    //
+    // State: [I, M, mu0, mu1, mu2]
+    //   I   = initiator concentration
+    //   M   = monomer concentration
+    //   mu  = moments of dead polymer distribution
+    //   Radical conc (lam0) computed algebraically: lam0 = sqrt(2*f*kd*I / kt)
+    // ===========================
+
+    function getKinetics(T_celsius) {
+        // Arrhenius-type temperature dependence for MMA
+        const T = T_celsius + 273.15;
+        const Tref = 343.15; // 70°C reference
+
+        // Reference rate constants at 70°C (based on Morbidelli model)
+        const kd_ref = 1.6e-5;    // s^-1
+        const kp_ref = 500;        // L/mol/s
+        const kt_ref = 1.2e7;     // L/mol/s
+        const ktrm_ref = 9.1e-2;  // L/mol/s
+
+        // Activation energies (J/mol) - typical for MMA
+        const Ed = 128000;
+        const Ep = 22400;
+        const Et = 7000;
+        const Etrm = 30000;
+        const R = 8.314;
+
+        const arrh = (Ea) => Math.exp((Ea / R) * (1/Tref - 1/T));
+
+        return {
+            kd:   kd_ref * arrh(Ed),
+            f:    0.8,
+            kp:   kp_ref * arrh(Ep),
+            kt:   kt_ref * arrh(Et),
+            ktrm: ktrm_ref * arrh(Etrm),
+            monMass: 100.12  // MMA molar mass
+        };
+    }
+
+    function makeBatchDerivs_QSSA(T_celsius) {
+        const kin = getKinetics(T_celsius);
+        return function(t, y) {
+            const [I, M, mu0, mu1, mu2] = y;
+
+            // QSSA: radical concentration at pseudo-steady state
+            const Ri = 2 * kin.f * kin.kd * Math.max(I, 0);
+            const lam0 = Math.sqrt(Ri / kin.kt);
+
+            // Instantaneous kinetic chain length
+            const tau = kin.kp * M / (kin.kt * lam0 + kin.ktrm * M + 1e-30);
+
+            const dI = -kin.kd * I;
+            const dM = -(kin.kp + kin.ktrm) * M * lam0;
+
+            // Dead polymer moment production rates
+            const ktc = 0.5 * kin.kt;
+            const ktd = 0.5 * kin.kt;
+            const trRate = kin.ktrm * M * lam0;
+
+            // Zeroth moment: number of dead chains produced
+            const dmu0 = ktd * lam0 * lam0 + 0.5 * ktc * lam0 * lam0 + trRate;
+            // First moment: total monomer units in dead chains
+            const dmu1 = ktd * lam0 * lam0 * tau + ktc * lam0 * lam0 * tau + trRate * tau;
+            // Second moment: for Mw calculation
+            const dmu2 = ktd * lam0 * lam0 * (tau*tau + tau) + ktc * lam0 * lam0 * (2*tau*tau + tau) + trRate * (tau*tau + tau);
+
+            return [dI, dM, dmu0, dmu1, dmu2];
+        };
+    }
+
+    function makeSemibatchDerivs_QSSA(T_celsius, feedProfile) {
+        const kin = getKinetics(T_celsius);
+        return function(t, y) {
+            const [I, M, mu0, mu1, mu2, Mfed] = y;
+
+            // Feed rate at current time
+            let Ffeed = 0;
+            for (const seg of feedProfile) {
+                if (t >= seg.tStart && t < seg.tEnd) {
+                    Ffeed = seg.rate;
+                    break;
+                }
+            }
+
+            const Ri = 2 * kin.f * kin.kd * Math.max(I, 0);
+            const lam0 = Math.sqrt(Ri / kin.kt);
+            const tau = kin.kp * M / (kin.kt * lam0 + kin.ktrm * M + 1e-30);
+
+            const dI = -kin.kd * I;
+            const dM = -(kin.kp + kin.ktrm) * M * lam0 + Ffeed;
+            const dMfed = Ffeed;
+
+            const ktc = 0.5 * kin.kt;
+            const ktd = 0.5 * kin.kt;
+            const trRate = kin.ktrm * M * lam0;
+
+            const dmu0 = ktd * lam0 * lam0 + 0.5 * ktc * lam0 * lam0 + trRate;
+            const dmu1 = ktd * lam0 * lam0 * tau + ktc * lam0 * lam0 * tau + trRate * tau;
+            const dmu2 = ktd * lam0 * lam0 * (tau*tau + tau) + ktc * lam0 * lam0 * (2*tau*tau + tau) + trRate * (tau*tau + tau);
+
+            return [dI, dM, dmu0, dmu1, dmu2, dMfed];
+        };
+    }
+
+    function runBatchSim(T, I0, M0) {
+        const derivs = makeBatchDerivs_QSSA(T);
+        const y0 = [I0, M0, 0, 0, 0];
+        const tf = 4 * 3600; // 4 hours
+        const dt = 10; // 10 second steps (stable with QSSA)
+        const sol = solveODE(derivs, y0, [0, tf], dt);
+
+        const kin = getKinetics(T);
+        const nPts = sol.t.length;
+        const tHours = [], conv = [], mn = [], mw = [], disp = [];
+
+        for (let i = 0; i < nPts; i += Math.max(1, Math.floor(nPts / 200))) {
+            const [Ii, Mi, m0, m1, m2] = sol.y[i];
+            tHours.push(sol.t[i] / 3600);
+            conv.push(Math.max(0, Math.min(1, (M0 - Mi) / M0)));
+            const Mn_val = m0 > 1e-20 ? (m1 / m0) * kin.monMass : 0;
+            const Mw_val = m1 > 1e-20 ? (m2 / m1) * kin.monMass : 0;
+            mn.push(Mn_val);
+            mw.push(Mw_val);
+            disp.push(Mn_val > 100 ? Mw_val / Mn_val : 2.0);
+        }
+
+        return { t: tHours, conv, mn, mw, disp };
+    }
+
+    // ===========================
+    // SYNTHETIC NN / PCINN DATA
+    // ===========================
+    function generateNNPredictions(mechData, T, I0, M0) {
+        // Training region bounds
+        const T_train = [60, 85];
+        const I_train = [0.03, 0.08];
+        const M_train = [4, 7];
+
+        // How far outside training region (0 = inside, higher = further out)
+        const distT = Math.max(0, T_train[0] - T, T - T_train[1]) / 10;
+        const distI = Math.max(0, I_train[0] - I0, I0 - I_train[1]) / 0.03;
+        const distM = Math.max(0, M_train[0] - M0, M0 - M_train[1]) / 2;
+        const extrapDist = Math.sqrt(distT*distT + distI*distI + distM*distM);
+        const isExtrapolating = extrapDist > 0.05;
+
+        const nn = { t: mechData.t, conv: [], mn: [], mw: [], disp: [] };
+        const pcinn = { t: mechData.t, conv: [], mn: [], mw: [], disp: [] };
+
+        for (let i = 0; i < mechData.t.length; i++) {
+            const tFrac = mechData.t[i] / 4; // normalized time
+
+            // NN: good in training, diverges outside
+            // Divergence grows with time AND extrapolation distance
+            const nnNoise = (1 + extrapDist * 2.5 * tFrac) * (0.97 + 0.06 * Math.sin(i * 0.3));
+            const nnDrift = extrapDist * tFrac * tFrac;
+
+            // Conv: NN overshoots or undershoots outside training
+            let nnConv = mechData.conv[i] * nnNoise + nnDrift * 0.3 * (T > 85 ? 1 : -1);
+            nnConv = Math.max(0, Math.min(1.3, nnConv)); // can go above 1 (unphysical!)
+
+            // Mn: NN goes wild
+            let nnMn = mechData.mn[i] * nnNoise * (1 + nnDrift * (I0 < 0.03 ? 2 : -0.5));
+            nnMn = Math.max(0, nnMn);
+
+            // Mw
+            let nnMw = mechData.mw[i] * nnNoise * (1 + nnDrift * 0.8);
+            nnMw = Math.max(0, nnMw);
+
+            // Dispersity: can go below 1 (physically impossible)
+            let nnDisp = mechData.disp[i] + nnDrift * 0.8 * (M0 > 7 ? 1 : -1);
+            nnDisp = Math.max(0.5, nnDisp);
+
+            nn.conv.push(nnConv);
+            nn.mn.push(nnMn);
+            nn.mw.push(nnMw);
+            nn.disp.push(nnDisp);
+
+            // PCINN: tracks truth closely (it learned from data + physics)
+            // Small residual error that stays bounded even in extrapolation
+            const pcinnNoise = 1 + 0.008 * Math.sin(i * 0.5 + tFrac * 3);
+            pcinn.conv.push(Math.min(1, mechData.conv[i] * pcinnNoise));
+            pcinn.mn.push(mechData.mn[i] * pcinnNoise);
+            pcinn.mw.push(mechData.mw[i] * pcinnNoise);
+            pcinn.disp.push(Math.max(1.0, mechData.disp[i] * pcinnNoise));
+        }
+
+        return { nn, pcinn, isExtrapolating, extrapDist };
+    }
+
+    // ===========================
+    // PCINN CHARTS
+    // ===========================
+    let chartConv, chartMn, chartMWDInline, chartDisp, chartMWD;
+    let chartRLConv, chartRLMn;
+
+    function createLineDataset(label, color, data, dash) {
+        return {
+            label,
+            data,
+            borderColor: color,
+            backgroundColor: 'transparent',
+            borderWidth: 2,
+            borderDash: dash || [],
+            tension: 0.3,
+            pointRadius: 0,
+            pointHitRadius: 0,
+        };
+    }
+
+    function makeChart(canvasId, title, yLabel) {
+        const ctx = document.getElementById(canvasId).getContext('2d');
+        const c = getChartThemeColors();
+        return new Chart(ctx, {
+            type: 'line',
+            data: { labels: [], datasets: [] },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                aspectRatio: 1.5,
+                interaction: { mode: 'index', intersect: false },
+                plugins: {
+                    title: {
+                        display: true,
+                        text: title,
+                        color: c.textStrong,
+                        font: { size: 13, weight: 300, family: "'Helvetica Neue', Arial" },
+                        padding: { bottom: 10 }
+                    },
+                    tooltip: {
+                        backgroundColor: c.tooltipBg,
+                        borderColor: c.tooltipBorder,
+                        borderWidth: 1,
+                        titleColor: c.tooltipTitle,
+                        bodyColor: c.textBody,
+                        padding: 10,
+                        cornerRadius: 8,
+                    }
+                },
+                scales: {
+                    x: {
+                        title: { display: true, text: 'Time (h)', color: c.textDim, font: { size: 11 } },
+                        ticks: { maxTicksLimit: 6, font: { size: 10 }, color: c.text },
+                        grid: { color: c.grid }
+                    },
+                    y: {
+                        title: { display: true, text: yLabel, color: c.textDim, font: { size: 11 } },
+                        ticks: { font: { size: 10 }, color: c.text },
+                        grid: { color: c.grid },
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    }
+
+    function initPCINNCharts() {
+        chartConv = makeChart('chart-conv', 'Conversion', 'X');
+        chartMn   = makeChart('chart-mn', 'Number-Avg Molecular Weight', 'Mn (g/mol)');
+        chartMWDInline = makeChart('chart-mwd-inline', 'Molecular Weight Distribution', 'w(M)');
+        chartDisp = makeChart('chart-disp', 'Dispersity', 'Đ');
+        // MWD x-axis label
+        chartMWDInline.options.scales.x.title.text = 'log₁₀(M)';
+        updatePCINN();
+    }
+
+    function updateChart(chart, labels, mechData, nnData, pcinnData) {
+        chart.data.labels = labels.map(t => t.toFixed(2));
+        chart.data.datasets = [
+            createLineDataset('Mechanistic', '#FF9398', mechData, [8, 4]),
+            createLineDataset('Pure NN', '#f4d03f', nnData, [3, 4]),
+            createLineDataset('PCINN', '#49c5b6', pcinnData),
+        ];
+        chart.update('none');
+    }
+
+    function updatePCINN() {
+        const T = parseFloat(document.getElementById('sl-temp').value);
+        const I0 = parseFloat(document.getElementById('sl-init').value);
+        const M0 = parseFloat(document.getElementById('sl-mono').value);
+
+        document.getElementById('val-temp').textContent = T + ' °C';
+        document.getElementById('val-init').textContent = I0.toFixed(3) + ' mol/L';
+        document.getElementById('val-mono').textContent = M0.toFixed(1) + ' mol/L';
+
+        // Run mechanistic model (with imperfect rate constants — realistic scenario)
+        // In practice, literature kd and kt values can be off by 30-50%
+        const mech = runBatchSim(T * 0.94 + 4, I0 * 1.25, M0 * 0.92);
+
+        // "True" model (what PCINN targets)
+        const truth = runBatchSim(T, I0, M0);
+
+        // Generate NN and PCINN predictions
+        const { nn, pcinn, isExtrapolating, extrapDist } = generateNNPredictions(truth, T, I0, M0);
+
+        // Apply mechanistic bias to make it visibly different from PCINN
+        const mechConv = mech.conv;
+        const mechMn = mech.mn.map(v => v * 0.78);
+        const mechMw = mech.mw.map(v => v * 0.75);
+        const mechDisp = mech.disp;
+
+        // Update charts
+        updateChart(chartConv, truth.t, mechConv, nn.conv, pcinn.conv);
+        updateChart(chartMn, truth.t, mechMn, nn.mn, pcinn.mn);
+        updateChart(chartDisp, truth.t, mechDisp, nn.disp, pcinn.disp);
+
+        // Compute and display MWD inline
+        updateMWDInline(T, I0, M0, truth, extrapDist);
+
+        // Extrapolation warning
+        const warning = document.getElementById('extrap-warning');
+        if (isExtrapolating) {
+            warning.classList.add('visible');
+        } else {
+            warning.classList.remove('visible');
+        }
+
+        // Update insight
+        const insight = document.getElementById('pcinn-insight');
+        if (isExtrapolating) {
+            const nnFinalConv = nn.conv[nn.conv.length - 1];
+            if (nnFinalConv > 1) {
+                insight.innerHTML = '<strong>Look at that!</strong> The pure neural network predicts conversion above 100% which is physically impossible. It has no concept of mass balance. The PCINN, constrained by kinetic equations, never makes this mistake. This is exactly why domain knowledge matters.';
+            } else if (T > 90) {
+                insight.innerHTML = '<strong>High temperature regime:</strong> At temperatures well above the training range, the pure NN extrapolates wildly. The mechanistic model, while biased, at least follows the right trend. The PCINN captures both the physics and the data-driven correction.';
+            } else if (I0 > 0.1) {
+                insight.innerHTML = '<strong>High initiator concentration:</strong> More initiator means more radicals, faster reaction, and lower molecular weight. The NN misses this relationship outside its training data. The PCINN inherits it from the kinetic equations.';
+            } else {
+                insight.innerHTML = '<strong>Extrapolation territory:</strong> You\'ve moved beyond the training data. The NN predictions become unreliable, while the PCINN leverages its embedded kinetic knowledge to remain physically consistent.';
+            }
+        } else {
+            insight.innerHTML = '<strong>Key insight:</strong> Within the training region, all three models agree reasonably well. But polymer data is scarce and experiments are expensive... you can\'t train on every condition. The PCINN leverages kinetic knowledge to extrapolate reliably, while the pure NN makes physically impossible predictions outside its training data. This is why informed models matter in polymer science.';
+        }
+    }
+
+    // ===========================
+    // INLINE MWD CHART
+    // ===========================
+    function updateMWDInline(T, I0, M0, truth, extrapDist) {
+        const kin = getKinetics(T);
+        const finalMn = truth.mn[truth.mn.length - 1];
+        const finalMw = truth.mw[truth.mw.length - 1];
+
+        if (finalMn < 100) {
+            // Clear chart if Mn too low
+            chartMWDInline.data.labels = [];
+            chartMWDInline.data.datasets = [];
+            chartMWDInline.update('none');
+            return;
+        }
+
+        const nPts = 150;
+        const logMmin = 2, logMmax = 6.5;
+        const labels = [], mechW = [], nnW = [], pcinnW = [];
+
+        const sigma = Math.sqrt(Math.log(Math.max(1.05, finalMw / finalMn)));
+        const mu = Math.log(finalMn) + sigma * sigma / 2;
+        const extrap = extrapDist || 0;
+
+        for (let i = 0; i < nPts; i++) {
+            const lm = logMmin + (logMmax - logMmin) * i / (nPts - 1);
+            labels.push(lm.toFixed(1));
+
+            // PCINN: correct log-normal
+            const x = (lm * Math.LN10 - mu) / sigma;
+            const w = Math.exp(-0.5 * x * x) / (sigma * Math.sqrt(2 * Math.PI));
+            pcinnW.push(w);
+
+            // Mechanistic: shifted peak
+            const muMech = mu - 0.12;
+            const xMech = (lm * Math.LN10 - muMech) / (sigma * 0.95);
+            mechW.push(Math.exp(-0.5 * xMech * xMech) / (sigma * 0.95 * Math.sqrt(2 * Math.PI)));
+
+            // NN: distorted outside training
+            const nnSigma = sigma * (1 + extrap * 0.8);
+            const muNN = mu + extrap * 0.5;
+            const xNN = (lm * Math.LN10 - muNN) / nnSigma;
+            let nnVal = Math.exp(-0.5 * xNN * xNN) / (nnSigma * Math.sqrt(2 * Math.PI));
+            if (extrap > 0.3) {
+                const x2 = (lm * Math.LN10 - (mu + 1.5)) / 0.4;
+                nnVal += extrap * 0.3 * Math.exp(-0.5 * x2 * x2);
+            }
+            nnW.push(nnVal);
+        }
+
+        const maxPC = Math.max(...pcinnW) || 1;
+        chartMWDInline.data.labels = labels;
+        chartMWDInline.data.datasets = [
+            createLineDataset('Mechanistic', '#FF9398', mechW.map(v => v / maxPC), [8, 4]),
+            createLineDataset('Pure NN', '#f4d03f', nnW.map(v => v / maxPC), [3, 4]),
+            createLineDataset('PCINN', '#49c5b6', pcinnW.map(v => v / maxPC)),
+        ];
+        chartMWDInline.update('none');
+    }
+
+    // ===========================
+    // MWD MODAL (kept for reference but no longer triggered by button)
+    // ===========================
+    function showMWD() {
+        const T = parseFloat(document.getElementById('sl-temp').value);
+        const I0 = parseFloat(document.getElementById('sl-init').value);
+        const M0 = parseFloat(document.getElementById('sl-mono').value);
+
+        // Generate a Schulz-Flory-like MWD
+        const kin = getKinetics(T);
+        const truth = runBatchSim(T, I0, M0);
+        const finalMn = truth.mn[truth.mn.length - 1];
+        const finalMw = truth.mw[truth.mw.length - 1];
+
+        if (finalMn < 100) {
+            alert('Mn too low to display MWD, try different conditions.');
+            return;
+        }
+
+        // Generate log-spaced molecular weights
+        const logMmin = 2, logMmax = 6.5;
+        const nPts = 200;
+        const logM = [], mechW = [], nnW = [], pcinnW = [];
+
+        const sigma = Math.sqrt(Math.log(Math.max(1.05, finalMw / finalMn)));
+        const mu = Math.log(finalMn) + sigma * sigma / 2;
+
+        // Check extrapolation
+        const distT = Math.max(0, 60 - T, T - 85) / 10;
+        const distI = Math.max(0, 0.03 - I0, I0 - 0.08) / 0.03;
+        const distM = Math.max(0, 4 - M0, M0 - 7) / 2;
+        const extrap = Math.sqrt(distT*distT + distI*distI + distM*distM);
+
+        for (let i = 0; i < nPts; i++) {
+            const lm = logMmin + (logMmax - logMmin) * i / (nPts - 1);
+            logM.push(Math.pow(10, lm));
+
+            // PCINN: correct log-normal
+            const x = (lm * Math.LN10 - mu) / sigma;
+            const w = Math.exp(-0.5 * x * x) / (sigma * Math.sqrt(2 * Math.PI));
+            pcinnW.push(w);
+
+            // Mechanistic: shifted peak (biased parameters)
+            const muMech = mu - 0.12;
+            const xMech = (lm * Math.LN10 - muMech) / (sigma * 0.95);
+            mechW.push(Math.exp(-0.5 * xMech * xMech) / (sigma * 0.95 * Math.sqrt(2 * Math.PI)));
+
+            // NN: good in training, crazy outside
+            const nnSigma = sigma * (1 + extrap * 0.8);
+            const muNN = mu + extrap * 0.5;
+            const xNN = (lm * Math.LN10 - muNN) / nnSigma;
+            let nnVal = Math.exp(-0.5 * xNN * xNN) / (nnSigma * Math.sqrt(2 * Math.PI));
+            // Add spurious secondary peak if extrapolating
+            if (extrap > 0.3) {
+                const x2 = (lm * Math.LN10 - (mu + 1.5)) / 0.4;
+                nnVal += extrap * 0.3 * Math.exp(-0.5 * x2 * x2);
+            }
+            nnW.push(nnVal);
+        }
+
+        // Normalize
+        const maxPC = Math.max(...pcinnW);
+        const labels = logM.map(v => v > 1000 ? (v/1000).toFixed(0) + 'k' : v.toFixed(0));
+
+        document.getElementById('mwd-overlay').classList.add('visible');
+
+        if (chartMWD) chartMWD.destroy();
+        const ctx = document.getElementById('chart-mwd').getContext('2d');
+        const c = getChartThemeColors();
+        chartMWD = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels,
+                datasets: [
+                    createLineDataset('Mechanistic', '#FF9398', mechW.map(v => v / maxPC), [8, 4]),
+                    createLineDataset('Pure NN', '#f4d03f', nnW.map(v => v / maxPC), [3, 4]),
+                    createLineDataset('PCINN', '#49c5b6', pcinnW.map(v => v / maxPC)),
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                aspectRatio: 1.8,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Weight MWD at t = 4h',
+                        color: c.textStrong,
+                        font: { size: 13, weight: 300 }
+                    },
+                    tooltip: {
+                        backgroundColor: c.tooltipBg,
+                        borderColor: c.tooltipBorder,
+                        borderWidth: 1,
+                    }
+                },
+                scales: {
+                    x: {
+                        title: { display: true, text: 'Molecular Weight (g/mol)', color: c.textDim, font: { size: 11 } },
+                        ticks: { maxTicksLimit: 8, font: { size: 10 }, color: c.text },
+                        grid: { color: c.grid }
+                    },
+                    y: {
+                        title: { display: true, text: 'w(M) (normalized)', color: c.textDim, font: { size: 11 } },
+                        ticks: { font: { size: 10 }, color: c.text },
+                        grid: { color: c.grid },
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    }
+
+    function closeMWD() {
+        document.getElementById('mwd-overlay').classList.remove('visible');
+    }
+
+    // ===========================
+    // RL DEMO: FEED PROFILE EDITOR
+    // ===========================
+    let feedEditorInitialized = false;
+    let feedPoints = [];
+    const N_FEED_POINTS = 8;
+    let draggingIdx = -1;
+    let feedCanvasRect = null;
+
+    function initFeedEditor() {
+        feedEditorInitialized = true;
+        const canvas = document.getElementById('feed-canvas');
+        const dpr = window.devicePixelRatio || 1;
+        feedCanvasRect = canvas.getBoundingClientRect();
+        canvas.width = feedCanvasRect.width * dpr;
+        canvas.height = feedCanvasRect.height * dpr;
+        const ctx = canvas.getContext('2d');
+        ctx.scale(dpr, dpr);
+
+        // Initialize feed points (flat at 0.5)
+        feedPoints = [];
+        for (let i = 0; i < N_FEED_POINTS; i++) {
+            feedPoints.push(0.5);
+        }
+
+        drawFeedEditor();
+
+        // Mouse interaction
+        canvas.addEventListener('mousedown', feedMouseDown);
+        canvas.addEventListener('mousemove', feedMouseMove);
+        canvas.addEventListener('mouseup', feedMouseUp);
+        canvas.addEventListener('mouseleave', feedMouseUp);
+
+        // Touch
+        canvas.addEventListener('touchstart', feedTouchStart, { passive: false });
+        canvas.addEventListener('touchmove', feedTouchMove, { passive: false });
+        canvas.addEventListener('touchend', feedMouseUp);
+
+        // Init RL charts
+        chartRLConv = makeChart('chart-rl-conv', 'Conversion vs Time', 'X');
+        chartRLMn = makeChart('chart-rl-mn', 'Mn vs Time', 'Mn (g/mol)');
+
+        // Resize handler
+        window.addEventListener('resize', () => {
+            if (feedEditorInitialized) {
+                feedCanvasRect = canvas.getBoundingClientRect();
+                canvas.width = feedCanvasRect.width * (window.devicePixelRatio || 1);
+                canvas.height = feedCanvasRect.height * (window.devicePixelRatio || 1);
+                const ctx2 = canvas.getContext('2d');
+                ctx2.scale(window.devicePixelRatio || 1, window.devicePixelRatio || 1);
+                drawFeedEditor();
+            }
+        });
+    }
+
+    function drawFeedEditor() {
+        const canvas = document.getElementById('feed-canvas');
+        const ctx = canvas.getContext('2d');
+        const W = feedCanvasRect.width;
+        const H = feedCanvasRect.height;
+        const pad = { left: 50, right: 20, top: 15, bottom: 30 };
+        const plotW = W - pad.left - pad.right;
+        const plotH = H - pad.top - pad.bottom;
+
+        ctx.clearRect(0, 0, W, H);
+
+        // Grid — theme-aware
+        const cc = getChartThemeColors();
+        ctx.strokeStyle = cc.canvasGrid;
+        ctx.lineWidth = 1;
+        for (let i = 0; i <= 4; i++) {
+            const y = pad.top + plotH * (1 - i / 4);
+            ctx.beginPath(); ctx.moveTo(pad.left, y); ctx.lineTo(W - pad.right, y); ctx.stroke();
+        }
+
+        // Axis labels
+        ctx.fillStyle = cc.canvasText;
+        ctx.font = '10px Helvetica Neue, Arial';
+        ctx.textAlign = 'center';
+        for (let i = 0; i <= N_FEED_POINTS; i++) {
+            const x = pad.left + plotW * i / N_FEED_POINTS;
+            const tH = (4 * i / N_FEED_POINTS).toFixed(1);
+            ctx.fillText(tH + 'h', x, H - 8);
+        }
+        ctx.textAlign = 'right';
+        const maxRate = 1.5; // mol/L/h
+        for (let i = 0; i <= 4; i++) {
+            const y = pad.top + plotH * (1 - i / 4);
+            ctx.fillText((maxRate * i / 4).toFixed(2), pad.left - 8, y + 4);
+        }
+
+        // Y-axis label
+        ctx.save();
+        ctx.translate(12, pad.top + plotH / 2);
+        ctx.rotate(-Math.PI / 2);
+        ctx.textAlign = 'center';
+        ctx.fillText('Feed (mol/L/h)', 0, 0);
+        ctx.restore();
+
+        // Draw bars + points
+        const barW = plotW / N_FEED_POINTS;
+        for (let i = 0; i < N_FEED_POINTS; i++) {
+            const x = pad.left + barW * i;
+            const barH = feedPoints[i] * plotH;
+            const y = pad.top + plotH - barH;
+
+            // Bar
+            const grad = ctx.createLinearGradient(x, y, x, pad.top + plotH);
+            const isLt = document.documentElement.getAttribute('data-theme') === 'light';
+            grad.addColorStop(0, isLt ? 'rgba(42, 157, 143, 0.45)' : 'rgba(73, 197, 182, 0.35)');
+            grad.addColorStop(1, isLt ? 'rgba(42, 157, 143, 0.08)' : 'rgba(73, 197, 182, 0.05)');
+            ctx.fillStyle = grad;
+            ctx.beginPath();
+            ctx.roundRect(x + 3, y, barW - 6, barH, [4, 4, 0, 0]);
+            ctx.fill();
+
+            // Border
+            ctx.strokeStyle = cc.canvasStroke;
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.roundRect(x + 3, y, barW - 6, barH, [4, 4, 0, 0]);
+            ctx.stroke();
+
+            // Drag handle
+            const cx = x + barW / 2;
+            const cy = y;
+            ctx.beginPath();
+            ctx.arc(cx, cy, 7, 0, Math.PI * 2);
+            ctx.fillStyle = draggingIdx === i ? cc.canvasHandleActive : cc.canvasHandle;
+            ctx.fill();
+            ctx.strokeStyle = cc.canvasHandleRing;
+            ctx.lineWidth = 1.5;
+            ctx.stroke();
+
+            // Glow
+            ctx.beginPath();
+            ctx.arc(cx, cy, 12, 0, Math.PI * 2);
+            ctx.fillStyle = draggingIdx === i ? cc.canvasHoverBgActive : cc.canvasHoverBg;
+            ctx.fill();
+        }
+
+        // Update total feed display
+        const maxRateVal = 1.5;
+        const dt = 4 / N_FEED_POINTS; // hours per segment
+        let totalFeed = 0;
+        for (let i = 0; i < N_FEED_POINTS; i++) {
+            totalFeed += feedPoints[i] * maxRateVal * dt;
+        }
+        document.getElementById('total-feed').textContent = totalFeed.toFixed(2);
+    }
+
+    function getFeedIdx(clientX, clientY) {
+        const rect = feedCanvasRect;
+        const x = clientX - rect.left;
+        const y = clientY - rect.top;
+        const pad = { left: 50, right: 20, top: 15, bottom: 30 };
+        const plotW = rect.width - pad.left - pad.right;
+        const plotH = rect.height - pad.top - pad.bottom;
+        const barW = plotW / N_FEED_POINTS;
+
+        for (let i = 0; i < N_FEED_POINTS; i++) {
+            const cx = pad.left + barW * i + barW / 2;
+            const cy = pad.top + plotH * (1 - feedPoints[i]);
+            const dist = Math.sqrt((x - cx) ** 2 + (y - cy) ** 2);
+            if (dist < 20) return i;
+        }
+        return -1;
+    }
+
+    function setFeedFromY(clientY, idx) {
+        const rect = feedCanvasRect;
+        const y = clientY - rect.top;
+        const pad = { top: 15, bottom: 30 };
+        const plotH = rect.height - pad.top - pad.bottom;
+        let val = 1 - (y - pad.top) / plotH;
+        val = Math.max(0, Math.min(1, val));
+        feedPoints[idx] = val;
+        drawFeedEditor();
+    }
+
+    function feedMouseDown(e) {
+        feedCanvasRect = document.getElementById('feed-canvas').getBoundingClientRect();
+        draggingIdx = getFeedIdx(e.clientX, e.clientY);
+        if (draggingIdx >= 0) drawFeedEditor();
+    }
+
+    function feedMouseMove(e) {
+        if (draggingIdx >= 0) {
+            setFeedFromY(e.clientY, draggingIdx);
+        }
+    }
+
+    function feedMouseUp() {
+        draggingIdx = -1;
+        drawFeedEditor();
+    }
+
+    function feedTouchStart(e) {
+        e.preventDefault();
+        feedCanvasRect = document.getElementById('feed-canvas').getBoundingClientRect();
+        const touch = e.touches[0];
+        draggingIdx = getFeedIdx(touch.clientX, touch.clientY);
+        if (draggingIdx >= 0) drawFeedEditor();
+    }
+
+    function feedTouchMove(e) {
+        e.preventDefault();
+        if (draggingIdx >= 0) {
+            setFeedFromY(e.touches[0].clientY, draggingIdx);
+        }
+    }
+
+    // ===========================
+    // RL DEMO: SIMULATION
+    // ===========================
+    const RL_TARGET_CONV = 0.80;
+    const RL_TARGET_MN = 50000;
+    const RL_T = 70; // fixed temperature for RL demo
+    const RL_I0 = 0.05;
+    const RL_M0_INIT = 5.0; // starting monomer in reactor
+    const RL_TF = 4; // hours
+
+    function feedPointsToProfile(points) {
+        const maxRate = 1.5 / 3600; // mol/L/s
+        const segDur = RL_TF * 3600 / N_FEED_POINTS;
+        return points.map((val, i) => ({
+            tStart: i * segDur,
+            tEnd: (i + 1) * segDur,
+            rate: val * maxRate
+        }));
+    }
+
+    function runSemibatchSim(feedProfile) {
+        const derivs = makeSemibatchDerivs_QSSA(RL_T, feedProfile);
+        // State: [I, M, mu0, mu1, mu2, Mfed]
+        const y0 = [RL_I0, RL_M0_INIT, 0, 0, 0, RL_M0_INIT];
+        const tf = RL_TF * 3600;
+        const dt = 10;
+        const sol = solveODE(derivs, y0, [0, tf], dt);
+
+        const kin = getKinetics(RL_T);
+        const nPts = sol.t.length;
+        const tHours = [], conv = [], mn = [];
+
+        for (let i = 0; i < nPts; i += Math.max(1, Math.floor(nPts / 200))) {
+            const [Ii, Mi, m0, m1, m2, Mfed] = sol.y[i];
+            tHours.push(sol.t[i] / 3600);
+            const totalM = Mfed > 0 ? Mfed : RL_M0_INIT;
+            conv.push(Math.max(0, Math.min(1, (totalM - Mi) / totalM)));
+            const Mn_val = m0 > 1e-20 ? (m1 / m0) * kin.monMass : 0;
+            mn.push(Mn_val);
+        }
+
+        return { t: tHours, conv, mn };
+    }
+
+    // Precomputed RL agent optimal feed profile
+    // (Optimized to hit 80% conversion and 50k Mn with I0=0.05, M0=5.0, T=70°C)
+    const AI_FEED_PROFILE = [0.900, 0.807, 0.657, 0.626, 0.528, 0.425, 0.403, 0.295];
+
+    let userResults = null, aiResults = null;
+
+    function runUserStrategy() {
+        const profile = feedPointsToProfile(feedPoints);
+        userResults = runSemibatchSim(profile);
+
+        // Update charts
+        updateRLCharts();
+
+        // Show score
+        updateScores();
+
+        document.getElementById('btn-run-user').innerHTML = '<i class="fas fa-check"></i> Strategy Simulated';
+    }
+
+    function runAIStrategy() {
+        const profile = feedPointsToProfile(AI_FEED_PROFILE);
+        aiResults = runSemibatchSim(profile);
+
+        updateRLCharts();
+        updateScores();
+
+        // Show insight
+        const insightEl = document.getElementById('rl-insight');
+        const insightText = document.getElementById('rl-insight-text');
+        insightEl.style.display = 'block';
+
+        if (userResults) {
+            const userFinalConv = userResults.conv[userResults.conv.length - 1];
+            const aiFinalConv = aiResults.conv[aiResults.conv.length - 1];
+            const userFinalMn = userResults.mn[userResults.mn.length - 1];
+            const aiFinalMn = aiResults.mn[aiResults.mn.length - 1];
+
+            const userConvErr = Math.abs(userFinalConv - RL_TARGET_CONV);
+            const aiConvErr = Math.abs(aiFinalConv - RL_TARGET_CONV);
+
+            if (userConvErr < 0.05 && Math.abs(userFinalMn - RL_TARGET_MN) < 5000) {
+                insightText.textContent = "Impressive! You got very close to both targets. The RL agent learned this through thousands of simulated episodes, you figured it out with intuition. In practice, the agent can also handle real-time disturbances and adapt on the fly, which is where it truly shines.";
+            } else {
+                insightText.textContent = "The RL agent learned a carefully shaped decreasing feed profile, starting high to build monomer concentration while radical flux is strong, then gradually tapering to avoid overshooting. It found this balance through thousands of trial-and-error episodes in a simulated reactor, optimizing both conversion and molecular weight simultaneously. The same approach drives real reactor control strategies in our research.";
+            }
+        } else {
+            insightText.textContent = "The RL agent uses a decreasing feed strategy (high early, low late) to balance conversion against molecular weight. Try running your own strategy first to see the difference!";
+        }
+
+        document.getElementById('btn-run-ai').innerHTML = '<i class="fas fa-robot"></i> AI Strategy Shown';
+    }
+
+    function updateRLCharts() {
+        // Conversion chart
+        const datasets = [];
+        const labels = [];
+
+        if (userResults) {
+            if (labels.length === 0) userResults.t.forEach(t => labels.push(t.toFixed(2)));
+            datasets.push(createLineDataset('Your Strategy', '#FF9398', userResults.conv));
+        }
+        if (aiResults) {
+            if (labels.length === 0) aiResults.t.forEach(t => labels.push(t.toFixed(2)));
+            datasets.push(createLineDataset('RL Agent', '#49c5b6', aiResults.conv));
+        }
+
+        // Target line
+        if (labels.length > 0) {
+            datasets.push({
+                label: 'Target',
+                data: labels.map(() => RL_TARGET_CONV),
+                borderColor: getChartThemeColors().textDim,
+                borderDash: [6, 4],
+                borderWidth: 1.5,
+                pointRadius: 0,
+                tension: 0,
+            });
+        }
+
+        chartRLConv.data.labels = labels;
+        chartRLConv.data.datasets = datasets;
+        chartRLConv.update('none');
+
+        // Mn chart
+        const mnDatasets = [];
+        if (userResults) {
+            mnDatasets.push(createLineDataset('Your Strategy', '#FF9398', userResults.mn));
+        }
+        if (aiResults) {
+            mnDatasets.push(createLineDataset('RL Agent', '#49c5b6', aiResults.mn));
+        }
+        if (labels.length > 0) {
+            mnDatasets.push({
+                label: 'Target',
+                data: labels.map(() => RL_TARGET_MN),
+                borderColor: getChartThemeColors().textDim,
+                borderDash: [6, 4],
+                borderWidth: 1.5,
+                pointRadius: 0,
+                tension: 0,
+            });
+        }
+
+        chartRLMn.data.labels = labels;
+        chartRLMn.data.datasets = mnDatasets;
+        chartRLMn.update('none');
+    }
+
+    function updateScores() {
+        const panel = document.getElementById('score-panel');
+
+        function calcScore(results) {
+            if (!results) return null;
+            const finalConv = results.conv[results.conv.length - 1];
+            const finalMn = results.mn[results.mn.length - 1];
+            const convErr = Math.abs(finalConv - RL_TARGET_CONV) / RL_TARGET_CONV;
+            const mnErr = Math.abs(finalMn - RL_TARGET_MN) / RL_TARGET_MN;
+            const score = Math.max(0, 100 * (1 - convErr - mnErr));
+            return {
+                score: Math.round(score),
+                conv: (finalConv * 100).toFixed(1),
+                mn: Math.round(finalMn).toLocaleString()
+            };
+        }
+
+        const userScore = calcScore(userResults);
+        const aiScore = calcScore(aiResults);
+
+        if (userScore || aiScore) {
+            panel.classList.add('visible');
+        }
+
+        if (userScore) {
+            document.getElementById('user-score').textContent = userScore.score;
+            document.getElementById('user-detail').textContent = `Conv: ${userScore.conv}% | Mn: ${userScore.mn}`;
+        }
+        if (aiScore) {
+            document.getElementById('ai-score').textContent = aiScore.score;
+            document.getElementById('ai-detail').textContent = `Conv: ${aiScore.conv}% | Mn: ${aiScore.mn}`;
+        }
+    }
+
+    function resetRL() {
+        userResults = null;
+        aiResults = null;
+        feedPoints = feedPoints.map(() => 0.5);
+        drawFeedEditor();
+
+        chartRLConv.data.labels = [];
+        chartRLConv.data.datasets = [];
+        chartRLConv.update('none');
+
+        chartRLMn.data.labels = [];
+        chartRLMn.data.datasets = [];
+        chartRLMn.update('none');
+
+        document.getElementById('score-panel').classList.remove('visible');
+        document.getElementById('rl-insight').style.display = 'none';
+        document.getElementById('btn-run-user').innerHTML = '<i class="fas fa-play"></i> Run My Strategy';
+        document.getElementById('btn-run-ai').innerHTML = '<i class="fas fa-robot"></i> Let the AI Try';
+    }
+
+    // ===========================
+    // THEME UPDATE FOR CHARTS
+    // ===========================
+    function updateChartInstanceTheme(chart) {
+        if (!chart) return;
+        const c = getChartThemeColors();
+        // Title
+        if (chart.options.plugins.title) {
+            chart.options.plugins.title.color = c.textStrong;
+        }
+        // Tooltip
+        if (chart.options.plugins.tooltip) {
+            chart.options.plugins.tooltip.backgroundColor = c.tooltipBg;
+            chart.options.plugins.tooltip.borderColor = c.tooltipBorder;
+            chart.options.plugins.tooltip.titleColor = c.tooltipTitle;
+            chart.options.plugins.tooltip.bodyColor = c.textBody;
+        }
+        // Scales
+        ['x', 'y'].forEach(axis => {
+            if (chart.options.scales[axis]) {
+                if (chart.options.scales[axis].title) {
+                    chart.options.scales[axis].title.color = c.textDim;
+                }
+                if (chart.options.scales[axis].ticks) {
+                    chart.options.scales[axis].ticks.color = c.text;
+                }
+                if (chart.options.scales[axis].grid) {
+                    chart.options.scales[axis].grid.color = c.grid;
+                }
+            }
+        });
+        chart.update('none');
+    }
+
+    window.__updatePolyLabTheme = function() {
+        applyChartDefaults();
+        [chartConv, chartMn, chartMWDInline, chartDisp, chartMWD, chartRLConv, chartRLMn].forEach(updateChartInstanceTheme);
+        // Redraw feed canvas if initialized
+        if (feedEditorInitialized && typeof drawFeedEditor === 'function') {
+            drawFeedEditor();
+        }
+    };
+
+    // ===========================
+    // INIT
+    // ===========================
+    document.addEventListener('DOMContentLoaded', () => {
+        initPCINNCharts();
+    });
+    </script>
+</body>
+</html>
