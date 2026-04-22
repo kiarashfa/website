@@ -1,0 +1,1031 @@
+[
+  {
+    "id": "20220524_1",
+    "filename": "20220524_1.jpg",
+    "caption": "A day in the lab!",
+    "date": "2022-05-24",
+    "category": "research"
+  },
+  {
+    "id": "20220524_2",
+    "filename": "20220524_2.jpg",
+    "caption": "A day in the lab!",
+    "date": "2022-05-24",
+    "category": "research"
+  },
+  {
+    "id": "20220701_1",
+    "filename": "20220701_1.jpg",
+    "caption": "Miramar Palace, San Sebastián",
+    "date": "2022-07-01",
+    "category": "personal"
+  },
+  {
+    "id": "20220701_2",
+    "filename": "20220701_2.jpg",
+    "caption": "Miramar Palace, San Sebastián",
+    "date": "2022-07-01",
+    "category": "personal"
+  },
+  {
+    "id": "20220701_3",
+    "filename": "20220701_3.jpg",
+    "caption": "View from Miramar Palace, San Sebastián",
+    "date": "2022-07-01",
+    "category": "personal"
+  },
+  {
+    "id": "20220721",
+    "filename": "20220721.jpg",
+    "caption": "Sunset in San Sebastián",
+    "date": "2022-07-21",
+    "category": "personal"
+  },
+  {
+    "id": "20220829",
+    "filename": "20220829.jpg",
+    "caption": "Beautiful San Sebastián",
+    "date": "2022-08-29",
+    "category": "personal"
+  },
+  {
+    "id": "20221125",
+    "filename": "20221125.jpg",
+    "caption": "Liquid N2!",
+    "date": "2022-11-25",
+    "category": "research"
+  },
+  {
+    "id": "20221217",
+    "filename": "20221217.jpg",
+    "caption": "Bayonne's Lantern Festival",
+    "date": "2022-12-17",
+    "category": "travel"
+  },
+  {
+    "id": "20221230",
+    "filename": "20221230.jpg",
+    "caption": "Basilique Saint-Sernin, Toulouse, France",
+    "date": "2022-12-30",
+    "category": "travel"
+  },
+  {
+    "id": "20230124",
+    "filename": "20230124.jpg",
+    "caption": "Seminar on ML, POLYMAT",
+    "date": "2023-01-24",
+    "category": "teaching"
+  },
+  {
+    "id": "20230309_1",
+    "filename": "20230309_1.jpg",
+    "caption": "Spring blossom, San Sebastián",
+    "date": "2023-03-09",
+    "category": "personal"
+  },
+  {
+    "id": "20230309_2",
+    "filename": "20230309_2.jpg",
+    "caption": "Sunset, San Sebastián",
+    "date": "2023-03-09",
+    "category": "personal"
+  },
+  {
+    "id": "20230521_1",
+    "filename": "20230521_1.jpg",
+    "caption": "Zumaia, Spain",
+    "date": "2023-05-21",
+    "category": "travel"
+  },
+  {
+    "id": "20230521_2",
+    "filename": "20230521_2.jpg",
+    "caption": "Zumaia, Spain",
+    "date": "2023-05-21",
+    "category": "travel"
+  },
+  {
+    "id": "20230530",
+    "filename": "20230530.jpg",
+    "caption": "Sunset over San Sebastián",
+    "date": "2023-05-30",
+    "category": "personal"
+  },
+  {
+    "id": "20230602_1",
+    "filename": "20230602_1.jpg",
+    "caption": "Deep lab cleaning day!",
+    "date": "2023-06-02",
+    "category": "research"
+  },
+  {
+    "id": "20230602_2",
+    "filename": "20230602_2.jpg",
+    "caption": "Deep lab cleaning day!",
+    "date": "2023-06-02",
+    "category": "research"
+  },
+  {
+    "id": "20230602_3",
+    "filename": "20230602_3.jpg",
+    "caption": "Pizza! Um...",
+    "date": "2023-06-02",
+    "category": "personal"
+  },
+  {
+    "id": "20230615_1",
+    "filename": "20230615_1.jpg",
+    "caption": "La concha, San Sebastián",
+    "date": "2023-06-15",
+    "category": "personal"
+  },
+  {
+    "id": "20230615_2",
+    "filename": "20230615_2.jpg",
+    "caption": "Sunset in San Sebastián",
+    "date": "2023-06-15",
+    "category": "personal"
+  },
+  {
+    "id": "20230615_3",
+    "filename": "20230615_3.jpg",
+    "caption": "Getting dark!",
+    "date": "2023-06-15",
+    "category": "personal"
+  },
+  {
+    "id": "20230628",
+    "filename": "20230628.jpg",
+    "caption": "We won the IPCG!",
+    "date": "2023-06-28",
+    "category": "conference"
+  },
+  {
+    "id": "20230629",
+    "filename": "20230629.jpg",
+    "caption": "In the lab...",
+    "date": "2023-06-29",
+    "category": "research"
+  },
+  {
+    "id": "20230709",
+    "filename": "20230709.jpg",
+    "caption": "Alhambra, Spain",
+    "date": "2023-07-09",
+    "category": "travel"
+  },
+  {
+    "id": "20230710",
+    "filename": "20230710.jpg",
+    "caption": "Alhambra, Spain",
+    "date": "2023-07-10",
+    "category": "travel"
+  },
+  {
+    "id": "20230711_1",
+    "filename": "20230711_1.jpg",
+    "caption": "Nerja, Spain",
+    "date": "2023-07-11",
+    "category": "travel"
+  },
+  {
+    "id": "20230711_2",
+    "filename": "20230711_2.jpg",
+    "caption": "Nerja, Spain",
+    "date": "2023-07-11",
+    "category": "travel"
+  },
+  {
+    "id": "20230714",
+    "filename": "20230714.jpg",
+    "caption": "Sunset in Cádiz, Spain",
+    "date": "2023-07-14",
+    "category": "travel"
+  },
+  {
+    "id": "20230728",
+    "filename": "20230728.jpg",
+    "caption": "Last day of our interns",
+    "date": "2023-07-28",
+    "category": "teaching"
+  },
+  {
+    "id": "20230729",
+    "filename": "20230729.jpg",
+    "caption": "The Fêtes de Bayonne, France",
+    "date": "2023-07-29",
+    "category": "travel"
+  },
+  {
+    "id": "20230801",
+    "filename": "20230801.jpg",
+    "caption": "In the office!",
+    "date": "2023-08-01",
+    "category": "research"
+  },
+  {
+    "id": "20230811_1",
+    "filename": "20230811_1.jpg",
+    "caption": "Siegestor, Munich, Germany",
+    "date": "2023-08-11",
+    "category": "travel"
+  },
+  {
+    "id": "20230811_2",
+    "filename": "20230811_2.jpg",
+    "caption": "Olympic park, Munich, Germany",
+    "date": "2023-08-11",
+    "category": "travel"
+  },
+  {
+    "id": "20230812",
+    "filename": "20230812.jpg",
+    "caption": "Allianz Arena... viva FC Bayern!",
+    "date": "2023-08-12",
+    "category": "travel"
+  },
+  {
+    "id": "20230812_1",
+    "filename": "20230812_1.jpg",
+    "caption": "BMW Museum, Munich",
+    "date": "2023-08-12",
+    "category": "travel"
+  },
+  {
+    "id": "20230813_1",
+    "filename": "20230813_1.jpg",
+    "caption": "Mercedes-Benz Museum, Stuttgart",
+    "date": "2023-08-13",
+    "category": "travel"
+  },
+  {
+    "id": "20230813_2",
+    "filename": "20230813_2.jpg",
+    "caption": "Porsche Museum, Stuttgart",
+    "date": "2023-08-13",
+    "category": "travel"
+  },
+  {
+    "id": "20230814",
+    "filename": "20230814.jpg",
+    "caption": "Stuttgart, Germany",
+    "date": "2023-08-14",
+    "category": "travel"
+  },
+  {
+    "id": "20230815",
+    "filename": "20230815.jpg",
+    "caption": "MAIN TOWER, Frankfurt",
+    "date": "2023-08-15",
+    "category": "travel"
+  },
+  {
+    "id": "20230831",
+    "filename": "20230831.jpg",
+    "caption": "Football team",
+    "date": "2023-08-31",
+    "category": "personal"
+  },
+  {
+    "id": "20230913",
+    "filename": "20230913.jpg",
+    "caption": "From our group with love!",
+    "date": "2023-09-13",
+    "category": "personal"
+  },
+  {
+    "id": "20230916",
+    "filename": "20230916.jpg",
+    "caption": "Guggenheim Museum, Bilbao",
+    "date": "2023-09-16",
+    "category": "travel"
+  },
+  {
+    "id": "20230924",
+    "filename": "20230924.jpg",
+    "caption": "San Sebastian International Film Festival (Red carpet)",
+    "date": "2023-09-24",
+    "category": "personal"
+  },
+  {
+    "id": "20230926",
+    "filename": "20230926.jpg",
+    "caption": "San Sebastián <3",
+    "date": "2023-09-26",
+    "category": "personal"
+  },
+  {
+    "id": "20231003",
+    "filename": "20231003.jpg",
+    "caption": "Serious in the lab",
+    "date": "2023-10-03",
+    "category": "research"
+  },
+  {
+    "id": "20231006_1",
+    "filename": "20231006_1.jpg",
+    "caption": "ILP presentation",
+    "date": "2023-10-06",
+    "category": "conference"
+  },
+  {
+    "id": "20231006_2",
+    "filename": "20231006_2.jpg",
+    "caption": "All suit up!",
+    "date": "2023-10-06",
+    "category": "conference"
+  },
+  {
+    "id": "20231006_4",
+    "filename": "20231006_4.jpg",
+    "caption": "ILP group photo",
+    "date": "2023-10-06",
+    "category": "conference"
+  },
+  {
+    "id": "20231021_1",
+    "filename": "20231021_1.jpg",
+    "caption": "La Rioja, Spain",
+    "date": "2023-10-21",
+    "category": "travel"
+  },
+  {
+    "id": "20231021_2",
+    "filename": "20231021_2.jpg",
+    "caption": "Winery in la rioja",
+    "date": "2023-10-21",
+    "category": "travel"
+  },
+  {
+    "id": "20231101",
+    "filename": "20231101.jpg",
+    "caption": "Mezquita, Córdoba, Spain",
+    "date": "2023-11-01",
+    "category": "travel"
+  },
+  {
+    "id": "20231102",
+    "filename": "20231102.jpg",
+    "caption": "Córdoba, Spain",
+    "date": "2023-11-02",
+    "category": "travel"
+  },
+  {
+    "id": "20231103",
+    "filename": "20231103.jpg",
+    "caption": "Plaza de España, Seville",
+    "date": "2023-11-03",
+    "category": "travel"
+  },
+  {
+    "id": "20231107_1",
+    "filename": "20231107_1.jpg",
+    "caption": "Some N2 magic (part1)",
+    "date": "2023-11-07",
+    "category": "research"
+  },
+  {
+    "id": "20231107_2",
+    "filename": "20231107_2.jpg",
+    "caption": "Some N2 magic (part2)",
+    "date": "2023-11-07",
+    "category": "research"
+  },
+  {
+    "id": "20240104",
+    "filename": "20240104.jpg",
+    "caption": "Florence, Italy",
+    "date": "2024-01-04",
+    "category": "travel"
+  },
+  {
+    "id": "20240105",
+    "filename": "20240105.jpg",
+    "caption": "Pisa, Italy",
+    "date": "2024-01-05",
+    "category": "travel"
+  },
+  {
+    "id": "20240122_1",
+    "filename": "20240122_1.jpg",
+    "caption": "Seminar at POLYMAT",
+    "date": "2024-01-22",
+    "category": "conference"
+  },
+  {
+    "id": "20240122_2",
+    "filename": "20240122_2.jpg",
+    "caption": "Seminar at POLYMAT",
+    "date": "2024-01-22",
+    "category": "conference"
+  },
+  {
+    "id": "20240318",
+    "filename": "20240318.jpg",
+    "caption": "Las Fallas in Valencia",
+    "date": "2024-03-18",
+    "category": "travel"
+  },
+  {
+    "id": "20240426",
+    "filename": "20240426.jpg",
+    "caption": "Trevi Fountain, Rome, Italy",
+    "date": "2024-04-26",
+    "category": "travel"
+  },
+  {
+    "id": "20240427",
+    "filename": "20240427.jpg",
+    "caption": "Rome, Italy",
+    "date": "2024-04-27",
+    "category": "travel"
+  },
+  {
+    "id": "20240428",
+    "filename": "20240428.jpg",
+    "caption": "Colosseum, Rome, Italy",
+    "date": "2024-04-28",
+    "category": "travel"
+  },
+  {
+    "id": "20240429_1",
+    "filename": "20240429_1.jpg",
+    "caption": "Vatican Museums, Vatican",
+    "date": "2024-04-29",
+    "category": "travel"
+  },
+  {
+    "id": "20240429_2",
+    "filename": "20240429_2.jpg",
+    "caption": "Raphael, The School of Athens",
+    "date": "2024-04-29",
+    "category": "travel"
+  },
+  {
+    "id": "20240430_2",
+    "filename": "20240430_2.jpg",
+    "caption": "Duomo di Milano, Milan, Italy",
+    "date": "2024-04-30",
+    "category": "travel"
+  },
+  {
+    "id": "20240501",
+    "filename": "20240501.jpg",
+    "caption": "Lake Como, Italy",
+    "date": "2024-05-01",
+    "category": "travel"
+  },
+  {
+    "id": "20240502",
+    "filename": "20240502.jpg",
+    "caption": "Venice, Italy",
+    "date": "2024-05-02",
+    "category": "travel"
+  },
+  {
+    "id": "20240503",
+    "filename": "20240503.jpg",
+    "caption": "Positano, Italy",
+    "date": "2024-05-03",
+    "category": "travel"
+  },
+  {
+    "id": "20240504",
+    "filename": "20240504.jpg",
+    "caption": "Naples, Italy",
+    "date": "2024-05-04",
+    "category": "travel"
+  },
+  {
+    "id": "20240511",
+    "filename": "20240511.jpg",
+    "caption": "Biarritz, France",
+    "date": "2024-05-11",
+    "category": "travel"
+  },
+  {
+    "id": "20240524",
+    "filename": "20240524.jpg",
+    "caption": "Sunny day!",
+    "date": "2024-05-24",
+    "category": "research"
+  },
+  {
+    "id": "20240612_1",
+    "filename": "20240612_1.jpg",
+    "caption": "In the lab!",
+    "date": "2024-06-12",
+    "category": "research"
+  },
+  {
+    "id": "20240612_2",
+    "filename": "20240612_2.jpg",
+    "caption": "In the lab!",
+    "date": "2024-06-12",
+    "category": "research"
+  },
+  {
+    "id": "20240724",
+    "filename": "20240724.jpg",
+    "caption": "Lisbon, Portugal",
+    "date": "2024-07-24",
+    "category": "travel"
+  },
+  {
+    "id": "20240727",
+    "filename": "20240727.jpg",
+    "caption": "Porto, Portugal",
+    "date": "2024-07-27",
+    "category": "travel"
+  },
+  {
+    "id": "20240728",
+    "filename": "20240728.jpg",
+    "caption": "Porto, Portugal",
+    "date": "2024-07-28",
+    "category": "travel"
+  },
+  {
+    "id": "20240729",
+    "filename": "20240729.jpg",
+    "caption": "Porto, Portugal",
+    "date": "2024-07-29",
+    "category": "travel"
+  },
+  {
+    "id": "20240810",
+    "filename": "20240810.jpg",
+    "caption": "Reichstag, Berlin, Germany",
+    "date": "2024-08-10",
+    "category": "travel"
+  },
+  {
+    "id": "20240811",
+    "filename": "20240811.jpg",
+    "caption": "Berlin Cathedra, Berlin, Germany",
+    "date": "2024-08-11",
+    "category": "travel"
+  },
+  {
+    "id": "20240813",
+    "filename": "20240813.jpg",
+    "caption": "Hamburg, Germany",
+    "date": "2024-08-13",
+    "category": "travel"
+  },
+  {
+    "id": "20241003",
+    "filename": "20241003.jpg",
+    "caption": "Cologne cathedral, Cologne, Germany",
+    "date": "2024-10-03",
+    "category": "travel"
+  },
+  {
+    "id": "20241007",
+    "filename": "20241007.jpg",
+    "caption": "AI and Law course",
+    "date": "2024-10-07",
+    "category": "teaching"
+  },
+  {
+    "id": "20241010",
+    "filename": "20241010.jpg",
+    "caption": "Glassware day!",
+    "date": "2024-10-10",
+    "category": "research"
+  },
+  {
+    "id": "20241016",
+    "filename": "20241016.jpg",
+    "caption": "In the lab...",
+    "date": "2024-10-16",
+    "category": "research"
+  },
+  {
+    "id": "20241028",
+    "filename": "20241028.jpg",
+    "caption": "CPE, Lyon, France",
+    "date": "2024-10-28",
+    "category": "conference"
+  },
+  {
+    "id": "20241029",
+    "filename": "20241029.jpg",
+    "caption": "Monte Carlo course",
+    "date": "2024-10-29",
+    "category": "teaching"
+  },
+  {
+    "id": "20241030_1",
+    "filename": "20241030_1.jpg",
+    "caption": "WPPRE presentation, Lyon, France",
+    "date": "2024-10-30",
+    "category": "conference"
+  },
+  {
+    "id": "20241030_2",
+    "filename": "20241030_2.jpg",
+    "caption": "PPRE presentation, Lyon, France",
+    "date": "2024-10-30",
+    "category": "conference"
+  },
+  {
+    "id": "20241031",
+    "filename": "20241031.jpg",
+    "caption": "PPRE in Lyon, France",
+    "date": "2024-10-31",
+    "category": "conference"
+  },
+  {
+    "id": "20241101",
+    "filename": "20241101.jpg",
+    "caption": "United Nations Office at Geneva, Switzerland",
+    "date": "2024-11-01",
+    "category": "travel"
+  },
+  {
+    "id": "20241114",
+    "filename": "20241114.jpg",
+    "caption": "In the lab!",
+    "date": "2024-11-14",
+    "category": "research"
+  },
+  {
+    "id": "20250320",
+    "filename": "20250320.jpg",
+    "caption": "Soxhlet!",
+    "date": "2025-03-20",
+    "category": "research"
+  },
+  {
+    "id": "20250405",
+    "filename": "20250405.jpg",
+    "caption": "Lama... so cute",
+    "date": "2025-04-05",
+    "category": "personal"
+  },
+  {
+    "id": "20250408_1",
+    "filename": "20250408_1.jpg",
+    "caption": "AI4AM Poster",
+    "date": "2025-04-08",
+    "category": "conference"
+  },
+  {
+    "id": "20250408_2",
+    "filename": "20250408_2.jpg",
+    "caption": "AI4AM Poster",
+    "date": "2025-04-08",
+    "category": "conference"
+  },
+  {
+    "id": "20250409",
+    "filename": "20250409.jpg",
+    "caption": "Foggy San Sebastian",
+    "date": "2025-04-09",
+    "category": "personal"
+  },
+  {
+    "id": "20250410_1",
+    "filename": "20250410_1.jpg",
+    "caption": "AI4AM conference",
+    "date": "2025-04-10",
+    "category": "conference"
+  },
+  {
+    "id": "20250410_2",
+    "filename": "20250410_2.jpg",
+    "caption": "AI4AM conference",
+    "date": "2025-04-10",
+    "category": "conference"
+  },
+  {
+    "id": "20250411_1",
+    "filename": "20250411_1.jpg",
+    "caption": "PhD day Poster",
+    "date": "2025-04-11",
+    "category": "conference"
+  },
+  {
+    "id": "20250411_2",
+    "filename": "20250411_2.jpg",
+    "caption": "PhD day Poster",
+    "date": "2025-04-11",
+    "category": "conference"
+  },
+  {
+    "id": "20250411_3",
+    "filename": "20250411_3.jpg",
+    "caption": "PhD day award",
+    "date": "2025-04-11",
+    "category": "conference"
+  },
+  {
+    "id": "20250511",
+    "filename": "20250511.jpg",
+    "caption": "Prague, Czech Republic",
+    "date": "2025-05-11",
+    "category": "travel"
+  },
+  {
+    "id": "20250514_1",
+    "filename": "20250514_1.jpg",
+    "caption": "WPPRE Presentation in Prague",
+    "date": "2025-05-14",
+    "category": "conference"
+  },
+  {
+    "id": "20250514_2",
+    "filename": "20250514_2.jpg",
+    "caption": "WPPRE Presentation in Prague",
+    "date": "2025-05-14",
+    "category": "conference"
+  },
+  {
+    "id": "20250515",
+    "filename": "20250515.jpg",
+    "caption": "Prague Tram",
+    "date": "2025-05-15",
+    "category": "travel"
+  },
+  {
+    "id": "20250516",
+    "filename": "20250516.jpg",
+    "caption": "Prague, Czech Republic",
+    "date": "2025-05-16",
+    "category": "conference"
+  },
+  {
+    "id": "20250519_1",
+    "filename": "20250519_1.jpg",
+    "caption": "Seminar at POLYMAT",
+    "date": "2025-05-19",
+    "category": "conference"
+  },
+  {
+    "id": "20250519_2",
+    "filename": "20250519_2.jpg",
+    "caption": "Seminar at POLYMAT",
+    "date": "2025-05-19",
+    "category": "conference"
+  },
+  {
+    "id": "20250527",
+    "filename": "20250527.jpg",
+    "caption": "Like a Pro",
+    "date": "2025-05-27",
+    "category": "research"
+  },
+  {
+    "id": "20250528",
+    "filename": "20250528.jpg",
+    "caption": "My sample for SEM",
+    "date": "2025-05-28",
+    "category": "research"
+  },
+  {
+    "id": "20250604",
+    "filename": "20250604.jpg",
+    "caption": "My sample for SEM",
+    "date": "2025-06-04",
+    "category": "research"
+  },
+  {
+    "id": "20250613_1",
+    "filename": "20250613_1.jpg",
+    "caption": "Hiking, San Sebastian",
+    "date": "2025-06-13",
+    "category": "personal"
+  },
+  {
+    "id": "20250613_2",
+    "filename": "20250613_2.jpg",
+    "caption": "On Top of the World",
+    "date": "2025-06-13",
+    "category": "personal"
+  },
+  {
+    "id": "20250620",
+    "filename": "20250620.jpg",
+    "caption": "Van Gogh Museum, Amsterdam",
+    "date": "2025-06-20",
+    "category": "travel"
+  },
+  {
+    "id": "20250621",
+    "filename": "20250621.jpg",
+    "caption": "Zaandam, Netherlands",
+    "date": "2025-06-21",
+    "category": "travel"
+  },
+  {
+    "id": "20250622",
+    "filename": "20250622.jpg",
+    "caption": "Zaandam, Netherlands",
+    "date": "2025-06-22",
+    "category": "travel"
+  },
+  {
+    "id": "20250623",
+    "filename": "20250623.jpg",
+    "caption": "Amsterdam, Netherlands",
+    "date": "2025-06-23",
+    "category": "travel"
+  },
+  {
+    "id": "20250624_1",
+    "filename": "20250624_1.jpg",
+    "caption": "EPF2025",
+    "date": "2025-06-24",
+    "category": "conference"
+  },
+  {
+    "id": "20250624_2",
+    "filename": "20250624_2.jpg",
+    "caption": "EPF2025 Presentation",
+    "date": "2025-06-24",
+    "category": "conference"
+  },
+  {
+    "id": "20250625_1",
+    "filename": "20250625_1.jpg",
+    "caption": "EPF2025",
+    "date": "2025-06-25",
+    "category": "conference"
+  },
+  {
+    "id": "20250625_2",
+    "filename": "20250625_2.jpg",
+    "caption": "EPF2025",
+    "date": "2025-06-25",
+    "category": "conference"
+  },
+  {
+    "id": "20250627_1",
+    "filename": "20250627_1.jpg",
+    "caption": "EPF2025",
+    "date": "2025-06-27",
+    "category": "conference"
+  },
+  {
+    "id": "20250627_2",
+    "filename": "20250627_2.jpg",
+    "caption": "EPF2025",
+    "date": "2025-06-27",
+    "category": "conference"
+  },
+  {
+    "id": "20250705",
+    "filename": "20250705.jpg",
+    "caption": "Navarre, Spain",
+    "date": "2025-07-05",
+    "category": "travel"
+  },
+  {
+    "id": "20250713",
+    "filename": "20250713.jpg",
+    "caption": "San Sebastian, Spain",
+    "date": "2025-07-13",
+    "category": "personal"
+  },
+  {
+    "id": "20250716",
+    "filename": "20250716.jpg",
+    "caption": "Bilbao Exhibition Centre",
+    "date": "2025-07-16",
+    "category": "travel"
+  },
+  {
+    "id": "20250717",
+    "filename": "20250717.jpg",
+    "caption": "Bilbao, Spain",
+    "date": "2025-07-17",
+    "category": "travel"
+  },
+  {
+    "id": "20250722",
+    "filename": "20250722.jpg",
+    "caption": "The Old Man and the Sea",
+    "date": "2025-07-22",
+    "category": "personal"
+  },
+  {
+    "id": "20250725",
+    "filename": "20250725.jpg",
+    "caption": "Bordeaux, France",
+    "date": "2025-07-25",
+    "category": "travel"
+  },
+  {
+    "id": "20250726",
+    "filename": "20250726.jpg",
+    "caption": "Cité du Vin, Bordeaux",
+    "date": "2025-07-26",
+    "category": "travel"
+  },
+  {
+    "id": "20250806_1",
+    "filename": "20250806_1.jpg",
+    "caption": "La Concha beach",
+    "date": "2025-08-06",
+    "category": "personal"
+  },
+  {
+    "id": "20250806_2",
+    "filename": "20250806_2.jpg",
+    "caption": "Sunset at La Concha beach in San Sebastián",
+    "date": "2025-08-06",
+    "category": "personal"
+  },
+  {
+    "id": "20250816",
+    "filename": "20250816.jpg",
+    "caption": "Fireworks (Semana Grande), La concha",
+    "date": "2025-08-16",
+    "category": "personal"
+  },
+  {
+    "id": "20250905",
+    "filename": "20250905.jpg",
+    "caption": "ILP meeting",
+    "date": "2025-09-05",
+    "category": "conference"
+  },
+  {
+    "id": "20250908",
+    "filename": "20250908.jpg",
+    "caption": "Prof. José María Asua (Txema) playing Kubrick's Barry Lyndon!",
+    "date": "2025-09-08",
+    "category": "teaching"
+  },
+  {
+    "id": "20250913",
+    "filename": "20250913.jpg",
+    "caption": "Finding cats in San Sebastian is a rare thing!",
+    "date": "2025-09-13",
+    "category": "personal"
+  },
+  {
+    "id": "20250919",
+    "filename": "20250919.jpg",
+    "caption": "Sagrada Família, Barcelona",
+    "date": "2025-09-19",
+    "category": "travel"
+  },
+  {
+    "id": "20250923",
+    "filename": "20250923.jpg",
+    "caption": "Tarragona, Spain",
+    "date": "2025-09-23",
+    "category": "travel"
+  },
+  {
+    "id": "20251015",
+    "filename": "20251015.jpg",
+    "caption": "Budapest, Hungary",
+    "date": "2025-10-15",
+    "category": "travel"
+  },
+  {
+    "id": "20251016",
+    "filename": "20251016.jpg",
+    "caption": "Budapest, Hungary",
+    "date": "2025-10-16",
+    "category": "travel"
+  },
+  {
+    "id": "20251017",
+    "filename": "20251017.jpg",
+    "caption": "Budapest, Hungary",
+    "date": "2025-10-17",
+    "category": "travel"
+  },
+  {
+    "id": "20251018",
+    "filename": "20251018.jpg",
+    "caption": "Budapest, Hungary",
+    "date": "2025-10-18",
+    "category": "travel"
+  },
+  {
+    "id": "20251021",
+    "filename": "20251021.jpg",
+    "caption": "Our new Calorimeter",
+    "date": "2025-10-21",
+    "category": "research"
+  },
+  {
+    "id": "20251128",
+    "filename": "20251128.jpg",
+    "caption": "Polymat day!",
+    "date": "2025-11-28",
+    "category": "conference"
+  },
+  {
+    "id": "20260109",
+    "filename": "20260109.jpg",
+    "caption": "My setup",
+    "date": "2026-01-09",
+    "category": "research"
+  }
+]
