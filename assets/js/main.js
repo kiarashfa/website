@@ -95,35 +95,52 @@ const NAV_LINKS = [
 ];
 
 document.addEventListener('DOMContentLoaded', function () {
-    const path = window.location.pathname;
+    const path = window.location.pathname.toLowerCase();
     const isGitHub = window.location.hostname.includes('github.io');
-    
-    // 1. Detect if we are in a subfolder (works, gallery, etc.)
-    // On GitHub, the path /website/gallery/ has 2 segments. Locally, /gallery/ has 1.
-    const pathSegments = path.split('/').filter(Boolean);
-    const isInSubfolder = isGitHub ? pathSegments.length > 1 : pathSegments.length > 1;
 
-    // 2. Path Resolver: Fixes the 404 issue by adding ../ when needed
+    // Base path
+    const basePath = isGitHub ? '/website/' : '/';
+    
+    // Resolve links
     function resolveHref(href) {
+        if (!href) return '#';
+
+        // Anchor (Contact)
         if (href.startsWith('#')) {
-            return isInSubfolder ? `../index.html${href}` : href;
+            return `${basePath}index.html${href}`;
         }
-    
+
+        // Home
         if (href === 'index.html') {
-            return isInSubfolder ? '../' : './';
+            return basePath;
         }
-    
-        return isInSubfolder ? `../${href}` : href;
+
+        // All other pages
+        return `${basePath}${href}`;
     }
 
-    // 3. Active State: Fixes the "missing menu" by avoiding empty strings from .pop()
+    // Active state detection
     function isActive(href) {
         if (!href || href.startsWith('#')) return false;
-        if (href === 'index.html') {
-            return (path.endsWith('/') || path.endsWith('index.html')) && !isInSubfolder;
+
+        // Normalize current path
+        let current = path;
+
+        // Remove basePath
+        if (current.startsWith(basePath)) {
+            current = current.slice(basePath.length);
         }
-        const folderName = href.replace(/\//g, '');
-        return path.toLowerCase().includes(`/${folderName.toLowerCase()}/`);
+
+        // Handle home
+        if (href === 'index.html') {
+            return current === '' || current === '/' || current === 'index.html';
+        }
+
+        // Handle folders (works/, gallery/, etc.)
+        const folder = href.replace(/\//g, '');
+        const segments = current.split('/').filter(Boolean);
+
+        return segments.includes(folder);
     }
 
     // ── Build desktop nav-links (only desktopVisible items) ──
@@ -168,15 +185,15 @@ document.addEventListener('DOMContentLoaded', function () {
     function openDrawer() {
         drawer.classList.add('open');
         overlay.classList.add('open');
-        const icon = hamburger.querySelector('i');
-        if (icon) { icon.classList.replace('fa-bars', 'fa-times'); }
+        const icon = hamburger?.querySelector('i');
+        if (icon) icon.classList.replace('fa-bars', 'fa-times');
     }
 
     function closeDrawer() {
         drawer.classList.remove('open');
         overlay.classList.remove('open');
-        const icon = hamburger.querySelector('i');
-        if (icon) { icon.classList.replace('fa-times', 'fa-bars'); }
+        const icon = hamburger?.querySelector('i');
+        if (icon) icon.classList.replace('fa-times', 'fa-bars');
     }
 
     if (hamburger) {
@@ -190,7 +207,6 @@ document.addEventListener('DOMContentLoaded', function () {
         overlay.addEventListener('click', closeDrawer);
     }
 
-    // Close drawer when a link inside it is clicked
     if (drawer) {
         drawer.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', closeDrawer);
