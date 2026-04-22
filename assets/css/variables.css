@@ -1,0 +1,166 @@
+/* ═══════════════════════════════════════════════════════════
+   CSS CUSTOM PROPERTIES — Design Tokens
+   Single source of truth for the entire design system.
+   Dark theme = default. Light theme overrides below.
+   ═══════════════════════════════════════════════════════════ */
+
+:root {
+    /* ── Background & Surface ── */
+    --bg:                #000;
+    --bg-rgb:            0, 0, 0;
+
+    --glass-bg:          rgba(255, 255, 255, 0.05);
+    --glass-bg-hover:    rgba(255, 255, 255, 0.08);
+    --glass-bg-strong:   rgba(255, 255, 255, 0.10);
+    --glass-border:      rgba(255, 255, 255, 0.1);
+    --glass-radius:      20px;
+
+    --surface-dim:       rgba(0, 0, 0, 0.3);
+    --surface-dim-light: rgba(0, 0, 0, 0.2);
+    --surface-overlay:   rgba(0, 0, 0, 0.95);
+
+    /* ── Text ── */
+    --text:              #fff;
+    --text-rgb:          255, 255, 255;
+    --text-dim:          rgba(255, 255, 255, 0.8);
+    --text-muted:        rgba(255, 255, 255, 0.7);
+    --text-faint:        rgba(255, 255, 255, 0.6);
+    --text-ghost:        rgba(255, 255, 255, 0.5);
+    --text-whisper:      rgba(255, 255, 255, 0.4);
+    --text-near:         rgba(255, 255, 255, 0.9);
+
+    /* ── Accent: Teal ── */
+    --accent:            #49c5b6;
+    --accent-rgb:        73, 197, 182;
+    --accent-bg:         rgba(73, 197, 182, 0.1);
+    --accent-bg-hover:   rgba(73, 197, 182, 0.15);
+    --accent-bg-active:  rgba(73, 197, 182, 0.25);
+    --accent-bg-strong:  rgba(73, 197, 182, 0.2);
+    --accent-bg-intense: rgba(73, 197, 182, 0.4);
+    --accent-border:     rgba(73, 197, 182, 0.3);
+    --accent-border-strong: #49c5b6;
+    --accent-glow:       rgba(73, 197, 182, 0.3);
+    --accent-glow-strong:rgba(73, 197, 182, 0.5);
+    --accent-dim:        rgba(73, 197, 182, 0.2);
+
+    /* ── Accent 2: Coral ── */
+    --accent2:           #FF9398;
+    --accent2-rgb:       255, 147, 152;
+    --accent2-bg:        rgba(255, 147, 152, 0.1);
+    --accent2-bg-hover:  rgba(255, 147, 152, 0.2);
+    --accent2-bg-active: rgba(255, 147, 152, 0.25);
+    --accent2-border:    rgba(255, 147, 152, 0.3);
+    --accent2-border-strong: #FF9398;
+
+    /* ── Accent 3: Gold (reactions / highlights) ── */
+    --gold:              #e9c46a;
+    --gold-bg:           rgba(233, 196, 106, 0.1);
+
+    /* ── Gradient ── */
+    --gradient:          linear-gradient(135deg, var(--accent), var(--accent2));
+
+    /* ── Shadows ── */
+    --shadow-sm:         0 4px 12px rgba(var(--accent-rgb), 0.1);
+    --shadow-md:         0 10px 30px rgba(var(--accent-rgb), 0.2);
+    --shadow-lg:         0 20px 60px rgba(var(--accent-rgb), 0.3);
+    --shadow-card:       0 2px 10px rgba(0, 0, 0, 0.1);
+
+    /* ── Nav ── */
+    --nav-bg:            rgba(0, 0, 0, 0.05);
+    --nav-blur:          1px;
+    --mobile-drawer-bg:  rgba(10, 10, 15, 0.98);
+    --mobile-drawer-border: rgba(73, 197, 182, 0.3);
+
+    /* ── Dropdown ── */
+    --dropdown-bg:       rgba(0, 0, 0, 0.4);
+    --dropdown-blur:     20px;
+    --dropdown-border:   rgba(73, 197, 182, 0.3);
+    --dropdown-shadow:   0 10px 40px rgba(0, 0, 0, 0.5);
+
+    /* ── Blending ── */
+    /* NormalBlending for light, AdditiveBlending for dark — handled in JS */
+}
+
+/* ═══════════════════════════════════════════════════════════
+   LIGHT THEME — Variable overrides only
+   ═══════════════════════════════════════════════════════════ */
+
+[data-theme="light"] {
+    --bg:                #f5f2ed;
+    --bg-rgb:            245, 242, 237;
+
+    --glass-bg:          rgba(255, 255, 255, 0.45);
+    --glass-bg-hover:    rgba(255, 255, 255, 0.6);
+    --glass-bg-strong:   rgba(255, 255, 255, 0.65);
+    --glass-border:      rgba(42, 157, 143, 0.12);
+    /* glass-radius stays the same */
+
+    --surface-dim:       rgba(42, 157, 143, 0.04);
+    --surface-dim-light: rgba(42, 157, 143, 0.03);
+    --surface-overlay:   rgba(245, 242, 237, 0.95);
+
+    --text:              #1a2a3a;
+    --text-rgb:          26, 42, 58;
+    --text-dim:          rgba(26, 42, 58, 0.8);
+    --text-muted:        rgba(26, 42, 58, 0.7);
+    --text-faint:        rgba(26, 42, 58, 0.6);
+    --text-ghost:        rgba(26, 42, 58, 0.5);
+    --text-whisper:      rgba(26, 42, 58, 0.4);
+    --text-near:         rgba(26, 42, 58, 0.85);
+
+    --accent:            #2a9d8f;
+    --accent-rgb:        42, 157, 143;
+    --accent-bg:         rgba(42, 157, 143, 0.08);
+    --accent-bg-hover:   rgba(42, 157, 143, 0.12);
+    --accent-bg-active:  rgba(42, 157, 143, 0.18);
+    --accent-bg-strong:  rgba(42, 157, 143, 0.15);
+    --accent-bg-intense: rgba(42, 157, 143, 0.3);
+    --accent-border:     rgba(42, 157, 143, 0.2);
+    --accent-border-strong: #2a9d8f;
+    --accent-glow:       rgba(42, 157, 143, 0.12);
+    --accent-glow-strong:rgba(42, 157, 143, 0.25);
+    --accent-dim:        rgba(42, 157, 143, 0.12);
+
+    --accent2:           #e76f51;
+    --accent2-rgb:       231, 111, 81;
+    --accent2-bg:        rgba(231, 111, 81, 0.08);
+    --accent2-bg-hover:  rgba(231, 111, 81, 0.15);
+    --accent2-bg-active: rgba(231, 111, 81, 0.2);
+    --accent2-border:    rgba(231, 111, 81, 0.2);
+    --accent2-border-strong: #e76f51;
+
+    --gold:              #e9c46a;
+    --gold-bg:           rgba(233, 196, 106, 0.08);
+
+    --gradient:          linear-gradient(135deg, var(--accent), var(--accent2));
+
+    --shadow-sm:         0 4px 12px rgba(var(--accent-rgb), 0.06);
+    --shadow-md:         0 10px 30px rgba(var(--accent-rgb), 0.1);
+    --shadow-lg:         0 20px 60px rgba(var(--accent-rgb), 0.12);
+    --shadow-card:       0 2px 10px rgba(0, 0, 0, 0.04);
+
+    --nav-bg:            rgba(245, 242, 237, 0.6);
+    --nav-blur:          12px;
+    --mobile-drawer-bg:  rgba(245, 242, 237, 0.98);
+    --mobile-drawer-border: rgba(42, 157, 143, 0.2);
+
+    --dropdown-bg:       rgba(245, 242, 237, 0.92);
+    --dropdown-blur:     20px;
+    --dropdown-border:   rgba(42, 157, 143, 0.25);
+    --dropdown-shadow:   0 10px 40px rgba(0, 0, 0, 0.1);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   THEME TRANSITION
+   ═══════════════════════════════════════════════════════════ */
+
+html.theme-transitioning,
+html.theme-transitioning *,
+html.theme-transitioning *::before,
+html.theme-transitioning *::after {
+    transition: background-color 0.5s ease,
+                color 0.5s ease,
+                border-color 0.5s ease,
+                box-shadow 0.5s ease,
+                opacity 0.5s ease !important;
+}
