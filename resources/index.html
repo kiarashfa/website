@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Kiarash Farajzadehahary - Educational Resources and Tools">
+    <meta name="author" content="Kiarash Farajzadehahary">
+    <title>Resources | KiarashFa</title>
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="../assets/icons/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="../assets/icons/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/icons/favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../assets/icons/apple-touch-icon.png">
+    <link rel="manifest" href="../assets/icons/site.webmanifest">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../assets/css/variables.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/pages.css">
+    <link rel="stylesheet" href="../assets/css/theme-light.css">
+</head>
+<body>
+    <!-- Custom Cursor -->
+    <div class="cursor"></div>
+
+    <!-- Navigation -->
+    <nav class="nav-bar">
+        <a href="../index.html" class="nav-logo">KF</a>
+        <ul class="nav-links" id="nav-links"></ul>
+        <button class="nav-hamburger" id="nav-hamburger">
+            <i class="fas fa-bars"></i>
+        </button>
+    </nav>
+    <div class="nav-overlay" id="nav-overlay"></div>
+    <div class="nav-drawer" id="nav-drawer"></div>
+
+    <!-- 3D Canvas Background -->
+    <div id="canvas-container"></div>
+
+    <!-- Resources Container -->
+    <div class="page-container resources-container">
+        <!-- Header -->
+        <div class="page-header resources-header">
+            <h1 class="page-title resources-title">Resources</h1>
+            <p class="page-subtitle resources-subtitle">Educational materials, tools, and learning content</p>
+        </div>
+        
+        <!-- Interactive Tools Section -->
+        <section class="resource-section">
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <h2 class="section-title">Interactive Tools</h2>
+            </div>
+            
+            <div class="tool-showcase">
+                <div class="tool-logo">
+                    <i class="fas fa-flask"></i>
+                </div>
+                <h3>Properties Predictor</h3>
+                <p>
+                    Predict properties instantly right here in this panel!<br>
+                    Our machine learning models let you estimate key properties from molecular structure alone.<br>
+                    Click any property below, enter a SMILES string, and get your prediction in seconds.<br>
+                    For detailed guides on SMILES notation, models, and more, visit the PolymatAI website.
+                </p>
+                
+                <div class="tool-features">
+                    <div class="tool-feature" data-model="rr" onclick="openPredict('rr')">
+                        <div class="tool-feature-icon">
+                            <i class="fas fa-balance-scale"></i>
+                        </div>
+                        <p>Reactivity Ratios</p>
+                        <div class="tool-feature-hint">Click to predict</div>
+                    </div>
+                    <div class="tool-feature" data-model="kp" onclick="openPredict('kp')">
+                        <div class="tool-feature-icon">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <p>Propagation Rate</p>
+                        <div class="tool-feature-hint">Click to predict</div>
+                    </div>
+                    <div class="tool-feature" data-model="tg" onclick="openPredict('tg')">
+                        <div class="tool-feature-icon">
+                            <i class="fas fa-temperature-high"></i>
+                        </div>
+                        <p>Glass Transition Temp</p>
+                        <div class="tool-feature-hint">Click to predict</div>
+                    </div>
+                    <div class="tool-feature" data-model="ws" onclick="openPredict('ws')">
+                        <div class="tool-feature-icon">
+                            <i class="fas fa-droplet"></i>
+                        </div>
+                        <p>Water Solubility</p>
+                        <div class="tool-feature-hint">Click to predict</div>
+                    </div>
+                </div>
+
+                <!-- Prediction Panel -->
+                <div class="predict-panel" id="predict-panel">
+
+                    <!-- RR Panel -->
+                    <div class="predict-panel-inner" id="panel-rr" style="display:none;">
+                        <div class="predict-panel-header">
+                            <i class="fas fa-balance-scale"></i>
+                            <h4>Reactivity Ratios Prediction</h4>
+                        </div>
+                        <div class="predict-input-group">
+                            <label>Monomer 1 SMILES</label>
+                            <input class="predict-input" id="rr-smiles1" type="text" 
+                                placeholder="e.g. C=CC(=O)OC">
+                        </div>
+                        <div class="predict-input-group">
+                            <label>Monomer 2 SMILES</label>
+                            <input class="predict-input" id="rr-smiles2" type="text" 
+                                placeholder="e.g. C=Cc1ccccc1">
+                        </div>
+                        <button class="predict-btn" onclick="runPredict('rr')">
+                            <span class="spinner"></span>
+                            <span class="btn-text"><i class="fas fa-play"></i> Predict</span>
+                        </button>
+                        <div class="predict-error" id="error-rr"><i class="fas fa-exclamation-circle"></i> <span></span></div>
+                        <div class="predict-result" id="result-rr">
+                            <div class="predict-result-inner">
+                                <div class="result-chip">
+                                    <span class="result-label">r₁</span>
+                                    <span class="result-value" id="val-r1">—</span>
+                                </div>
+                                <div class="result-chip">
+                                    <span class="result-label">r₂</span>
+                                    <span class="result-value" id="val-r2">—</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Kp Panel -->
+                    <div class="predict-panel-inner" id="panel-kp" style="display:none;">
+                        <div class="predict-panel-header">
+                            <i class="fas fa-bolt"></i>
+                            <h4>Propagation Rate Constant Prediction</h4>
+                        </div>
+                        <div class="predict-input-group">
+                            <label>Monomer SMILES</label>
+                            <input class="predict-input" id="kp-smiles" type="text" 
+                                placeholder="e.g. C=CC(=O)OC">
+                        </div>
+                        <button class="predict-btn" onclick="runPredict('kp')">
+                            <span class="spinner"></span>
+                            <span class="btn-text"><i class="fas fa-play"></i> Predict</span>
+                        </button>
+                        <div class="predict-error" id="error-kp"><i class="fas fa-exclamation-circle"></i> <span></span></div>
+                        <div class="predict-result" id="result-kp">
+                            <div class="predict-result-inner">
+                                <div class="result-chip">
+                                    <span class="result-label">Kp</span>
+                                    <span class="result-value" id="val-kp">—</span>
+                                </div>
+                                <div class="result-chip">
+                                    <span class="result-label">Log₁₀(Kp)</span>
+                                    <span class="result-value" id="val-log-kp">—</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tg Panel -->
+                    <div class="predict-panel-inner" id="panel-tg" style="display:none;">
+                        <div class="predict-panel-header">
+                            <i class="fas fa-temperature-high"></i>
+                            <h4>Glass Transition Temperature Prediction</h4>
+                        </div>
+                        <div class="predict-input-group">
+                            <label>Polymer Repeating Unit SMILES</label>
+                            <input class="predict-input" id="tg-smiles" type="text" 
+                                placeholder="e.g. *CC(*)(C)C(=O)OC">
+                        </div>
+                        <button class="predict-btn" onclick="runPredict('tg')">
+                            <span class="spinner"></span>
+                            <span class="btn-text"><i class="fas fa-play"></i> Predict</span>
+                        </button>
+                        <div class="predict-error" id="error-tg"><i class="fas fa-exclamation-circle"></i> <span></span></div>
+                        <div class="predict-result" id="result-tg">
+                            <div class="predict-result-inner">
+                                <div class="result-chip">
+                                    <span class="result-label">Tg</span>
+                                    <span class="result-value" id="val-tg">—</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Ws Panel -->
+                    <div class="predict-panel-inner" id="panel-ws" style="display:none;">
+                        <div class="predict-panel-header">
+                            <i class="fas fa-droplet"></i>
+                            <h4>Water Solubility Prediction</h4>
+                        </div>
+                        <div class="predict-input-group">
+                            <label>Monomer SMILES</label>
+                            <input class="predict-input" id="ws-smiles" type="text" 
+                                placeholder="e.g. C=CC(=O)OC">
+                        </div>
+                        <button class="predict-btn" onclick="runPredict('ws')">
+                            <span class="spinner"></span>
+                            <span class="btn-text"><i class="fas fa-play"></i> Predict</span>
+                        </button>
+                        <div class="predict-error" id="error-ws"><i class="fas fa-exclamation-circle"></i> <span></span></div>
+                        <div class="predict-result" id="result-ws">
+                            <div class="predict-result-inner">
+                                <div class="result-chip">
+                                    <span class="result-label">Ws</span>
+                                    <span class="result-value" id="val-ws">—</span>
+                                </div>
+                                <div class="result-chip">
+                                    <span class="result-label">Log₁₀(Ws)</span>
+                                    <span class="result-value" id="val-log-ws">—</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                
+                <a href="https://polymatai.pythonanywhere.com/" target="_blank" class="tool-cta">
+                    <i class="fas fa-external-link-alt"></i>
+                    <span>Launch Full PolymatAI</span>
+                </a>
+            </div>
+        </section>
+        
+        <!-- Courses & Tutorials Section -->
+        <section class="resource-section">
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <h2 class="section-title">Courses & Tutorials</h2>
+            </div>
+            
+            <!-- Moldflow Course Video -->
+            <div class="video-container">
+                <div class="video-wrapper">
+                    <video controls preload="metadata" poster="./files/Moldflow_Teaser_Thumb.jpg"
+                        style="position:absolute;top:0;left:0;width:100%;height:100%;border-radius:15px;">
+                        <source src="./files/Moldflow_Teaser_Video.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+                <div class="video-info">
+                    <h3>Introduction to Moldflow Simulation</h3>
+                    <p>
+                        A comprehensive course on Autodesk Moldflow for plastic injection molding simulation, 
+                        covering 22 sessions across 5 chapters (~7.5 hours). Topics include software installation 
+                        and interface overview, injection molding process fundamentals, part design using Inventor, 
+                        SolidWorks, Siemens NX, and CATIA, pre-processing setup including meshing, material 
+                        selection, gate location, and process settings, as well as fill &amp; pack analysis, runner 
+                        and cooling system design, warpage &amp; shrinkage analysis, and multi-cavity systems. 
+                        This course is taught in Persian (Farsi).
+                    </p>
+                    <a href="https://maktabkhooneh.org/course/%D9%86%D8%B1%D9%85-%D8%A7%D9%81%D8%B2%D8%A7%D8%B1-%D9%85%D9%88%D9%84%D8%AF%D9%81%D9%84%D9%88-mk579/"
+                        target="_blank" class="resource-btn" style="margin-top: 1rem; display: inline-flex;">
+                        <i class="fas fa-external-link-alt"></i>
+                        <span>Visit Full Course Website</span>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Additional Course Cards -->
+            <div class="resource-grid">
+                <div class="resource-card">
+                    <div class="resource-card-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>Machine Learning for Polymers</h3>
+                    <p>
+                        Learn how to apply machine learning techniques to polymer science problems. 
+                        Covers data preprocessing, model selection, training, and validation with 
+                        practical examples from emulsion polymerization.
+                    </p>
+                    <div class="resource-card-footer">
+                        <a href="#" class="resource-btn">
+                            <i class="fas fa-play"></i> Coming Soon
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="resource-card">
+                    <div class="resource-card-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3>Python for Chemical Engineers</h3>
+                    <p>
+                        Introduction to Python programming with focus on chemical engineering applications. 
+                        Includes data analysis, visualization, numerical methods, and process simulation.
+                    </p>
+                    <div class="resource-card-footer">
+                        <a href="#" class="resource-btn">
+                            <i class="fas fa-play"></i> Coming Soon
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Learning Materials Section -->
+        <section class="resource-section">
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fas fa-book"></i>
+                </div>
+                <h2 class="section-title">Learning Materials</h2>
+            </div>
+            
+            <div class="download-list" id="materials-list">
+                <!-- Materials will be loaded from JSON -->
+                <div class="download-item">
+                    <div class="download-info">
+                        <div class="download-icon">
+                            <i class="fas fa-file-pdf"></i>
+                        </div>
+                        <div class="download-details">
+                            <h4>Principles of Polymerization Engineering</h4>
+                            <p>Solved problems covering key polymerization concepts &bull; PDF &bull; 243 KB</p>
+                        </div>
+                    </div>
+                    <a href="./files/Materials_PPE_Examples.pdf" class="download-btn" download>
+                        <i class="fas fa-download"></i>
+                        <span>Download</span>
+                    </a>
+                </div>
+                
+                <div class="download-item">
+                    <div class="download-info">
+                        <div class="download-icon">
+                            <i class="fas fa-file-powerpoint"></i>
+                        </div>
+                        <div class="download-details">
+                            <h4>Writing Academic English</h4>
+                            <p>Summary Slides Based on Oshima & Hogue's Book &bull; PPTX &bull; 12.1 MB</p>
+                        </div>
+                    </div>
+                    <a href="./files/Materials_WAE.pptx" class="download-btn" download>
+                        <i class="fas fa-download"></i>
+                        <span>Download</span>
+                    </a>
+                </div>
+                
+                <div class="download-item">
+                    <div class="download-info">
+                        <div class="download-icon">
+                            <i class="fas fa-file-code"></i>
+                        </div>
+                        <div class="download-details">
+                            <h4>Reinforcement Learning Tutorial</h4>
+                            <p>Solving game examples with RL in  Jupyter notebooks &bull; RAR &bull; 1.1 MB</p>
+                        </div>
+                    </div>
+                    <a href="./files/Materials_RL.rar" class="download-btn" download>
+                        <i class="fas fa-download"></i>
+                        <span>Download</span>
+                    </a>
+                </div>
+                
+                <div class="download-item">
+                    <div class="download-info">
+                        <div class="download-icon">
+                            <i class="fas fa-file-excel"></i>
+                        </div>
+                        <div class="download-details">
+                            <h4>Reaction Kinetics Data Template</h4>
+                            <p>Excel template for data collection &bull; XLSX &bull; 1.8 MB</p>
+                        </div>
+                    </div>
+                    <a href="./files/example.xlsx" class="download-btn" download>
+                        <i class="fas fa-download"></i>
+                        <span>Download</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Code & Software Section -->
+        <section class="resource-section">
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fas fa-code-branch"></i>
+                </div>
+                <h2 class="section-title">Code & Software</h2>
+            </div>
+            
+            <div class="resource-grid">
+                <div class="resource-card">
+                    <div class="resource-card-icon">
+                        <i class="fab fa-github"></i>
+                    </div>
+                    <h3>GitHub Repositories</h3>
+                    <p>
+                        Open-source code from my research projects. Includes Python libraries, 
+                        machine learning models, data processing scripts, and visualization tools.
+                    </p>
+                    <div class="resource-card-footer">
+                        <a href="https://github.com/KiarashFa" target="_blank" class="resource-btn">
+                            <i class="fab fa-github"></i> View Repositories
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="resource-card">
+                    <div class="resource-card-icon">
+                        <i class="fab fa-python"></i>
+                    </div>
+                    <h3>Python Packages</h3>
+                    <p>
+                        Custom Python packages for polymer science and machine learning applications. 
+                        Documentation and examples included.
+                    </p>
+                    <div class="resource-card-footer">
+                        <a href="#" class="resource-btn">
+                            <i class="fas fa-play"></i> Coming Soon
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="resource-card">
+                    <div class="resource-card-icon">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <h3>Datasets</h3>
+                    <p>
+                        Curated datasets from different polymerization experiments. Available for 
+                        research and educational purposes with proper attribution.
+                    </p>
+                    <div class="resource-card-footer">
+                        <a href="#" class="resource-btn">
+                            <i class="fas fa-play"></i> Coming Soon
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Footer -->
+        <footer class="footer" style="margin-top: 4rem;">
+            <p>© 2026 Kiarash Farajzadehahary. All rights reserved.</p>
+            <p style="margin-top: 10px; font-size: 0.85em; opacity: 0.7;">
+                Resources are provided for educational purposes. Please cite appropriately.
+            </p>
+        </footer>
+    </div>
+
+    <!-- Three.js Import Map -->
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"
+        }
+    }
+    </script>
+
+    <!-- Three.js Background (theme-aware) -->
+    <script type="module">
+        import { initThreeJS } from '../assets/js/three-background-dark.js';
+        import { initThreeJSLight } from '../assets/js/three-background-light.js';
+
+        let currentBg = null;
+
+        function loadBackground(theme) {
+            if (currentBg && currentBg.dispose) {
+                currentBg.dispose();
+                currentBg = null;
+            }
+            const container = document.getElementById('canvas-container');
+            if (container) container.innerHTML = '';
+
+            if (theme === 'light') {
+                currentBg = initThreeJSLight();
+            } else {
+                currentBg = initThreeJS();
+            }
+        }
+
+        const theme = window.__kfTheme || 'dark';
+        loadBackground(theme);
+
+        window.__swapBackground = loadBackground;
+    </script>
+
+    <!-- Main JavaScript -->
+    <script src="../assets/js/main.js"></script>
+    
+    <!-- Resources / PolymatAI Prediction Script -->
+    <script>
+        const API_BASE = 'https://polymatai.pythonanywhere.com/api';
+        let activeModel = null;
+
+        function openPredict(model) {
+            const panel = document.getElementById('predict-panel');
+            const allInners = panel.querySelectorAll('.predict-panel-inner');
+            const allFeatures = document.querySelectorAll('.tool-feature');
+
+            // If clicking the already-active tab, close the panel
+            if (activeModel === model) {
+                panel.classList.remove('open');
+                allFeatures.forEach(f => f.classList.remove('active'));
+                activeModel = null;
+                return;
+            }
+
+            // Hide all inner panels
+            allInners.forEach(p => p.style.display = 'none');
+
+            // Show the selected one
+            document.getElementById('panel-' + model).style.display = 'block';
+
+            // Update active states on icons
+            allFeatures.forEach(f => f.classList.remove('active'));
+            document.querySelector('.tool-feature[data-model="' + model + '"]').classList.add('active');
+
+            // Open the panel
+            panel.classList.add('open');
+            activeModel = model;
+
+            // Focus the first input after transition
+            setTimeout(() => {
+                const firstInput = document.querySelector('#panel-' + model + ' .predict-input');
+                if (firstInput) firstInput.focus();
+            }, 350);
+        }
+
+        async function runPredict(model) {
+            const btn = document.querySelector('#panel-' + model + ' .predict-btn');
+            const errorEl = document.getElementById('error-' + model);
+            const resultEl = document.getElementById('result-' + model);
+
+            // Clear previous
+            errorEl.classList.remove('show');
+            resultEl.classList.remove('show');
+
+            // Build request body
+            let body = {};
+            if (model === 'rr') {
+                const s1 = document.getElementById('rr-smiles1').value.trim();
+                const s2 = document.getElementById('rr-smiles2').value.trim();
+                if (!s1 || !s2) {
+                    showError(model, 'Please enter both SMILES strings.');
+                    return;
+                }
+                body = { smiles1: s1, smiles2: s2 };
+            } else {
+                const smiles = document.getElementById(model + '-smiles').value.trim();
+                if (!smiles) {
+                    showError(model, 'Please enter a SMILES string.');
+                    return;
+                }
+                body = { smiles: smiles };
+            }
+
+            // Loading state
+            btn.classList.add('loading');
+            btn.disabled = true;
+
+            try {
+                const res = await fetch(API_BASE + '/predict-' + model, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(body)
+                });
+
+                const data = await res.json();
+
+                if (!data.success) {
+                    showError(model, data.error || 'Prediction failed.');
+                    return;
+                }
+
+                // Populate results
+                if (model === 'rr') {
+                    document.getElementById('val-r1').textContent = data.r1.toFixed(3);
+                    document.getElementById('val-r2').textContent = data.r2.toFixed(3);
+                } else if (model === 'kp') {
+                    document.getElementById('val-kp').textContent = data.kp.toFixed(2) + ' L/mol/s';
+                    document.getElementById('val-log-kp').textContent = data.log_kp.toFixed(2);
+                } else if (model === 'tg') {
+                    document.getElementById('val-tg').textContent = data.tg.toFixed(2) + ' °C';
+                } else if (model === 'ws') {
+                    document.getElementById('val-ws').textContent = data.ws.toFixed(4) + ' g/L';
+                    document.getElementById('val-log-ws').textContent = data.log_ws.toFixed(2);
+                }
+
+                resultEl.classList.add('show');
+
+            } catch (err) {
+                showError(model, 'Could not connect to PolymatAI. Please try again or use the full website.');
+            } finally {
+                btn.classList.remove('loading');
+                btn.disabled = false;
+            }
+        }
+
+        function showError(model, msg) {
+            const errorEl = document.getElementById('error-' + model);
+            errorEl.querySelector('span').textContent = msg;
+            errorEl.classList.add('show');
+        }
+
+        // Allow Enter key to trigger prediction
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && activeModel) {
+                const panel = document.getElementById('panel-' + activeModel);
+                if (panel && panel.contains(document.activeElement)) {
+                    runPredict(activeModel);
+                }
+            }
+        });
+    </script>
+</body>
+</html>
