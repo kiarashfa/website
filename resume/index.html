@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="description" content="Kiarash Farajzadehahary - Resume and CV">
+    <meta name="author" content="Kiarash Farajzadehahary">
+    <title>Resume & CV | KiarashFa</title>
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="../assets/icons/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="../assets/icons/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/icons/favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../assets/icons/apple-touch-icon.png">
+    <link rel="manifest" href="../assets/icons/site.webmanifest">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../assets/css/variables.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/pages.css">
+    <link rel="stylesheet" href="../assets/css/theme-light.css">
+    
+    <!-- PDF.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+</head>
+<body>
+    <!-- Custom Cursor -->
+    <div class="cursor"></div>
+
+    <!-- Navigation -->
+    <nav class="nav-bar">
+        <a href="../index.html" class="nav-logo">KF</a>
+        <ul class="nav-links" id="nav-links"></ul>
+        <button class="nav-hamburger" id="nav-hamburger">
+            <i class="fas fa-bars"></i>
+        </button>
+    </nav>
+    <div class="nav-overlay" id="nav-overlay"></div>
+    <div class="nav-drawer" id="nav-drawer"></div>
+
+    <!-- 3D Canvas Background -->
+    <div id="canvas-container"></div>
+
+    <!-- PDF Viewer Container -->
+    <div class="pdf-viewer-container" style="padding-top: 6rem;">
+        <div class="page-header">
+            <h1 class="page-title">Resume</h1>
+            <p class="page-subtitle">Curriculum Vitae & Resume</p>
+        </div>
+
+        <!-- PDF Theater: Side Arrows + Canvas -->
+        <div class="pdf-theater">
+            <!-- Left Nav Arrow (desktop only, hover-reveal) -->
+            <button class="pdf-side-nav pdf-side-nav--prev" id="prev-page" aria-label="Previous page">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+
+            <!-- PDF Canvas with integrated toolbar -->
+            <div class="pdf-canvas-container" id="canvas-container-pdf">
+                <!-- Integrated Toolbar -->
+                <div class="pdf-toolbar">
+                    <!-- Left: Document Tabs -->
+                    <div class="pdf-tabs">
+                        <button class="pdf-tab active" data-doc="resume">
+                            <i class="fas fa-file-alt"></i> <span class="tab-label">Resume</span>
+                        </button>
+                        <button class="pdf-tab" data-doc="cv">
+                            <i class="fas fa-file-pdf"></i> <span class="tab-label">Full CV</span>
+                        </button>
+                    </div>
+
+                    <!-- Center: Page Indicator -->
+                    <div class="pdf-page-indicator">
+                        <span id="page-num">1</span> / <span id="page-count">1</span>
+                    </div>
+                    
+                    <!-- Right: Zoom + Actions -->
+                    <div class="pdf-toolbar-actions">
+                        <div class="zoom-controls">
+                            <button class="toolbar-btn" id="zoom-out" title="Zoom Out">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            <span class="zoom-level"><span id="zoom-level">100</span>%</span>
+                            <button class="toolbar-btn" id="zoom-in" title="Zoom In">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                            <button class="toolbar-btn" id="fit-width" title="Fit Width">
+                                <i class="fas fa-arrows-left-right"></i>
+                            </button>
+                        </div>
+                        <div class="toolbar-divider"></div>
+                        <button class="toolbar-btn" id="download-btn" title="Download">
+                            <i class="fas fa-download"></i>
+                        </button>
+                        <button class="toolbar-btn" id="print-btn" title="Print">
+                            <i class="fas fa-print"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- PDF Canvas -->
+                <div id="pdf-render-area">
+                    <canvas id="pdf-canvas"></canvas>
+                </div>
+            </div>
+
+            <!-- Right Nav Arrow (desktop only, hover-reveal) -->
+            <button class="pdf-side-nav pdf-side-nav--next" id="next-page" aria-label="Next page">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Dot Carousel -->
+        <div class="pdf-dots" id="pdf-dots"></div>
+
+        <!-- Mobile Swipe Hint (shown once on first load) -->
+        <div class="pdf-swipe-hint" id="swipe-hint">
+            <i class="fas fa-hand-pointer"></i>
+            <span>Swipe to navigate</span>
+        </div>
+    </div>
+
+    <!-- Three.js Import Map -->
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"
+        }
+    }
+    </script>
+
+    <!-- Three.js Background (theme-aware) -->
+    <script type="module">
+        import { initThreeJS } from '../assets/js/three-background-dark.js';
+        import { initThreeJSLight } from '../assets/js/three-background-light.js';
+
+        let currentBg = null;
+
+        function loadBackground(theme) {
+            if (currentBg && currentBg.dispose) {
+                currentBg.dispose();
+                currentBg = null;
+            }
+            const container = document.getElementById('canvas-container');
+            if (container) container.innerHTML = '';
+
+            if (theme === 'light') {
+                currentBg = initThreeJSLight();
+            } else {
+                currentBg = initThreeJS();
+            }
+        }
+
+        const theme = window.__kfTheme || 'dark';
+        loadBackground(theme);
+
+        window.__swapBackground = loadBackground;
+    </script>
+
+    <!-- Main JavaScript -->
+    <script src="../assets/js/main.js"></script>
+    
+    <!-- PDF Viewer Script -->
+    <script>
+        // PDF.js worker configuration
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+        
+        // State
+        let pdfDoc = null;
+        let pageNum = 1;
+        let pageRendering = false;
+        let pageNumPending = null;
+        let scale = 1.5;
+        let currentDoc = 'resume';
+        let ctx = null;
+        let totalPages = 1;
+        
+        // Touch/gesture state
+        let touchStartX = 0;
+        let touchStartY = 0;
+        let touchEndX = 0;
+        let isSwiping = false;
+        let initialPinchDistance = 0;
+        let initialScale = 1;
+        
+	// Updated Document paths
+	const docs = {
+            resume: `./files/Kiarashfa_Resume.pdf`,
+            cv: `./files/Kiarashfa_CV.pdf`
+	};
+        
+        // Mobile detection
+        const isMobile = () => window.innerWidth <= 768;
+        
+        /**
+         * Build dot indicators for mobile
+         */
+        function buildDots() {
+            const dotsContainer = document.getElementById('pdf-dots');
+            dotsContainer.innerHTML = '';
+            for (let i = 1; i <= totalPages; i++) {
+                const dot = document.createElement('button');
+                dot.className = 'pdf-dot' + (i === pageNum ? ' active' : '');
+                dot.setAttribute('aria-label', `Go to page ${i}`);
+                dot.addEventListener('click', () => {
+                    pageNum = i;
+                    queueRenderPage(pageNum);
+                    updateUI();
+                });
+                dotsContainer.appendChild(dot);
+            }
+        }
+        
+        /**
+         * Update all UI elements (buttons, dots, page indicator)
+         */
+        function updateUI() {
+            document.getElementById('prev-page').disabled = pageNum <= 1;
+            document.getElementById('next-page').disabled = pageNum >= totalPages;
+            document.getElementById('page-num').textContent = pageNum;
+            
+            // Update dots
+            document.querySelectorAll('.pdf-dot').forEach((dot, idx) => {
+                dot.classList.toggle('active', idx + 1 === pageNum);
+            });
+        }
+        
+        /**
+         * Render the page with optional slide animation direction
+         */
+        function renderPage(num, slideDirection) {
+            pageRendering = true;
+            
+            pdfDoc.getPage(num).then(function(page) {
+                const canvas = document.getElementById('pdf-canvas');
+                if (!canvas) {
+                    console.error('Canvas not found');
+                    return;
+                }
+                
+                if (!ctx) {
+                    ctx = canvas.getContext('2d');
+                }
+                
+                const viewport = page.getViewport({ scale: scale });
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+                
+                // Apply slide animation on mobile
+                if (slideDirection && isMobile()) {
+                    canvas.classList.remove('slide-left', 'slide-right', 'slide-in');
+                    void canvas.offsetWidth;
+                    canvas.classList.add(slideDirection === 'next' ? 'slide-left' : 'slide-right');
+                    
+                    setTimeout(() => {
+                        canvas.classList.remove('slide-left', 'slide-right');
+                        canvas.classList.add('slide-in');
+                        setTimeout(() => canvas.classList.remove('slide-in'), 300);
+                    }, 150);
+                }
+                
+                const renderContext = {
+                    canvasContext: ctx,
+                    viewport: viewport
+                };
+                
+                const renderTask = page.render(renderContext);
+                
+                renderTask.promise.then(function() {
+                    pageRendering = false;
+                    if (pageNumPending !== null) {
+                        renderPage(pageNumPending);
+                        pageNumPending = null;
+                    }
+                });
+            }).catch(function(error) {
+                console.error('Error rendering page:', error);
+                pageRendering = false;
+            });
+            
+            document.getElementById('page-num').textContent = num;
+        }
+        
+        /**
+         * Queue page rendering
+         */
+        function queueRenderPage(num, slideDirection) {
+            if (pageRendering) {
+                pageNumPending = num;
+            } else {
+                renderPage(num, slideDirection);
+            }
+        }
+        
+        /**
+         * Load PDF document
+         */
+        function loadDocument(docType) {
+            currentDoc = docType;
+            
+            // Only target the render area, not the toolbar
+            let renderArea = document.getElementById('pdf-render-area');
+            if (!renderArea) {
+                // First load: wrap existing canvas in a render area
+                const container = document.getElementById('canvas-container-pdf');
+                const canvas = document.getElementById('pdf-canvas');
+                renderArea = document.createElement('div');
+                renderArea.id = 'pdf-render-area';
+                if (canvas) {
+                    container.replaceChild(renderArea, canvas);
+                } else {
+                    container.appendChild(renderArea);
+                }
+            }
+            
+            renderArea.innerHTML = '<div class="loading-message"><i class="fas fa-spinner fa-spin"></i> Loading PDF...</div>';
+            
+            ctx = null;
+            
+            const loadingTask = pdfjsLib.getDocument({
+                url: docs[docType],
+                cMapUrl: 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/cmaps/',
+                cMapPacked: true,
+            });
+            
+            loadingTask.promise.then(function(pdf) {
+                pdfDoc = pdf;
+                totalPages = pdf.numPages;
+                document.getElementById('page-count').textContent = totalPages;
+                
+                renderArea.innerHTML = '<canvas id="pdf-canvas"></canvas>';
+                ctx = null;
+                
+                pageNum = 1;
+                buildDots();
+                renderPage(pageNum);
+                updateUI();
+                
+                // Show swipe hint on mobile (only once per session)
+                if (isMobile() && !sessionStorage.getItem('swipeHintShown')) {
+                    showSwipeHint();
+                    sessionStorage.setItem('swipeHintShown', 'true');
+                }
+            }).catch(function(error) {
+                let errorMessage = 'Error loading PDF.';
+                
+                if (error.message && error.message.includes('404')) {
+                    errorMessage = 'PDF file not found. Please check the file path.';
+                } else if (error.message && error.message.includes('CORS')) {
+                    errorMessage = 'CORS error. PDF cannot be loaded from this location.';
+                } else if (error.message) {
+                    errorMessage = `Error: ${error.message}`;
+                }
+                
+                renderArea.innerHTML = `<div class="loading-message"><i class="fas fa-exclamation-triangle"></i> ${errorMessage}<br><small>Check browser console for details.</small></div>`;
+                console.error('Error loading PDF:', error);
+                console.error('Attempted to load:', docs[docType]);
+            });
+        }
+        
+        /**
+         * Show swipe hint animation
+         */
+        function showSwipeHint() {
+            const hint = document.getElementById('swipe-hint');
+            hint.classList.add('visible');
+            setTimeout(() => {
+                hint.classList.remove('visible');
+            }, 2500);
+        }
+        
+        // ─── Navigation ───
+        function onPrevPage() {
+            if (pageNum <= 1) return;
+            pageNum--;
+            queueRenderPage(pageNum, 'prev');
+            updateUI();
+        }
+        
+        function onNextPage() {
+            if (pageNum >= totalPages) return;
+            pageNum++;
+            queueRenderPage(pageNum, 'next');
+            updateUI();
+        }
+        
+        // ─── Zoom ───
+        function onZoomIn() {
+            if (scale >= 3) return;
+            scale += 0.25;
+            document.getElementById('zoom-level').textContent = Math.round(scale * 100);
+            queueRenderPage(pageNum);
+        }
+        
+        function onZoomOut() {
+            if (scale <= 0.5) return;
+            scale -= 0.25;
+            document.getElementById('zoom-level').textContent = Math.round(scale * 100);
+            queueRenderPage(pageNum);
+        }
+        
+        function onFitWidth() {
+            const container = document.getElementById('canvas-container-pdf');
+            const containerWidth = container.clientWidth - (isMobile() ? 20 : 80);
+            
+            pdfDoc.getPage(pageNum).then(function(page) {
+                const viewport = page.getViewport({ scale: 1 });
+                scale = containerWidth / viewport.width;
+                document.getElementById('zoom-level').textContent = Math.round(scale * 100);
+                queueRenderPage(pageNum);
+            });
+        }
+        
+        // ─── Download & Print ───
+        function onDownload() {
+            const link = document.createElement('a');
+            link.href = docs[currentDoc];
+            link.download = currentDoc === 'resume' ? 'Kiarashfa_Resume.pdf' : 'Kiarashfa_CV.pdf';
+            link.click();
+        }
+        
+        function onPrint() {
+            window.open(docs[currentDoc], '_blank');
+        }
+        
+        // ─── Touch Gesture Handling ───
+        function initTouchGestures() {
+            const container = document.getElementById('pdf-render-area');
+            
+            container.addEventListener('touchstart', function(e) {
+                if (e.touches.length === 1) {
+                    touchStartX = e.touches[0].clientX;
+                    touchStartY = e.touches[0].clientY;
+                    touchEndX = e.touches[0].clientX;
+                    isSwiping = true;
+                }
+                
+                // Pinch-to-zoom: detect two fingers
+                if (e.touches.length === 2) {
+                    isSwiping = false;
+                    const dx = e.touches[0].clientX - e.touches[1].clientX;
+                    const dy = e.touches[0].clientY - e.touches[1].clientY;
+                    initialPinchDistance = Math.sqrt(dx * dx + dy * dy);
+                    initialScale = scale;
+                }
+            }, { passive: true });
+            
+            container.addEventListener('touchmove', function(e) {
+                // Pinch-to-zoom
+                if (e.touches.length === 2) {
+                    const dx = e.touches[0].clientX - e.touches[1].clientX;
+                    const dy = e.touches[0].clientY - e.touches[1].clientY;
+                    const currentDistance = Math.sqrt(dx * dx + dy * dy);
+                    const pinchRatio = currentDistance / initialPinchDistance;
+                    
+                    let newScale = initialScale * pinchRatio;
+                    newScale = Math.max(0.5, Math.min(3, newScale));
+                    scale = newScale;
+                    document.getElementById('zoom-level').textContent = Math.round(scale * 100);
+                    queueRenderPage(pageNum);
+                }
+                
+                if (e.touches.length === 1 && isSwiping) {
+                    touchEndX = e.touches[0].clientX;
+                }
+            }, { passive: true });
+            
+            container.addEventListener('touchend', function(e) {
+                if (!isSwiping) return;
+                isSwiping = false;
+                
+                const deltaX = touchEndX - touchStartX;
+                const absDeltaX = Math.abs(deltaX);
+                
+                // Minimum swipe distance threshold
+                if (absDeltaX > 50) {
+                    if (deltaX < 0) {
+                        onNextPage();
+                    } else {
+                        onPrevPage();
+                    }
+                }
+                
+                touchStartX = 0;
+                touchEndX = 0;
+            }, { passive: true });
+        }
+        
+        // ─── Event Listeners ───
+        document.getElementById('prev-page').addEventListener('click', onPrevPage);
+        document.getElementById('next-page').addEventListener('click', onNextPage);
+        document.getElementById('zoom-in').addEventListener('click', onZoomIn);
+        document.getElementById('zoom-out').addEventListener('click', onZoomOut);
+        document.getElementById('fit-width').addEventListener('click', onFitWidth);
+        document.getElementById('download-btn').addEventListener('click', onDownload);
+        document.getElementById('print-btn').addEventListener('click', onPrint);
+        
+        // Tab switching
+        document.querySelectorAll('.pdf-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.pdf-tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                loadDocument(this.dataset.doc);
+            });
+        });
+        
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowLeft') onPrevPage();
+            if (e.key === 'ArrowRight') onNextPage();
+            if (e.key === '+' || e.key === '=') onZoomIn();
+            if (e.key === '-') onZoomOut();
+        });
+        
+        // Initialize touch gestures
+        initTouchGestures();
+        
+        // Initial load
+        loadDocument('resume');
+    </script>
+</body>
+</html>
