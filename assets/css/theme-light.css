@@ -1,0 +1,32 @@
+/* ═══════════════════════════════════════════════════════════
+   LIGHT THEME — Structural exceptions only
+   Color, surface, text, and shadow overrides are all handled
+   by CSS custom properties in variables.css.
+   This file only contains overrides that require different
+   selectors, keyframes, or structural changes.
+   ═══════════════════════════════════════════════════════════ */
+
+/* Glow animation needs different keyframes for light */
+[data-theme="light"] h1 {
+    animation: glow-light 3s ease-in-out infinite;
+}
+
+@keyframes glow-light {
+    0%, 100% { filter: drop-shadow(0 0 15px rgba(42, 157, 143, 0.3)); }
+    50% { filter: drop-shadow(0 0 30px rgba(231, 111, 81, 0.3)); }
+}
+
+/* Cursor mix-blend-mode needs to change for light backgrounds */
+[data-theme="light"] .cursor {
+    mix-blend-mode: normal;
+}
+
+/* Video wrapper background stays black regardless of theme */
+[data-theme="light"] .video-wrapper {
+    background: #000;
+}
+
+/* PDF canvas shadow is different on light */
+[data-theme="light"] #pdf-canvas {
+    box-shadow: 0 10px 50px rgba(0, 0, 0, 0.1);
+}
