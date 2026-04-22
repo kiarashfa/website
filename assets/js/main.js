@@ -125,9 +125,6 @@ document.addEventListener('DOMContentLoaded', function () {
         return isInSubfolder ? '../' + href : href;
     }
 
-    // ... (rest of your logic for building the menu)
-});
-
 
     // ── Build desktop nav-links (only desktopVisible items) ──
     const navLinksEl = document.getElementById('nav-links');
