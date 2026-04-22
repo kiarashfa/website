@@ -83,48 +83,48 @@ document.addEventListener('mouseup', () => cursor.classList.remove('active'));
 // 'desktopVisible: true' = shown in the nav bar on desktop as well as the drawer.
 // All links always appear in the drawer (both desktop and mobile), defined once here.
 const NAV_LINKS = [
-    { label: 'Home',        href: 'index.html',         desktopVisible: true  },
-    { label: 'Works',       href: 'works/',             desktopVisible: true  },
-    { label: 'Contact',     href: '#contact',           desktopVisible: true  },
-    { label: 'Resume',      href: 'resume/',            desktopVisible: false },
-    { label: 'Resources',   href: 'resources/',         desktopVisible: false },
-    { label: 'PolyLab',     href: 'polylab/',           desktopVisible: false },
-    { label: 'Gallery',     href: 'gallery/',           desktopVisible: false },
-    { label: 'Observatory', href: 'observatory/',       desktopVisible: false },
-    { label: 'Blog',        href: 'blog/',              desktopVisible: false },
+    { label: 'Home',        href: 'index.html',     desktopVisible: true  },
+    { label: 'Works',       href: 'works/',         desktopVisible: true  },
+    { label: 'Contact',     href: '#contact',       desktopVisible: true  },
+    { label: 'Resume',      href: 'resume/',        desktopVisible: false },
+    { label: 'Resources',   href: 'resources/',     desktopVisible: false },
+    { label: 'PolyLab',     href: 'polylab/',       desktopVisible: false },
+    { label: 'Gallery',     href: 'gallery/',       desktopVisible: false },
+    { label: 'Observatory', href: 'observatory/',   desktopVisible: false },
+    { label: 'Blog',        href: 'blog/',          desktopVisible: false },
 ];
 
 document.addEventListener('DOMContentLoaded', function () {
     const path = window.location.pathname;
-    
-    // 1. Determine the Base Path (e.g., "/website/" or "/")
-    // This allows the code to work locally and on GitHub automatically.
     const isGitHub = window.location.hostname.includes('github.io');
-    const basePath = isGitHub ? '/website/' : '/';
+    
+    // 1. Detect if we are in a subfolder (works, gallery, etc.)
+    // On GitHub, the path /website/gallery/ has 2 segments. Locally, /gallery/ has 1.
+    const pathSegments = path.split('/').filter(Boolean);
+    const isInSubfolder = isGitHub ? pathSegments.length > 1 : pathSegments.length > 1;
 
-    // 2. Determine if we are currently in a subfolder
-    // We check if the path has more segments than the base path
-    const pathSegments = path.split('/').filter(s => s.length > 0);
-    const expectedSegments = isGitHub ? 1 : 0; // 'website' is 1 segment
-    const isInSubfolder = pathSegments.length > (expectedSegments + 1) || 
-                         (pathSegments.length > expectedSegments && !path.endsWith('index.html') && !path.endsWith('/'));
-
+    // 2. Path Resolver: Fixes the 404 issue by adding ../ when needed
     function resolveHref(href) {
-        // Handle Anchor Links
-        if (href === '#contact') {
-            return isInSubfolder ? '../index.html#contact' : '#contact';
+        if (href.startsWith('#')) {
+            return isInSubfolder ? `../index.html${href}` : href;
         }
-
-        // Handle Home
+    
         if (href === 'index.html') {
-            return isInSubfolder ? '../index.html' : 'index.html';
+            return isInSubfolder ? '../' : './';
         }
-
-        // Handle Sub-pages (works/, gallery/, etc.)
-        // If we are already deep, we need to go up: '../works/'
-        return isInSubfolder ? '../' + href : href;
+    
+        return isInSubfolder ? `../${href}` : href;
     }
 
+    // 3. Active State: Fixes the "missing menu" by avoiding empty strings from .pop()
+    function isActive(href) {
+        if (!href || href.startsWith('#')) return false;
+        if (href === 'index.html') {
+            return (path.endsWith('/') || path.endsWith('index.html')) && !isInSubfolder;
+        }
+        const folderName = href.replace(/\//g, '');
+        return path.toLowerCase().includes(`/${folderName.toLowerCase()}/`);
+    }
 
     // ── Build desktop nav-links (only desktopVisible items) ──
     const navLinksEl = document.getElementById('nav-links');
