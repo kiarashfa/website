@@ -97,31 +97,36 @@ const NAV_LINKS = [
 document.addEventListener('DOMContentLoaded', function () {
     const path = window.location.pathname;
     
-    // Detect if we are in a subfolder (any directory level after the root)
-    const isSubfolder = path.split('/').filter(Boolean).length > 1 && !path.endsWith('index.html');
-    const isHome = path === '/' || path.endsWith('index.html');
+    // 1. Determine the Base Path (e.g., "/website/" or "/")
+    // This allows the code to work locally and on GitHub automatically.
+    const isGitHub = window.location.hostname.includes('github.io');
+    const basePath = isGitHub ? '/website/' : '/';
+
+    // 2. Determine if we are currently in a subfolder
+    // We check if the path has more segments than the base path
+    const pathSegments = path.split('/').filter(s => s.length > 0);
+    const expectedSegments = isGitHub ? 1 : 0; // 'website' is 1 segment
+    const isInSubfolder = pathSegments.length > (expectedSegments + 1) || 
+                         (pathSegments.length > expectedSegments && !path.endsWith('index.html') && !path.endsWith('/'));
 
     function resolveHref(href) {
         // Handle Anchor Links
         if (href === '#contact') {
-            return isHome ? '#contact' : '../index.html#contact';
+            return isInSubfolder ? '../index.html#contact' : '#contact';
         }
 
         // Handle Home
         if (href === 'index.html') {
-            return isHome ? 'index.html' : '../index.html';
+            return isInSubfolder ? '../index.html' : 'index.html';
         }
 
-        // Handle Sub-pages (e.g., 'gallery/')
-        // If we are already in a subfolder, go up one level first
-        return isHome ? href : '../' + href;
+        // Handle Sub-pages (works/, gallery/, etc.)
+        // If we are already deep, we need to go up: '../works/'
+        return isInSubfolder ? '../' + href : href;
     }
 
-    function isActive(href) {
-        if (href === '#contact') return false;
-        // Checks if the current URL contains the folder name (e.g., /gallery/)
-        return path.includes(href.replace('/', '')) && href !== 'index.html';
-    }
+    // ... (rest of your logic for building the menu)
+});
 
 
     // ── Build desktop nav-links (only desktopVisible items) ──
