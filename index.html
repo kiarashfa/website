@@ -1,0 +1,401 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Kiarash Farajzadehahary - Polymer Scientist and Machine Learning Researcher">
+    <meta name="author" content="Kiarash Farajzadehahary">
+    <meta name="keywords" content="polymer science, machine learning, emulsion polymerization, AI, research">
+    <meta name="google-site-verification" content="Y_9lvEQmchA3CfOyw3U0Tn5LhKnWTr-oN89j-fhsey4" />
+    <title>KiarashFa | Polymer Scientist & ML Researcher</title>
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="assets/icons/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
+    <link rel="manifest" href="assets/icons/site.webmanifest">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/variables.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/pages.css">
+    <link rel="stylesheet" href="assets/css/theme-light.css">
+</head>
+<body>
+    <!-- Custom Cursor -->
+    <div class="cursor"></div>
+
+    <!-- Navigation -->
+    <nav class="nav-bar">
+        <a href="index.html" class="nav-logo">KF</a>
+        <ul class="nav-links" id="nav-links"></ul>
+        <button class="nav-hamburger" id="nav-hamburger">
+            <i class="fas fa-bars"></i>
+        </button>
+    </nav>
+    <div class="nav-overlay" id="nav-overlay"></div>
+    <div class="nav-drawer" id="nav-drawer"></div>
+
+    <!-- 3D Canvas Background -->
+    <div id="canvas-container"></div>
+    
+    <!-- Info Text -->
+    <div class="info-text">
+        Move mouse to interact • Scroll to explore
+    </div>
+
+    <!-- Main Content -->
+    <div class="content">
+        <!-- Hero Section -->
+        <section class="hero">
+            <h1 class="parallax-fast" style="margin-bottom: -0.3rem;">Kiarash</h1>
+            <p class="subtitle parallax-slow" style="font-size: 2.5rem; letter-spacing: 0.08em; margin-bottom: 2.0rem;">Farajzadehahary</p>
+            <p class="subtitle parallax-slow" style="font-size: 1.35rem; letter-spacing: 0.1em; margin-bottom: 1.7rem; font-weight: bold;">Polymer Scientist & ML Researcher</p>
+            <p class="hero-description parallax-slow">
+                Combining experimental and computational expertise to develop informed AI models<br>
+                Bringing polymer knowledge to ML and deploying ML for process optimization and control.
+            </p>
+            <div class="scroll-indicator">
+                <i class="fas fa-chevron-down"></i>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section class="section">
+            <div class="section-container">
+                <h2 class="section-title">About Me</h2>
+                <div class="glass-card">
+                    <div class="about-content">
+                        <!-- Profile picture -->
+                        <div class="about-pic-wrapper">
+                            <div class="about-pic-ring"></div>
+                            <img 
+                                src="assets/gallery/MyPic.png" 
+                                alt="Kiarash Farajzadehahary" 
+                                class="about-pic"
+                            >
+                        </div>
+                
+                        <!-- Text -->
+                        <div class="about-text">
+                            <p style="font-size: 1.1rem; line-height: 1.8; opacity: 0.9;">
+                                I am a PhD candidate at the University of the Basque Country, working as a researcher at the POLYMAT Institute.
+                                My research focuses on utilizing machine learning in emulsion polymerization, bridging the gap between
+                                experimental chemistry and artificial intelligence. With a proven track record in collaborative research
+                                and high-impact publications, I'm passionate about pushing the boundaries of what's possible when we combine 
+                                domain expertise with cutting-edge computational methods.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section class="section" id="contact">
+            <div class="section-container">
+                <h2 class="section-title">Contact</h2>
+                <div class="glass-card">
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <div class="info-label">Location</div>
+                            <div class="info-value">San Sebastián, Spain</div>
+                        </div>
+                        
+                        <div class="info-item">
+                            <i class="fas fa-envelope"></i>
+                            <div class="info-label">Email</div>
+                            <div class="info-value">KiarashFa@Gmail.com</div>
+                        </div>
+                        
+                        <div class="info-item">
+                            <i class="fas fa-phone"></i>
+                            <div class="info-label">Phone</div>
+                            <div class="info-value">(+34) 641 077 775</div>
+                        </div>
+                    </div>
+
+                    <div class="contact-grid">
+                        <a href="https://github.com/KiarashFa" class="contact-link" target="_blank">
+                            <i class="fab fa-github"></i>
+                            <span>GitHub</span>
+                        </a>
+                        
+                        <a href="https://www.linkedin.com/in/KiarashFa/" class="contact-link" target="_blank">
+                            <i class="fab fa-linkedin"></i>
+                            <span>LinkedIn</span>
+                        </a>
+                        
+                        <a href="https://scholar.google.com/citations?user=9D1FftIAAAAJ&hl=en" class="contact-link" target="_blank">
+                            <i class="fas fa-graduation-cap"></i>
+                            <span>Google Scholar</span>
+                        </a>
+                        
+                        <a href="https://www.researchgate.net/profile/Kiarash-Farajzadehahary" class="contact-link" target="_blank">
+                            <i class="fab fa-researchgate"></i>
+                            <span>ResearchGate</span>
+                        </a>
+                        
+                        <a href="https://orcid.org/0009-0006-6628-3009" class="contact-link" target="_blank">
+                            <i class="fab fa-orcid"></i>
+                            <span>ORCID</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Research Section -->
+        <section class="section">
+            <div class="section-container">
+                <h2 class="section-title">Research Focus</h2>
+                <div class="glass-card">
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <i class="fas fa-university"></i>
+                            <div class="info-label">University</div>
+                            <div class="info-value">University of the Basque Country</div>
+                        </div>
+                        
+                        <div class="info-item">
+                            <i class="fas fa-flask"></i>
+                            <div class="info-label">Institute</div>
+                            <div class="info-value">POLYMAT, Institute for Polymer Materials</div>
+                        </div>
+                        
+                        <div class="info-item">
+                            <i class="fas fa-microscope"></i>
+                            <div class="info-label">Focus Area</div>
+                            <div class="info-value">Utilizing Machine Learning in Emulsion Polymerization</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- EXPERTISE SECTION -->
+        <section class="section">
+            <div class="section-container">
+                <h2 class="section-title">Expertise & Skills</h2>
+                
+                <!-- Skills Grid with Categories -->
+                <div class="skills-categories">
+                    
+                    <!-- Machine Learning & Computing -->
+                    <div class="glass-card skill-category">
+                        <div class="category-header">
+                            <div class="category-icon">
+                                <i class="fas fa-brain"></i>
+                            </div>
+                            <h3 class="category-title">Machine Learning & Computing</h3>
+                        </div>
+                        <div class="skills-list">
+                            <div class="skill-group">
+                                <h4 class="skill-group-title">ML Frameworks & Techniques</h4>
+                                <div class="skill-tags">
+                                    <span class="skill-tag">TensorFlow</span>
+                                    <span class="skill-tag">PyTorch</span>
+                                    <span class="skill-tag">Scikit-learn</span>
+                                    <span class="skill-tag">Neural Networks</span>
+                                    <span class="skill-tag">CNN/RNN/GAN</span>
+                                    <span class="skill-tag">Reinforcement Learning</span>
+                                </div>
+                            </div>
+                            <div class="skill-group">
+                                <h4 class="skill-group-title">Programming & HPC</h4>
+                                <div class="skill-tags">
+                                    <span class="skill-tag">Python</span>
+                                    <span class="skill-tag">MATLAB</span>
+                                    <span class="skill-tag">Bash</span>
+                                    <span class="skill-tag">Slurm</span>
+                                    <span class="skill-tag">Linux Clusters</span>
+                                    <span class="skill-tag">Parallel Computing</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Polymer Science & Lab Techniques -->
+                    <div class="glass-card skill-category">
+                        <div class="category-header">
+                            <div class="category-icon">
+                                <i class="fas fa-flask"></i>
+                            </div>
+                            <h3 class="category-title">Polymer Science & Lab Techniques</h3>
+                        </div>
+                        <div class="skills-list">
+                            <div class="skill-group">
+                                <h4 class="skill-group-title">Reaction & Processing</h4>
+                                <div class="skill-tags">
+                                    <span class="skill-tag">Emulsion Polymerization</span>
+                                    <span class="skill-tag">Reaction Calorimetry</span>
+                                    <span class="skill-tag">Injection Molding</span>
+                                    <span class="skill-tag">Extrusion Process</span>
+                                </div>
+                            </div>
+                            <div class="skill-group">
+                                <h4 class="skill-group-title">Characterization</h4>
+                                <div class="skill-tags">
+                                    <span class="skill-tag">Mechanical Testing</span>
+                                    <span class="skill-tag">DSC/TGA/DMTA</span>
+                                    <span class="skill-tag">SEM/TEM</span>
+                                    <span class="skill-tag">NMR/FTIR</span>
+                                    <span class="skill-tag">GC/GPC/AF4</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Software & Design Tools -->
+                    <div class="glass-card skill-category">
+                        <div class="category-header">
+                            <div class="category-icon">
+                                <i class="fas fa-desktop"></i>
+                            </div>
+                            <h3 class="category-title">Software & Design Tools</h3>
+                        </div>
+                        <div class="skills-list">
+                            <div class="skill-group">
+                                <h4 class="skill-group-title">Engineering & Design</h4>
+                                <div class="skill-tags">
+                                    <span class="skill-tag">Moldflow</span>
+                                    <span class="skill-tag">Inventor</span>
+                                    <span class="skill-tag">AutoCAD</span>
+                                    <span class="skill-tag">Aspen</span>
+                                </div>
+                            </div>
+                            <div class="skill-group">
+                                <h4 class="skill-group-title">Graphics & Documentation</h4>
+                                <div class="skill-tags">
+                                    <span class="skill-tag">Blender</span>
+                                    <span class="skill-tag">Photoshop</span>
+                                    <span class="skill-tag">LaTeX</span>
+                                    <span class="skill-tag">ChemDraw</span>
+                                    <span class="skill-tag">Origin</span>
+                                    <span class="skill-tag">MS Word</span>
+                                    <span class="skill-tag">MS Excel</span>
+                                    <span class="skill-tag">MS PowerPoint</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Languages & Collaboration -->
+                    <div class="glass-card skill-category">
+                        <div class="category-header">
+                            <div class="category-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <h3 class="category-title">Languages & Collaboration</h3>
+                        </div>
+                        <div class="skills-list">
+                            <div class="skill-group">
+                                <h4 class="skill-group-title">Languages</h4>
+                                <div class="skill-tags">
+                                    <span class="skill-tag skill-level">Persian <em>(Native)</em></span>
+                                    <span class="skill-tag skill-level">English <em>(Fluent)</em></span>
+                                    <span class="skill-tag skill-level">Spanish <em>(Intermediate)</em></span>
+                                </div>
+                            </div>
+                            <div class="skill-group">
+                                <h4 class="skill-group-title">Professional Skills</h4>
+                                <div class="skill-tags">
+                                    <span class="skill-tag">Interdisciplinary Teamwork</span>
+                                    <span class="skill-tag">Scientific Communication</span>
+                                    <span class="skill-tag">Mentoring & Teaching</span>
+                                    <span class="skill-tag">Self-directed Research</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Impact Section -->
+        <section class="section">
+            <div class="section-container">
+                <h2 class="section-title">Research Impact</h2>
+                <div class="glass-card">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <span class="stat-number" id="citations-count" data-target="75" data-suffix="+">--</span>
+                            <span class="stat-label">Citations</span>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <span class="stat-number" id="h-index" data-target="5" data-suffix="">--</span>
+                            <span class="stat-label">h-index</span>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <span class="stat-number" id="i10-index" data-target="4" data-suffix="">--</span>
+                            <span class="stat-label">i10-index</span>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <span class="stat-number" id="publications-count" data-target="8" data-suffix="">--</span>
+                            <span class="stat-label">Publications</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>© 2026 Kiarash Farajzadehahary. All rights reserved.</p>
+            <p style="margin-top: 10px; font-size: 0.85em; opacity: 0.7;">
+                Last updated: February 2026
+            </p>
+        </footer>
+    </div>
+
+    <!-- Three.js Import Map -->
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"
+        }
+    }
+    </script>
+
+    <!-- Three.js Background (theme-aware) -->
+    <script type="module">
+        import { initThreeJS } from './assets/js/three-background-dark.js';
+        import { initThreeJSLight } from './assets/js/three-background-light.js';
+
+        let currentBg = null;
+
+        function loadBackground(theme) {
+            if (currentBg && currentBg.dispose) {
+                currentBg.dispose();
+                currentBg = null;
+            }
+            const container = document.getElementById('canvas-container');
+            if (container) container.innerHTML = '';
+
+            if (theme === 'light') {
+                currentBg = initThreeJSLight();
+            } else {
+                currentBg = initThreeJS();
+            }
+        }
+
+        const theme = window.__kfTheme || 'dark';
+        loadBackground(theme);
+
+        window.__swapBackground = loadBackground;
+    </script>
+
+    <!-- Main JavaScript -->
+    <script src="assets/js/main.js"></script>
+</body>
+</html>

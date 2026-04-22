@@ -1,0 +1,212 @@
+Copyright (c) 2025-2026 Kiarash Farajzadehahary. All rights reserved.
+
+Website: https://kiarashfa.github.io
+Contact: KiarashFa@Gmail.com
+
+
+================================================================================
+  TERMS OF USE
+================================================================================
+
+This repository contains the complete source code, design assets, written
+content, and interactive demonstrations for the personal academic website of
+Kiarash Farajzadehahary. All materials are protected by copyright law and
+international treaties.
+
+No part of this repository may be reproduced, distributed, transmitted,
+displayed, published, adapted, or otherwise used in any form or by any means
+without the prior written permission of the copyright holder, except as
+expressly permitted below.
+
+
+================================================================================
+  1. THREE.JS BACKGROUNDS & VISUAL DESIGN
+================================================================================
+
+The Three.js background animations (three-background.js and
+three-background-light.js), including the dark-mode neural network
+visualization and the light-mode polymer reactor simulation, are original
+creative works. These files, their algorithms, visual design, animation
+logic, and any derivative or substantially similar implementations are
+strictly protected.
+
+You MAY NOT:
+  - Copy, reproduce, or redistribute these files in whole or in part
+  - Create derivative works based on these animations
+  - Use these animations or substantially similar versions in any other
+    website, application, product, or project
+  - Reverse-engineer the visual design for reimplementation
+
+You MAY:
+  - View and study the source code for personal educational purposes
+  - Reference the techniques used in academic or technical writing,
+    with proper attribution
+
+
+================================================================================
+  2. BLOG POSTS & WRITTEN CONTENT
+================================================================================
+
+All blog posts, articles, and written content in the /blog/ directory and
+throughout this website are original works of the copyright holder.
+
+You MAY NOT:
+  - Republish, repost, or reproduce blog posts in full or in substantial part
+  - Use the written content for training machine learning models or
+    generative AI systems
+  - Translate, adapt, or create derivative works from the written content
+    without permission
+
+You MAY:
+  - Read and share links to the published blog posts
+  - Quote brief excerpts (under 100 words) for commentary, criticism, or
+    academic purposes, provided that:
+      (a) The excerpt is attributed to Kiarash Farajzadehahary
+      (b) A link to the original post is included
+      (c) The use constitutes fair use or fair dealing under applicable law
+
+
+================================================================================
+  3. WEBSITE CODE & DESIGN SYSTEM
+================================================================================
+
+The HTML structure, CSS design system (variables.css, style.css, pages.css,
+theme-light.css), JavaScript logic (main.js), and overall visual design of
+this website are original works.
+
+You MAY NOT:
+  - Clone or fork this repository to create your own website or template
+  - Copy the CSS design system, layout patterns, or visual identity
+  - Redistribute the code as a website template or starter kit
+  - Use substantial portions of the code in commercial or non-commercial
+    projects
+
+You MAY:
+  - View and study the source code for personal educational purposes
+  - Reference specific techniques or patterns (e.g., a CSS trick, a JS
+    approach) in your own original work, provided the result is not
+    substantially similar to this website's design
+
+
+================================================================================
+  4. INTERACTIVE DEMONSTRATIONS (POLYLAB)
+================================================================================
+
+The PolyLab interactive demonstrations, including the PCINN demo and the
+reinforcement learning reactor control demo (polylab.html and associated
+scripts), are original works that represent published and ongoing research.
+
+You MAY NOT:
+  - Copy, adapt, or redistribute the interactive demonstrations
+  - Extract the simulation models, algorithms, or parameters
+  - Use the demonstrations or their components in other projects
+
+You MAY:
+  - Use the demonstrations interactively on the published website
+  - Reference the demonstrations in academic or educational contexts
+    with proper attribution
+
+
+================================================================================
+  5. IMAGES & MEDIA
+================================================================================
+
+Photographs in the /assets/gallery/ directory are personal photographs of
+the copyright holder and are protected accordingly.
+
+Graphical abstracts (files prefixed with GA_) are associated with published
+academic papers and are subject to the copyright terms of their respective
+publishers (Royal Society of Chemistry, Elsevier, Wiley, American Chemical
+Society). Use of these images should follow the respective publisher's
+policies.
+
+You MAY NOT:
+  - Download, redistribute, or reuse personal photographs without permission
+  - Use any images from this repository for commercial purposes
+
+You MAY:
+  - View images as displayed on the published website
+
+
+================================================================================
+  6. ACADEMIC PUBLICATIONS
+================================================================================
+
+Descriptions, summaries, and metadata of academic publications presented on
+this website are provided for informational purposes. The full-text articles
+are subject to their respective publishers' copyright terms. Links to DOIs
+and publisher pages are provided for access to the original works.
+
+
+================================================================================
+  7. DOWNLOADABLE RESOURCES
+================================================================================
+
+Educational materials in the /assets/resources/ directory (PDF documents,
+presentation files, Jupyter notebook archives) are provided for personal
+educational use only.
+
+You MAY NOT:
+  - Redistribute these materials on other platforms or websites
+  - Use these materials for commercial purposes
+  - Claim authorship of these materials
+
+You MAY:
+  - Download and use the materials for personal learning
+  - Share direct links to the website's Resources page
+
+
+================================================================================
+  8. THIRD-PARTY COMPONENTS
+================================================================================
+
+This website uses the following third-party libraries under their respective
+open-source licenses:
+
+  - Three.js (MIT License) — https://threejs.org
+  - Chart.js (MIT License) — https://www.chartjs.org
+  - Font Awesome (Font Awesome Free License) — https://fontawesome.com
+  - Marked.js (MIT License) — https://marked.js.org
+  - PDF.js (Apache 2.0 License) — https://mozilla.github.io/pdf.js
+
+These libraries remain under their original licenses. This LICENSE file
+applies only to the original work created by the copyright holder.
+
+
+================================================================================
+  9. ATTRIBUTION
+================================================================================
+
+If you reference this website, its design, or its content in any permitted
+context, please use the following attribution:
+
+  Kiarash Farajzadehahary — https://kiarashfa.github.io
+
+For academic citations of the research presented on this website, please use
+the specific paper citations provided on the Works page.
+
+
+================================================================================
+  10. CONTACT & PERMISSIONS
+================================================================================
+
+For permissions beyond what is described in this license, or for any
+questions regarding the use of materials from this repository, please
+contact:
+
+  Kiarash Farajzadehahary
+  Email: KiarashFa@Gmail.com
+  LinkedIn: https://www.linkedin.com/in/KiarashFa/
+
+
+================================================================================
+  DISCLAIMER
+================================================================================
+
+THE MATERIALS IN THIS REPOSITORY ARE PROVIDED "AS IS" WITHOUT WARRANTY OF
+ANY KIND, EXPRESS OR IMPLIED. THE COPYRIGHT HOLDER SHALL NOT BE LIABLE FOR
+ANY CLAIM, DAMAGES, OR OTHER LIABILITY ARISING FROM THE USE OF OR INABILITY
+TO USE THESE MATERIALS.
+
+This license is governed by international copyright law and the laws of
+Spain, where the copyright holder is based.
