@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Kiarash Farajzadehahary - Blog">
+    <meta name="author" content="Kiarash Farajzadehahary">
+    <link rel="canonical" href="https://kiarashfa.github.io/pages/blog.html">
+    <title>Blog | KiarashFa</title>
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="../assets/icons/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="../assets/icons/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/icons/favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../assets/icons/apple-touch-icon.png">
+    <link rel="manifest" href="../assets/icons/site.webmanifest">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../assets/css/variables.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/pages.css">
+    <link rel="stylesheet" href="../assets/css/theme-light.css">
+    
+    <!-- Marked.js for Markdown rendering -->
+    <script src="https://cdn.jsdelivr.net/npm/marked@11.1.1/marked.min.js"></script>
+</head>
+<body>
+    <!-- Custom Cursor -->
+    <div class="cursor"></div>
+
+    <!-- Navigation -->
+    <nav class="nav-bar">
+        <a href="../index.html" class="nav-logo">KF</a>
+        <ul class="nav-links" id="nav-links"></ul>
+        <button class="nav-hamburger" id="nav-hamburger">
+            <i class="fas fa-bars"></i>
+        </button>
+    </nav>
+    <div class="nav-overlay" id="nav-overlay"></div>
+    <div class="nav-drawer" id="nav-drawer"></div>
+
+    <!-- 3D Canvas Background -->
+    <div id="canvas-container"></div>
+    
+
+    <!-- Blog Container -->
+    <div class="page-container blog-container">
+        <!-- List View (Default) -->
+        <div id="list-view">
+            <!-- Header -->
+            <div class="page-header blog-header">
+                <h1 class="page-title blog-title">Blog</h1>
+                <p class="page-subtitle blog-subtitle">Thoughts on research, machine learning, and polymer science</p>
+            </div>
+            
+            <!-- Filter Tags -->
+            <div class="filter-container" id="filter-container">
+                <button class="filter-tag active" data-tag="all">
+                    <i class="fas fa-th"></i> All Posts
+                </button>
+                <!-- More tags will be added dynamically -->
+            </div>
+            
+            <!-- Posts Grid -->
+            <div class="posts-grid" id="posts-grid">
+                <!-- Loading state -->
+                <div class="loading-state">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>Loading posts...</p>
+                </div>
+            </div>
+            
+            <!-- Empty State -->
+            <div class="empty-state" id="empty-state" style="display: none;">
+                <i class="fas fa-inbox"></i>
+                <p>No posts found with this tag</p>
+            </div>
+        </div>
+        
+        <!-- Post View (Single Post) -->
+        <div id="post-view" class="post-view">
+            <!-- Content will be loaded here dynamically -->
+        </div>
+    </div>
+
+    <!-- Three.js Import Map -->
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"
+        }
+    }
+    </script>
+
+    <!-- Three.js Background (theme-aware) -->
+    <script type="module">
+        import { initThreeJS } from '../assets/js/three-background-dark.js';
+        import { initThreeJSLight } from '../assets/js/three-background-light.js';
+
+        let currentBg = null;
+
+        function loadBackground(theme) {
+            if (currentBg && currentBg.dispose) {
+                currentBg.dispose();
+                currentBg = null;
+            }
+            const container = document.getElementById('canvas-container');
+            if (container) container.innerHTML = '';
+
+            if (theme === 'light') {
+                currentBg = initThreeJSLight();
+            } else {
+                currentBg = initThreeJS();
+            }
+        }
+
+        const theme = window.__kfTheme || 'dark';
+        loadBackground(theme);
+
+        window.__swapBackground = loadBackground;
+    </script>
+
+    <!-- Main JavaScript -->
+    <script src="../assets/js/main.js"></script>
+    
+    <!-- Blog Script -->
+    <script>
+        // Blog state
+        let allPosts = [];
+        let filteredPosts = [];
+        let currentFilter = 'all';
+        let allTags = new Set(['all']);
+        
+        // Load posts.json
+        async function loadPosts() {
+            try {
+                const response = await fetch('posts.json');
+                if (!response.ok) {
+                    throw new Error('Failed to load posts.json');
+                }
+                allPosts = await response.json();
+                
+                // Sort posts by date (newest first) - manual order is preserved in JSON
+                // allPosts is already in the order you want from JSON
+                
+                // Extract all unique tags
+                allPosts.forEach(post => {
+                    if (post.tags) {
+                        post.tags.forEach(tag => allTags.add(tag.toLowerCase()));
+                    }
+                });
+                
+                filteredPosts = allPosts;
+                renderFilters();
+                renderPosts();
+                
+                // Check if there's a post ID in URL
+                const urlParams = new URLSearchParams(window.location.search);
+                const postId = urlParams.get('post');
+                if (postId) {
+                    loadPost(postId);
+                }
+            } catch (error) {
+                console.error('Error loading posts:', error);
+                document.getElementById('posts-grid').innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <p>Failed to load blog posts. Please check that posts.json exists in /blog/ folder.</p>
+                    </div>
+                `;
+            }
+        }
+        
+        // Render filter tags
+        function renderFilters() {
+            const container = document.getElementById('filter-container');
+            
+            // Keep the "All" button and add other tags
+            const tagsArray = Array.from(allTags).filter(tag => tag !== 'all').sort();
+            
+            tagsArray.forEach(tag => {
+                const button = document.createElement('button');
+                button.className = 'filter-tag';
+                button.dataset.tag = tag;
+                button.innerHTML = `<i class="fas fa-tag"></i> ${capitalizeFirst(tag)}`;
+                button.addEventListener('click', () => filterPosts(tag));
+                container.appendChild(button);
+            });
+        }
+        
+        // Filter posts by tag
+        function filterPosts(tag) {
+            currentFilter = tag;
+            
+            // Update active filter button
+            document.querySelectorAll('.filter-tag').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.tag === tag);
+            });
+            
+            // Filter posts
+            if (tag === 'all') {
+                filteredPosts = allPosts;
+            } else {
+                filteredPosts = allPosts.filter(post => 
+                    post.tags && post.tags.some(t => t.toLowerCase() === tag)
+                );
+            }
+            
+            renderPosts();
+        }
+        
+        // Calculate reading time
+        function calculateReadingTime(text) {
+            const wordsPerMinute = 200;
+            const words = text.trim().split(/\s+/).length;
+            const minutes = Math.ceil(words / wordsPerMinute);
+            return minutes;
+        }
+        
+        // Render posts grid
+        function renderPosts() {
+            const grid = document.getElementById('posts-grid');
+            const emptyState = document.getElementById('empty-state');
+            
+            if (filteredPosts.length === 0) {
+                removeSchema();
+                grid.innerHTML = '';
+                emptyState.style.display = 'block';
+                return;
+            }
+
+            removeSchema();
+            emptyState.style.display = 'none';
+            grid.innerHTML = '';
+            
+            filteredPosts.forEach(post => {
+                const card = document.createElement('div');
+                card.className = 'post-card';
+                
+                // Featured image
+                const img = post.image ? 
+                    `<img src="./files/${post.image}" alt="${post.title}" class="post-featured-image">` : 
+                    '';
+                
+                // Tags HTML
+                const tagsHTML = post.tags ? 
+                    post.tags.map(tag => `<span class="post-tag">${tag}</span>`).join('') : 
+                    '';
+                
+                // Reading time (estimate from excerpt)
+                const readingTime = post.readingTime || 5;
+                
+                card.innerHTML = `
+                    ${img}
+                    <div class="post-content">
+                        <div class="post-meta">
+                            <div class="post-meta-item">
+                                <i class="fas fa-calendar"></i>
+                                <span>${formatDate(post.date)}</span>
+                            </div>
+                            <div class="post-meta-item">
+                                <i class="fas fa-clock"></i>
+                                <span>${readingTime} min read</span>
+                            </div>
+                        </div>
+                        <h2>${post.title}</h2>
+                        <p class="post-excerpt">${post.excerpt}</p>
+                        <div class="post-tags">
+                            ${tagsHTML}
+                        </div>
+                        <a href="?post=${post.id}" class="read-more">
+                            Read More <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                `;
+                
+                grid.appendChild(card);
+            });
+        }
+        
+        // Load and render single post
+        async function loadPost(postId) {
+            const post = allPosts.find(p => p.id === postId);
+            if (!post) {
+                console.error('Post not found:', postId);
+                return;
+            }
+            
+            try {
+                // Fetch markdown file
+                const response = await fetch(`./files/${post.file}`);
+                if (!response.ok) {
+                    throw new Error('Failed to load post file');
+                }
+                const markdown = await response.text();
+                
+                // Calculate reading time from full content
+                const readingTime = calculateReadingTime(markdown);
+                
+                // Convert markdown to HTML
+                const htmlContent = marked.parse(markdown);
+                
+                // Render post view
+                const postView = document.getElementById('post-view');
+                const listView = document.getElementById('list-view');
+                
+                const img = post.image ? 
+                    `<img src="./files/${post.image}" alt="${post.title}" class="post-full-image">` : 
+                    '';
+                
+                const tagsHTML = post.tags ? 
+                    post.tags.map(tag => `<span class="post-tag">${tag}</span>`).join('') : 
+                    '';
+                
+                postView.innerHTML = `
+                    <a href="blog.html" class="back-button">
+                        <i class="fas fa-arrow-left"></i> Back to Blog
+                    </a>
+                    <div class="post-full">
+                        ${img}
+                        <div class="post-full-content">
+                            <div class="post-full-header">
+                                <h1 class="post-full-title">${post.title}</h1>
+                                <div class="post-full-meta">
+                                    <div class="post-meta-item">
+                                        <i class="fas fa-calendar"></i>
+                                        <span>${formatDate(post.date)}</span>
+                                    </div>
+                                    <div class="post-meta-item">
+                                        <i class="fas fa-clock"></i>
+                                        <span>${readingTime} min read</span>
+                                    </div>
+                                </div>
+                                <div class="post-tags">
+                                    ${tagsHTML}
+                                </div>
+                            </div>
+                            <div class="markdown-content">
+                                ${htmlContent}
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                // Show post view, hide list view
+                listView.style.display = 'none';
+                postView.classList.add('active');
+                
+                // Scroll to top
+                window.scrollTo(0, 0);
+
+                // Update canonical to this specific post URL
+                const canonical = document.querySelector('link[rel="canonical"]');
+                if (canonical) {canonical.href = `https://kiarashfa.github.io/pages/blog.html?post=${post.id}`;}
+                
+                // Inject structured data (Schema.org Article + ImageObject)
+                removeSchema();
+                const schema = {
+                    "@context": "https://schema.org",
+                    "@type": "BlogPosting",
+                    "headline": post.title,
+                    "datePublished": post.date + "T00:00:00+00:00",
+                    "description": post.excerpt,
+                    "author": {
+                        "@type": "Person",
+                        "name": "Kiarash Farajzadehahary",
+                        "url": "https://kiarashfa.github.io"
+                    }
+                };
+                
+                if (post.image) {
+                    schema["image"] = {
+                        "@type": "ImageObject",
+                        "url": `${window.location.origin}/blog/${post.image}`,
+                        "description": post.imageAlt || post.title
+                    };
+                }
+                
+                const schemaScript = document.createElement('script');
+                schemaScript.type = 'application/ld+json';
+                schemaScript.id = 'post-schema';
+                schemaScript.textContent = JSON.stringify(schema);
+                document.head.appendChild(schemaScript);
+                
+            } catch (error) {
+                console.error('Error loading post:', error);
+                alert('Failed to load blog post. Please try again.');
+            }
+        }
+        
+        // Format date
+        function formatDate(dateString) {
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            return new Date(dateString).toLocaleDateString('en-US', options);
+        }
+        
+        // Capitalize first letter
+        function capitalizeFirst(str) {
+            return str.charAt(0).toUpperCase() + str.slice(1);
+        }
+
+        // Remove any previously injected schema (for when user navigates back)
+        function removeSchema() {
+            const existing = document.getElementById('post-schema');
+            if (existing) existing.remove();
+        
+            const canonical = document.querySelector('link[rel="canonical"]');
+            if (canonical) {canonical.href = 'https://kiarashfa.github.io/pages/blog.html';}
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            loadPosts();
+        });
+    </script>
+</body>
+</html>
