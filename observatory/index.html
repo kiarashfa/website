@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="description" content="Background Observatory">
+    <title>Observatory | KiarashFa</title>
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="../assets/icons/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="../assets/icons/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/icons/favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../assets/icons/apple-touch-icon.png">
+    <link rel="manifest" href="../assets/icons/site.webmanifest">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../assets/css/variables.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/pages.css">
+    <link rel="stylesheet" href="../assets/css/theme-light.css">
+
+    <style>
+        body { height: 800vh; cursor: auto !important; }
+        .nav-bar, .nav-overlay, .nav-drawer, .cursor, .info-text { display: none !important; }
+
+        .hud-font {
+            font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+            font-size: 11px;
+            line-height: 1.55;
+            color: rgba(73, 197, 182, 0.8);
+            pointer-events: none;
+            user-select: none;
+        }
+        [data-theme="light"] .hud-font { color: rgba(185, 90, 55, 0.75); }
+
+        #hud-left { position: fixed; top: 16px; left: 16px; z-index: 500; width: 260px; }
+        #hud-right { position: fixed; top: 16px; right: 56px; z-index: 500; width: 250px; }
+
+        .hud-card {
+            border: 1px solid rgba(73, 197, 182, 0.13);
+            border-radius: 6px;
+            background: rgba(73, 197, 182, 0.02);
+            padding: 9px 13px;
+            margin-bottom: 6px;
+        }
+        [data-theme="light"] .hud-card { border-color: rgba(185, 90, 55, 0.12); background: rgba(185, 90, 55, 0.025); }
+
+        .hud-top {
+            border: 1px solid rgba(73, 197, 182, 0.2);
+            border-radius: 6px;
+            background: rgba(73, 197, 182, 0.03);
+            padding: 9px 13px;
+            margin-bottom: 8px;
+        }
+        [data-theme="light"] .hud-top { border-color: rgba(185, 90, 55, 0.18); background: rgba(185, 90, 55, 0.035); }
+
+        .hud-top-title {
+            font-size: 11px; font-weight: 600; letter-spacing: 0.15em;
+            color: rgba(73, 197, 182, 0.95);
+            display: flex; align-items: center; gap: 8px;
+        }
+        [data-theme="light"] .hud-top-title { color: rgba(185, 90, 55, 0.9); }
+
+        .hud-live-dot {
+            width: 6px; height: 6px; border-radius: 50%;
+            background: rgba(73, 197, 182, 0.8);
+            animation: hud-pulse 2s ease-in-out infinite;
+        }
+        [data-theme="light"] .hud-live-dot { background: rgba(185, 90, 55, 0.7); }
+        @keyframes hud-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+        .hud-top-mode { font-size: 10px; color: rgba(255, 255, 255, 0.4); letter-spacing: 0.08em; margin-top: 3px; }
+        [data-theme="light"] .hud-top-mode { color: rgba(26, 42, 58, 0.4); }
+
+        .hud-card-title {
+            font-size: 9.5px; letter-spacing: 0.18em;
+            color: rgba(73, 197, 182, 0.5);
+            margin-bottom: 5px; padding-bottom: 4px;
+            border-bottom: 1px solid rgba(73, 197, 182, 0.07);
+        }
+        [data-theme="light"] .hud-card-title { color: rgba(185, 90, 55, 0.5); border-bottom-color: rgba(185, 90, 55, 0.08); }
+
+        .hud-row { display: flex; justify-content: space-between; padding: 1.5px 0; }
+        .hud-key { color: rgba(255, 255, 255, 0.3); }
+        [data-theme="light"] .hud-key { color: rgba(26, 42, 58, 0.35); }
+        .hud-val-bright { color: rgba(73, 197, 182, 1); }
+        [data-theme="light"] .hud-val-bright { color: rgba(185, 90, 55, 0.95); }
+
+        .hud-bar-track { height: 4px; background: rgba(73, 197, 182, 0.08); border-radius: 2px; margin-top: 4px; overflow: hidden; }
+        .hud-bar-fill { height: 100%; background: rgba(73, 197, 182, 0.5); border-radius: 2px; transition: width 0.3s ease; }
+        [data-theme="light"] .hud-bar-track { background: rgba(185, 90, 55, 0.1); }
+        [data-theme="light"] .hud-bar-fill { background: rgba(185, 90, 55, 0.45); }
+
+        .hud-timer { text-align: center; font-size: 10px; color: rgba(73, 197, 182, 0.35); letter-spacing: 0.1em; margin-top: 6px; }
+        [data-theme="light"] .hud-timer { color: rgba(185, 90, 55, 0.35); }
+
+        /* ═══ SCROLL RULER ═══ */
+        #scroll-ruler { position: fixed; top: 0; right: 0; width: 40px; height: 100vh; z-index: 499; pointer-events: none; overflow: hidden; }
+        #ruler-canvas { width: 100%; height: 100%; }
+        #ruler-marker {
+            position: absolute; right: 0; width: 40px; height: 3px;
+            background: rgba(73, 197, 182, 0.8);
+            box-shadow: 0 0 8px rgba(73, 197, 182, 0.4);
+            transition: top 0.15s ease; z-index: 2;
+        }
+        [data-theme="light"] #ruler-marker { background: rgba(185, 90, 55, 0.7); box-shadow: 0 0 8px rgba(185, 90, 55, 0.3); }
+
+        #ruler-pct {
+            position: absolute; right: 44px;
+            font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+            font-size: 9px; letter-spacing: 0.08em;
+            color: rgba(73, 197, 182, 0.6);
+            transform: translateY(-50%);
+            transition: top 0.15s ease;
+            white-space: nowrap;
+        }
+        [data-theme="light"] #ruler-pct { color: rgba(185, 90, 55, 0.55); }
+
+        /* ═══ BOTTOM BAR ═══ */
+        #bottom-bar {
+            position: fixed; bottom: 18px; right: 56px; z-index: 500;
+            display: flex; align-items: center; gap: 16px; pointer-events: auto;
+        }
+        #obs-theme-btn {
+            background: rgba(73, 197, 182, 0.06);
+            border: 1px solid rgba(73, 197, 182, 0.18);
+            border-radius: 8px;
+            color: rgba(73, 197, 182, 0.65);
+            font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+            font-size: 10.5px; letter-spacing: 0.1em; padding: 7px 13px;
+            cursor: pointer; transition: all 0.3s ease;
+        }
+        [data-theme="light"] #obs-theme-btn { background: rgba(185, 90, 55, 0.05); border-color: rgba(185, 90, 55, 0.15); color: rgba(185, 90, 55, 0.6); }
+        #obs-theme-btn:hover { background: rgba(73, 197, 182, 0.14); border-color: rgba(73, 197, 182, 0.4); color: rgba(73, 197, 182, 1); }
+        [data-theme="light"] #obs-theme-btn:hover { background: rgba(185, 90, 55, 0.12); border-color: rgba(185, 90, 55, 0.4); color: rgba(185, 90, 55, 1); }
+
+        #obs-back {
+            font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+            font-size: 10.5px; letter-spacing: 0.06em;
+            color: rgba(255, 255, 255, 0.2); text-decoration: none; transition: color 0.3s ease;
+        }
+        [data-theme="light"] #obs-back { color: rgba(26, 42, 58, 0.2); }
+        #obs-back:hover { color: rgba(73, 197, 182, 0.8); }
+        [data-theme="light"] #obs-back:hover { color: rgba(185, 90, 55, 0.8); }
+
+        /* ═══ SCROLL HINT ═══ */
+        #scroll-hint {
+            position: fixed; bottom: 55px; left: 50%; transform: translateX(-50%); z-index: 500;
+            font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+            font-size: 10.5px; letter-spacing: 0.12em;
+            color: rgba(255, 255, 255, 0.18); text-align: center;
+            transition: opacity 1.5s ease; pointer-events: none;
+        }
+        [data-theme="light"] #scroll-hint { color: rgba(26, 42, 58, 0.22); }
+        #scroll-hint i { display: block; margin-top: 6px; animation: hud-bounce 2s ease-in-out infinite; }
+        @keyframes hud-bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(5px); } }
+
+        /* ═══ MOBILE ═══ */
+        @media (max-width: 900px) {
+            #hud-left { font-size: 9.5px; left: 10px; top: 10px; width: 220px; }
+            #hud-right { display: none; }
+            #scroll-ruler { width: 30px; }
+            #ruler-marker { width: 30px; }
+            #ruler-pct { right: 34px; }
+            #bottom-bar { right: 46px; }
+            .hud-top-title { font-size: 10px; }
+            .hud-card-title { font-size: 8.5px; }
+            .hud-top, .hud-card { padding: 7px 10px; }
+        }
+    </style>
+</head>
+<body>
+    <div id="canvas-container"></div>
+
+    <!-- LEFT COLUMN -->
+    <div id="hud-left" class="hud-font">
+        <div class="hud-top">
+            <div class="hud-top-title"><span class="hud-live-dot"></span> OBSERVATORY — LIVE</div>
+            <div class="hud-top-mode" id="h-mode">—</div>
+        </div>
+        <div class="hud-card">
+            <div class="hud-card-title">PERFORMANCE</div>
+            <div class="hud-row"><span class="hud-key">FPS</span><span class="hud-val-bright" id="h-fps">—</span></div>
+            <div class="hud-row"><span class="hud-key">Frame time</span><span id="h-frametime">—</span></div>
+            <div class="hud-row"><span class="hud-key">Draw calls</span><span id="h-draw">—</span></div>
+            <div class="hud-row"><span class="hud-key">Triangles</span><span id="h-tris">—</span></div>
+            <div class="hud-row"><span class="hud-key">Lines</span><span id="h-lines">—</span></div>
+            <div class="hud-row"><span class="hud-key">Points</span><span id="h-points">—</span></div>
+        </div>
+        <div class="hud-card">
+            <div class="hud-card-title">SCENE</div>
+            <div class="hud-row"><span class="hud-key">Objects</span><span id="h-objs">—</span></div>
+            <div class="hud-row"><span class="hud-key">Meshes</span><span id="h-meshes">—</span></div>
+            <div class="hud-row"><span class="hud-key">Point systems</span><span id="h-pointsys">—</span></div>
+            <div class="hud-row"><span class="hud-key">Lights</span><span id="h-lights">—</span></div>
+            <div class="hud-row"><span class="hud-key">Fog density</span><span id="h-fog">—</span></div>
+        </div>
+        <div class="hud-card">
+            <div class="hud-card-title">CAMERA</div>
+            <div class="hud-row"><span class="hud-key">Position</span><span id="h-cam-pos">—</span></div>
+            <div class="hud-row"><span class="hud-key">Rotation</span><span id="h-cam-rot">—</span></div>
+            <div class="hud-row"><span class="hud-key">FOV</span><span id="h-cam-fov">—</span></div>
+            <div class="hud-row"><span class="hud-key">Near / Far</span><span id="h-cam-clip">—</span></div>
+            <div class="hud-row"><span class="hud-key">Aspect</span><span id="h-cam-aspect">—</span></div>
+            <div class="hud-row"><span class="hud-key">Spline path</span><span id="h-cam-path">—</span></div>
+            <div class="hud-bar-track"><div class="hud-bar-fill" id="h-cam-bar" style="width: 0%"></div></div>
+        </div>
+        <div class="hud-timer">T+ <span id="h-time">00:00:00</span></div>
+    </div>
+
+    <!-- RIGHT COLUMN -->
+    <div id="hud-right" class="hud-font">
+        <div class="hud-card">
+            <div class="hud-card-title">CURSOR</div>
+            <div class="hud-row"><span class="hud-key">Screen</span><span id="h-mouse-scr">—</span></div>
+            <div class="hud-row"><span class="hud-key">NDC</span><span id="h-mouse-ndc">—</span></div>
+            <div class="hud-row"><span class="hud-key">Viewport %</span><span id="h-mouse-pct">—</span></div>
+            <div class="hud-row"><span class="hud-key">Clicks</span><span id="h-clicks">0</span></div>
+            <div class="hud-row"><span class="hud-key">Last click</span><span id="h-lastclick">—</span></div>
+        </div>
+        <div class="hud-card">
+            <div class="hud-card-title">RENDERER</div>
+            <div class="hud-row"><span class="hud-key">Resolution</span><span id="h-res">—</span></div>
+            <div class="hud-row"><span class="hud-key">Pixel ratio</span><span id="h-dpr">—</span></div>
+            <div class="hud-row"><span class="hud-key">Geometries</span><span id="h-geo">—</span></div>
+            <div class="hud-row"><span class="hud-key">Textures</span><span id="h-tex">—</span></div>
+            <div class="hud-row"><span class="hud-key">Programs</span><span id="h-programs">—</span></div>
+        </div>
+        <div class="hud-card">
+            <div class="hud-card-title">VIEWPORT</div>
+            <div class="hud-row"><span class="hud-key">Window</span><span id="h-window">—</span></div>
+            <div class="hud-row"><span class="hud-key">Page height</span><span id="h-pageheight">—</span></div>
+            <div class="hud-row"><span class="hud-key">Scroll Y</span><span id="h-scrolly">—</span></div>
+            <div class="hud-row"><span class="hud-key">Scroll %</span><span id="h-scrollpct">—</span></div>
+        </div>
+        <div class="hud-card">
+            <div class="hud-card-title">SYSTEM</div>
+            <div class="hud-row"><span class="hud-key">Engine</span><span id="h-engine">—</span></div>
+            <div class="hud-row"><span class="hud-key">Platform</span><span id="h-platform">—</span></div>
+            <div class="hud-row"><span class="hud-key">CPU cores</span><span id="h-cores">—</span></div>
+            <div class="hud-row"><span class="hud-key">Device RAM</span><span id="h-ram">—</span></div>
+            <div class="hud-row"><span class="hud-key">Connection</span><span id="h-conn">—</span></div>
+            <div class="hud-row"><span class="hud-key">Visibility</span><span id="h-vis">—</span></div>
+        </div>
+    </div>
+
+    <!-- SCROLL RULER -->
+    <div id="scroll-ruler">
+        <canvas id="ruler-canvas"></canvas>
+        <div id="ruler-marker"></div>
+        <div id="ruler-pct">0%</div>
+    </div>
+
+    <!-- BOTTOM BAR -->
+    <div id="bottom-bar">
+        <button id="obs-theme-btn" onclick="toggleTheme()"><i id="theme-toggle-icon" class="fas fa-moon"></i> THEME</button>
+        <a id="obs-back" href="../index.html">← kiarashfa.github.io</a>
+    </div>
+
+    <!-- SCROLL HINT -->
+    <div id="scroll-hint">SCROLL TO TRAVERSE CAMERA SPLINE<i class="fas fa-chevron-down"></i></div>
+
+    <!-- Three.js -->
+    <script type="importmap">
+    { "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js" } }
+    </script>
+
+    <script type="module">
+        import { initThreeJS } from '../assets/js/three-background-dark.js';
+        import { initThreeJSLight } from '../assets/js/three-background-light.js';
+        let currentBg = null;
+        function loadBackground(theme) {
+            if (currentBg && currentBg.dispose) { currentBg.dispose(); currentBg = null; }
+            const container = document.getElementById('canvas-container');
+            if (container) container.innerHTML = '';
+            currentBg = theme === 'light' ? initThreeJSLight() : initThreeJS();
+            window.__currentBg = currentBg;
+            if (currentBg && currentBg.renderer) currentBg.renderer.info.autoReset = false;
+        }
+        loadBackground(window.__kfTheme || 'dark');
+        window.__swapBackground = function(t) { loadBackground(t); };
+    </script>
+
+    <script src="../assets/js/main.js"></script>
+
+    <!-- SCROLL RULER ENGINE -->
+    <script>
+    (function () {
+        var canvas = document.getElementById('ruler-canvas');
+        var ctx = canvas.getContext('2d');
+        var marker = document.getElementById('ruler-marker');
+        var pctLabel = document.getElementById('ruler-pct');
+        var dpr = window.devicePixelRatio || 1;
+
+        function gc(alpha) {
+            var t = document.documentElement.getAttribute('data-theme') || 'dark';
+            return t === 'light' ? 'rgba(185,90,55,' + alpha + ')' : 'rgba(73,197,182,' + alpha + ')';
+        }
+
+        function draw() {
+            var w = canvas.clientWidth, h = canvas.clientHeight;
+            canvas.width = w * dpr; canvas.height = h * dpr;
+            ctx.scale(dpr, dpr); ctx.clearRect(0, 0, w, h);
+
+            var total = 200;
+            for (var i = 0; i <= total; i++) {
+                var y = (i / total) * h;
+                var pctVal = (i / total) * 100;
+                var isMajor = i % 20 === 0;
+                var isMid = i % 10 === 0;
+                var isMinor = i % 4 === 0;
+
+                if (isMajor) {
+                    ctx.strokeStyle = gc(0.4); ctx.lineWidth = 3.1;
+                    ctx.beginPath(); ctx.moveTo(w - 22, y); ctx.lineTo(w, y); ctx.stroke();
+                    ctx.fillStyle = gc(0.35);
+                    ctx.font = '8px SF Mono,Fira Code,Consolas,monospace';
+                    ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
+                    ctx.fillText(Math.round(pctVal), w - 25, y);
+                } else if (isMid) {
+                    ctx.strokeStyle = gc(0.25); ctx.lineWidth = 2.7;
+                    ctx.beginPath(); ctx.moveTo(w - 16, y); ctx.lineTo(w, y); ctx.stroke();
+                } else if (isMinor) {
+                    ctx.strokeStyle = gc(0.15); ctx.lineWidth = 2.3;
+                    ctx.beginPath(); ctx.moveTo(w - 11, y); ctx.lineTo(w, y); ctx.stroke();
+                } else {
+                    ctx.strokeStyle = gc(0.07); ctx.lineWidth = 1.9;
+                    ctx.beginPath(); ctx.moveTo(w - 6, y); ctx.lineTo(w, y); ctx.stroke();
+                }
+            }
+        }
+
+        function updatePos() {
+            var max = document.documentElement.scrollHeight - window.innerHeight;
+            var pct = max > 0 ? window.scrollY / max : 0;
+            var top = pct * window.innerHeight;
+            marker.style.top = top + 'px';
+            pctLabel.style.top = top + 'px';
+            pctLabel.textContent = (pct * 100).toFixed(1) + '%';
+        }
+
+        draw(); updatePos();
+        window.addEventListener('scroll', updatePos, { passive: true });
+        window.addEventListener('resize', function () { dpr = window.devicePixelRatio || 1; draw(); updatePos(); });
+        new MutationObserver(function () { draw(); }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+    })();
+    </script>
+
+    <!-- HUD TELEMETRY ENGINE -->
+    <script>
+    (function () {
+        var startTime = performance.now();
+        var frameCount = 0, fps = 0, lastFpsTime = performance.now();
+        var lastFrameTs = performance.now(), frameTime = 0;
+        var mouseX = 0, mouseY = 0, ndcX = 0, ndcY = 0;
+        var scrolledOnce = false;
+        var clickCount = 0, lastClickTime = 0;
+
+        document.addEventListener('mousemove', function (e) {
+            mouseX = e.clientX; mouseY = e.clientY;
+            ndcX = (e.clientX / window.innerWidth) * 2 - 1;
+            ndcY = -(e.clientY / window.innerHeight) * 2 + 1;
+        }, { passive: true });
+
+        document.addEventListener('click', function () {
+            clickCount++;
+            lastClickTime = performance.now();
+        });
+
+        window.addEventListener('scroll', function () {
+            if (!scrolledOnce) { scrolledOnce = true; var h = document.getElementById('scroll-hint'); if (h) h.style.opacity = '0'; }
+        }, { passive: true });
+
+        function f1(n) { return n.toFixed(1); }
+        function f2(n) { return n.toFixed(2); }
+        function pad2(n) { return String(Math.floor(n)).padStart(2, '0'); }
+        function deg(r) { return (r * 180 / Math.PI).toFixed(1); }
+        function fmtT(ms) { var s = ms / 1000; return pad2(s / 3600) + ':' + pad2((s % 3600) / 60) + ':' + pad2(s % 60); }
+        function fmtN(n) { if (n >= 1e6) return (n / 1e6).toFixed(1) + 'M'; if (n >= 1e3) return (n / 1e3).toFixed(1) + 'K'; return String(n); }
+
+        function update() {
+            requestAnimationFrame(update);
+            var now = performance.now();
+            frameTime = frameTime * 0.9 + (now - lastFrameTs) * 0.1;
+            lastFrameTs = now;
+            frameCount++;
+            if (frameCount >= 20) { fps = Math.round(1000 * frameCount / (now - lastFpsTime)); lastFpsTime = now; frameCount = 0; }
+
+            var bg = window.__currentBg;
+            if (!bg || !bg.renderer || !bg.camera || !bg.scene) return;
+            var r = bg.renderer, c = bg.camera, s = bg.scene;
+            var info = r.info, rn = info.render || {}, mem = info.memory || {}, progs = info.programs || [];
+            var theme = document.documentElement.getAttribute('data-theme') || 'dark';
+
+            document.getElementById('h-mode').textContent = theme === 'light' ? 'Polymer reactor · Free-radical polymerization' : 'Neural network · Deep space visualization';
+
+            document.getElementById('h-fps').textContent = fps;
+            document.getElementById('h-frametime').textContent = f1(frameTime) + ' ms';
+            document.getElementById('h-draw').textContent = rn.calls != null ? fmtN(rn.calls) : '—';
+            document.getElementById('h-tris').textContent = rn.triangles != null ? fmtN(rn.triangles) : '—';
+            document.getElementById('h-lines').textContent = rn.lines != null ? fmtN(rn.lines) : '—';
+            document.getElementById('h-points').textContent = rn.points != null ? fmtN(rn.points) : '—';
+
+            var oc = 0, mc = 0, pc = 0, lc = 0;
+            s.traverse(function (ch) { oc++; if (ch.isMesh || ch.isInstancedMesh) mc++; if (ch.isPoints) pc++; if (ch.isLight) lc++; });
+            document.getElementById('h-objs').textContent = fmtN(oc);
+            document.getElementById('h-meshes').textContent = mc;
+            document.getElementById('h-pointsys').textContent = pc;
+            document.getElementById('h-lights').textContent = lc;
+            document.getElementById('h-fog').textContent = s.fog ? (s.fog.density != null ? s.fog.density.toFixed(4) : f1(s.fog.near) + ' – ' + f1(s.fog.far)) : '—';
+
+            document.getElementById('h-cam-pos').textContent = f1(c.position.x) + ', ' + f1(c.position.y) + ', ' + f1(c.position.z);
+            document.getElementById('h-cam-rot').textContent = deg(c.rotation.x) + '° ' + deg(c.rotation.y) + '° ' + deg(c.rotation.z) + '°';
+            document.getElementById('h-cam-fov').textContent = f1(c.fov) + '°';
+            document.getElementById('h-cam-clip').textContent = f1(c.near) + ' / ' + f1(c.far);
+            document.getElementById('h-cam-aspect').textContent = f2(c.aspect);
+
+            var mx = document.documentElement.scrollHeight - window.innerHeight;
+            var sp = mx > 0 ? (window.scrollY / mx * 100) : 0;
+            document.getElementById('h-cam-path').textContent = f1(sp) + '%';
+            document.getElementById('h-cam-bar').style.width = f1(sp) + '%';
+
+            document.getElementById('h-mouse-scr').textContent = Math.round(mouseX) + ', ' + Math.round(mouseY);
+            document.getElementById('h-mouse-ndc').textContent = f2(ndcX) + ', ' + f2(ndcY);
+            document.getElementById('h-mouse-pct').textContent = (mouseX / window.innerWidth * 100).toFixed(0) + '%, ' + (mouseY / window.innerHeight * 100).toFixed(0) + '%';
+            document.getElementById('h-clicks').textContent = clickCount;
+            document.getElementById('h-lastclick').textContent = lastClickTime > 0 ? f1((now - lastClickTime) / 1000) + 's ago' : '—';
+
+            var cv = r.domElement;
+            document.getElementById('h-res').textContent = cv.width + '×' + cv.height;
+            document.getElementById('h-dpr').textContent = f1(r.getPixelRatio()) + '×';
+            document.getElementById('h-geo').textContent = mem.geometries != null ? mem.geometries : '—';
+            document.getElementById('h-tex').textContent = mem.textures != null ? mem.textures : '—';
+            document.getElementById('h-programs').textContent = progs.length != null ? progs.length : '—';
+
+            document.getElementById('h-window').textContent = window.innerWidth + '×' + window.innerHeight;
+            document.getElementById('h-pageheight').textContent = fmtN(document.documentElement.scrollHeight) + 'px';
+            document.getElementById('h-scrolly').textContent = Math.round(window.scrollY) + 'px';
+            document.getElementById('h-scrollpct').textContent = f1(sp) + '%';
+
+            // System panel
+            var ua = navigator.userAgent;
+            var engine = ua.indexOf('Chrome') > -1 ? 'Blink' : ua.indexOf('Firefox') > -1 ? 'Gecko' : ua.indexOf('Safari') > -1 ? 'WebKit' : 'Unknown';
+            document.getElementById('h-engine').textContent = engine;
+            var plat = navigator.platform || navigator.userAgentData && navigator.userAgentData.platform || '—';
+            document.getElementById('h-platform').textContent = plat;
+            document.getElementById('h-cores').textContent = navigator.hardwareConcurrency || '—';
+            document.getElementById('h-ram').textContent = navigator.deviceMemory ? navigator.deviceMemory + ' GB' : '—';
+            var conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+            document.getElementById('h-conn').textContent = conn ? (conn.effectiveType || '—') : '—';
+            document.getElementById('h-vis').textContent = document.visibilityState;
+
+            document.getElementById('h-time').textContent = fmtT(performance.now() - startTime);
+            info.reset();
+        }
+        setTimeout(update, 600);
+    })();
+    </script>
+
+    <!-- ═══════════════════════════════════ -->
+    <!-- CHEAT CODE                          -->
+    <!-- ═══════════════════════════════════ -->
+    <script>
+    (function () {
+        var seq = 'bigbang';
+        var buf = '';
+        var triggered = false;
+
+        document.addEventListener('keydown', function (e) {
+            if (triggered) return;
+            if (e.key.length !== 1) return;
+            buf += e.key.toLowerCase();
+            if (buf.length > seq.length) buf = buf.slice(-seq.length);
+            if (buf === seq) {
+                triggered = true;
+                detonate();
+            }
+        });
+
+        function rnd() { return (Math.random() - 0.5) * 2; }
+
+        function detonate() {
+            var bg = window.__currentBg;
+            if (!bg || !bg.scene || !bg.camera || !bg.renderer) return;
+
+            var scene = bg.scene;
+            var camera = bg.camera;
+            var renderer = bg.renderer;
+
+            // Collect all scene children with geometry
+            var targets = [];
+            scene.traverse(function (obj) {
+                if (obj === scene) return;
+                var vx = rnd(), vy = rnd(), vz = rnd();
+                var len = Math.sqrt(vx * vx + vy * vy + vz * vz) || 1;
+                var speed = 8 + Math.random() * 40;
+                targets.push({
+                    obj: obj,
+                    vx: (vx / len) * speed,
+                    vy: (vy / len) * speed,
+                    vz: (vz / len) * speed,
+                    rvx: rnd() * 3,
+                    rvy: rnd() * 3,
+                    rvz: rnd() * 3,
+                    decay: 0.992 + Math.random() * 0.006
+                });
+            });
+
+            // Flash
+            var flash = document.createElement('div');
+            flash.style.cssText = 'position:fixed;inset:0;z-index:9999;pointer-events:none;background:white;opacity:0;transition:opacity 0.08s ease;';
+            document.body.appendChild(flash);
+            requestAnimationFrame(function () {
+                flash.style.opacity = '0.9';
+                setTimeout(function () {
+                    flash.style.transition = 'opacity 1.5s ease';
+                    flash.style.opacity = '0';
+                    setTimeout(function () { flash.remove(); }, 1600);
+                }, 100);
+            });
+
+            // Store camera origin
+            var camOX = camera.position.x;
+            var camOY = camera.position.y;
+            var camOZ = camera.position.z;
+            var shakeIntensity = 3;
+
+            // Kill fog
+            scene.fog = null;
+
+            // HUD glitch
+            var hud = document.getElementById('hud-left');
+            var hud2 = document.getElementById('hud-right');
+            if (hud) hud.style.color = 'rgba(255,80,80,0.9)';
+            if (hud2) hud2.style.color = 'rgba(255,80,80,0.9)';
+            setTimeout(function () {
+                if (hud) hud.style.color = '';
+                if (hud2) hud2.style.color = '';
+            }, 600);
+
+            var startTime = performance.now();
+            var lastTime = startTime;
+
+            function explode() {
+                var now = performance.now();
+                var dt = Math.min((now - lastTime) / 1000, 0.05);
+                var elapsed = (now - startTime) / 1000;
+                lastTime = now;
+
+                for (var i = 0; i < targets.length; i++) {
+                    var t = targets[i];
+                    var o = t.obj;
+
+                    o.position.x += t.vx * dt;
+                    o.position.y += t.vy * dt;
+                    o.position.z += t.vz * dt;
+
+                    o.rotation.x += t.rvx * dt;
+                    o.rotation.y += t.rvy * dt;
+                    o.rotation.z += t.rvz * dt;
+
+                    o.scale.x *= t.decay;
+                    o.scale.y *= t.decay;
+                    o.scale.z *= t.decay;
+
+                    t.vx *= 0.998;
+                    t.vy *= 0.998;
+                    t.vz *= 0.998;
+                }
+
+                // Camera shake
+                if (elapsed < 3) {
+                    var s = shakeIntensity * Math.max(0, 1 - elapsed / 3);
+                    camera.position.x = camOX + rnd() * s;
+                    camera.position.y = camOY + rnd() * s;
+                    camera.position.z = camOZ + rnd() * s * 0.5;
+                }
+
+                renderer.render(scene, camera);
+                requestAnimationFrame(explode);
+            }
+
+            explode();
+        }
+    })();
+    </script>
+</body>
+</html>
