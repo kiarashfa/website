@@ -1,0 +1,181 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2.5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="softGlow">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- ═══ NEURAL NETWORK BACKGROUND WEB ═══ -->
+  <!-- Faint network connections spanning the full canvas -->
+  <g stroke="#6e7681" stroke-width="0.6" opacity="0.12">
+    <!-- Layer 1 (top) to Layer 2 (upper-mid) -->
+    <line x1="80" y1="50" x2="55" y2="140"/>
+    <line x1="80" y1="50" x2="160" y2="140"/>
+    <line x1="80" y1="50" x2="280" y2="140"/>
+    <line x1="200" y1="45" x2="55" y2="140"/>
+    <line x1="200" y1="45" x2="160" y2="140"/>
+    <line x1="200" y1="45" x2="280" y2="140"/>
+    <line x1="200" y1="45" x2="350" y2="140"/>
+    <line x1="320" y1="50" x2="160" y2="140"/>
+    <line x1="320" y1="50" x2="280" y2="140"/>
+    <line x1="320" y1="50" x2="350" y2="140"/>
+
+    <!-- Layer 2 to Layer 3 (lower-mid) -->
+    <line x1="55" y1="150" x2="120" y2="260"/>
+    <line x1="55" y1="150" x2="240" y2="255"/>
+    <line x1="160" y1="150" x2="120" y2="260"/>
+    <line x1="160" y1="150" x2="240" y2="255"/>
+    <line x1="160" y1="150" x2="340" y2="260"/>
+    <line x1="280" y1="150" x2="120" y2="260"/>
+    <line x1="280" y1="150" x2="240" y2="255"/>
+    <line x1="280" y1="150" x2="340" y2="260"/>
+    <line x1="350" y1="150" x2="240" y2="255"/>
+    <line x1="350" y1="150" x2="340" y2="260"/>
+
+    <!-- Layer 3 to Layer 4 (bottom) -->
+    <line x1="120" y1="270" x2="150" y2="350"/>
+    <line x1="120" y1="270" x2="250" y2="350"/>
+    <line x1="240" y1="265" x2="150" y2="350"/>
+    <line x1="240" y1="265" x2="250" y2="350"/>
+    <line x1="340" y1="270" x2="150" y2="350"/>
+    <line x1="340" y1="270" x2="250" y2="350"/>
+  </g>
+
+  <!-- Neural net hollow nodes (background layer) -->
+  <g fill="none" stroke="#6e7681" stroke-width="1" opacity="0.15">
+    <!-- Layer 1 -->
+    <circle cx="80" cy="50" r="5"/>
+    <circle cx="200" cy="45" r="5"/>
+    <circle cx="320" cy="50" r="5"/>
+    <!-- Layer 2 -->
+    <circle cx="55" cy="145" r="5"/>
+    <circle cx="350" cy="145" r="5"/>
+    <!-- Layer 3 -->
+    <circle cx="120" cy="265" r="5"/>
+    <circle cx="340" cy="265" r="5"/>
+    <!-- Layer 4 -->
+    <circle cx="150" cy="355" r="5"/>
+    <circle cx="250" cy="355" r="5"/>
+  </g>
+
+  <!-- ═══ POLYMER CHAIN (foreground, weaving through) ═══ -->
+  <!-- The chain passes through network node positions, sharing some -->
+
+  <!-- Main zigzag backbone -->
+  <g stroke="#848d97" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.55">
+    <polyline points="20,195 55,175 90,195 125,175 160,195 200,170 240,195 280,170 320,195 355,175 385,195">
+      <animate attributeName="opacity" values="0.4;0.65;0.4" dur="5s" repeatCount="indefinite"/>
+    </polyline>
+  </g>
+
+  <!-- Carbon atoms on backbone -->
+  <g fill="#848d97" opacity="0.6">
+    <circle cx="55" cy="175" r="3"><animate attributeName="opacity" values="0.4;0.7;0.4" dur="3.5s" repeatCount="indefinite"/></circle>
+    <circle cx="90" cy="195" r="2.5"/>
+    <circle cx="125" cy="175" r="3"><animate attributeName="opacity" values="0.4;0.7;0.4" dur="3.5s" begin="0.5s" repeatCount="indefinite"/></circle>
+    <circle cx="160" cy="195" r="2.5"/>
+    <circle cx="240" cy="195" r="2.5"/>
+    <circle cx="280" cy="170" r="3"><animate attributeName="opacity" values="0.4;0.7;0.4" dur="3.5s" begin="1.5s" repeatCount="indefinite"/></circle>
+    <circle cx="320" cy="195" r="2.5"/>
+    <circle cx="355" cy="175" r="3"/>
+  </g>
+
+  <!-- ═══ SHARED NODES: where polymer meets network ═══ -->
+  <!-- These atoms are ALSO network neurons — drawn with both styles -->
+
+  <!-- Shared node 1: benzene at network Layer 2 position (x=160, y=140) -->
+  <g filter="url(#glow)">
+    <g stroke="#848d97" stroke-width="1.5" fill="none">
+      <polygon points="160,140 172,133 172,120 160,113 148,120 148,133" opacity="0.55">
+        <animate attributeName="opacity" values="0.4;0.7;0.4" dur="4s" repeatCount="indefinite"/>
+      </polygon>
+      <circle cx="160" cy="127" r="6.5" opacity="0.2">
+        <animate attributeName="opacity" values="0.1;0.3;0.1" dur="4s" repeatCount="indefinite"/>
+      </circle>
+    </g>
+    <!-- Bond connecting backbone to this benzene -->
+    <line x1="160" y1="195" x2="160" y2="140" stroke="#848d97" stroke-width="1.2" opacity="0.35">
+      <animate attributeName="opacity" values="0.2;0.45;0.2" dur="5s" repeatCount="indefinite"/>
+    </line>
+  </g>
+
+  <!-- Shared node 2: benzene at network Layer 2 position (x=280, y=140) -->
+  <g filter="url(#glow)">
+    <g stroke="#848d97" stroke-width="1.5" fill="none">
+      <polygon points="280,140 292,133 292,120 280,113 268,120 268,133" opacity="0.55">
+        <animate attributeName="opacity" values="0.4;0.7;0.4" dur="4s" begin="0.8s" repeatCount="indefinite"/>
+      </polygon>
+      <circle cx="280" cy="127" r="6.5" opacity="0.2">
+        <animate attributeName="opacity" values="0.1;0.3;0.1" dur="4s" begin="0.8s" repeatCount="indefinite"/>
+      </circle>
+    </g>
+    <line x1="280" y1="170" x2="280" y2="140" stroke="#848d97" stroke-width="1.2" opacity="0.35">
+      <animate attributeName="opacity" values="0.2;0.45;0.2" dur="5s" begin="0.5s" repeatCount="indefinite"/>
+    </line>
+  </g>
+
+  <!-- Shared node 3: 5-ring at network Layer 3 position (x=240, y=255) -->
+  <g filter="url(#glow)">
+    <g stroke="#848d97" stroke-width="1.5" fill="none">
+      <polygon points="240,255 253,246 249,232 231,232 227,246" opacity="0.5">
+        <animate attributeName="opacity" values="0.35;0.65;0.35" dur="4.5s" repeatCount="indefinite"/>
+      </polygon>
+    </g>
+    <line x1="240" y1="195" x2="240" y2="255" stroke="#848d97" stroke-width="1.2" opacity="0.3">
+      <animate attributeName="opacity" values="0.15;0.4;0.15" dur="5s" repeatCount="indefinite"/>
+    </line>
+  </g>
+
+  <!-- Central shared node: large ring at x=200, the "hub" -->
+  <g filter="url(#glow)">
+    <g stroke="#848d97" stroke-width="1.8" fill="none">
+      <polygon points="200,182 214,174 214,158 200,150 186,158 186,174" opacity="0.65">
+        <animate attributeName="opacity" values="0.5;0.8;0.5" dur="3.5s" repeatCount="indefinite"/>
+      </polygon>
+      <circle cx="200" cy="166" r="8" opacity="0.25">
+        <animate attributeName="opacity" values="0.12;0.35;0.12" dur="3.5s" repeatCount="indefinite"/>
+      </circle>
+    </g>
+    <!-- This node connects to backbone above and network below -->
+    <line x1="200" y1="170" x2="200" y2="150" stroke="#848d97" stroke-width="1.2" opacity="0"/>
+  </g>
+
+  <!-- Methyl branches off backbone -->
+  <g stroke="#6e7681" stroke-width="1" fill="none" opacity="0.2">
+    <line x1="90" y1="195" x2="90" y2="215"/>
+    <line x1="320" y1="195" x2="320" y2="215"/>
+  </g>
+
+  <!-- ═══ SIGNAL PULSES ═══ -->
+  <g filter="url(#softGlow)">
+    <!-- Along polymer chain -->
+    <circle r="2.5" fill="#79c0ff" opacity="0">
+      <animateMotion dur="3.5s" repeatCount="indefinite" path="M20,195 L55,175 L90,195 L125,175 L160,195 L200,170 L240,195 L280,170 L320,195 L355,175 L385,195"/>
+      <animate attributeName="opacity" values="0;0.7;0.7;0" dur="3.5s" repeatCount="indefinite"/>
+    </circle>
+    <!-- Through network (top to bottom) -->
+    <circle r="2" fill="#79c0ff" opacity="0">
+      <animateMotion dur="3s" begin="1s" repeatCount="indefinite" path="M200,45 L160,140 L240,255 L250,355"/>
+      <animate attributeName="opacity" values="0;0.5;0.5;0" dur="3s" begin="1s" repeatCount="indefinite"/>
+    </circle>
+    <circle r="2" fill="#79c0ff" opacity="0">
+      <animateMotion dur="3.2s" begin="2s" repeatCount="indefinite" path="M80,50 L280,140 L120,265 L150,355"/>
+      <animate attributeName="opacity" values="0;0.5;0.5;0" dur="3.2s" begin="2s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- "n" subscript -->
+  <text x="383" y="210" fill="#848d97" font-family="serif" font-style="italic" font-size="11" opacity="0.3">n</text>
+
+  <!-- Label -->
+  <text x="200" y="392" text-anchor="middle" fill="#6e7681" font-family="monospace" font-size="7" letter-spacing="3" opacity="0.3">
+    POLYMER × NEURAL NETWORK
+    <animate attributeName="opacity" values="0.2;0.4;0.2" dur="6s" repeatCount="indefinite"/>
+  </text>
+
+</svg>
