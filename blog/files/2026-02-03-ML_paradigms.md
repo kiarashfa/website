@@ -1,6 +1,6 @@
 I work at the intersection of polymer chemistry and machine learning, which means I spend a lot of time explaining ML concepts to chemists and chemistry concepts to ML people. This post is my attempt to do both of them in one place. I want to walk through the major paradigms in machine learning in a way that is genuinely useful whether you are encountering these ideas for the first time or you already work with some of them and want to see them through a different lens. I will lean on examples from my own field, polymer reaction engineering, where machine learning has started to change how we approach problems that were once considered too complex or too expensive to tackle. But the ideas here are universal. If you work with data at all, this concerns you.
 
-The figure in this post is taken from a review paper I co-authored in *Progress in Polymer Science*, and it is meant to give you a visual anchor for each paradigm. I will point to it as we go. In a [follow-up post](blog.html?post=ml-methods), I will cover the specific ML methods and architectures that bring these paradigms to life.
+The figure in this post is taken from a review paper I co-authored in *Progress in Polymer Science*, and it is meant to give you a visual anchor for each paradigm. I will point to it as we go. In a [follow-up post](/website/blog/?post=ml-methods), I will cover the specific ML methods and architectures that bring these paradigms to life.
 
 ## Before We Start: What Is a Paradigm?
 
