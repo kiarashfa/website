@@ -138,14 +138,20 @@
         #obs-theme-btn:hover { background: rgba(73, 197, 182, 0.14); border-color: rgba(73, 197, 182, 0.4); color: rgba(73, 197, 182, 1); }
         [data-theme="light"] #obs-theme-btn:hover { background: rgba(185, 90, 55, 0.12); border-color: rgba(185, 90, 55, 0.4); color: rgba(185, 90, 55, 1); }
 
+        /* NEW */
         #obs-back {
+            background: rgba(73, 197, 182, 0.06);
+            border: 1px solid rgba(73, 197, 182, 0.18);
+            border-radius: 8px;
+            color: rgba(73, 197, 182, 0.65);
             font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
-            font-size: 10.5px; letter-spacing: 0.06em;
-            color: rgba(255, 255, 255, 0.2); text-decoration: none; transition: color 0.3s ease;
+            font-size: 10.5px; letter-spacing: 0.1em; padding: 7px 13px;
+            text-decoration: none; transition: all 0.3s ease;
+            display: flex; align-items: center; gap: 6px;
         }
-        [data-theme="light"] #obs-back { color: rgba(26, 42, 58, 0.2); }
-        #obs-back:hover { color: rgba(73, 197, 182, 0.8); }
-        [data-theme="light"] #obs-back:hover { color: rgba(185, 90, 55, 0.8); }
+        [data-theme="light"] #obs-back { background: rgba(185, 90, 55, 0.05); border-color: rgba(185, 90, 55, 0.15); color: rgba(185, 90, 55, 0.6); }
+        #obs-back:hover { background: rgba(73, 197, 182, 0.14); border-color: rgba(73, 197, 182, 0.4); color: rgba(73, 197, 182, 1); }
+        [data-theme="light"] #obs-back:hover { background: rgba(185, 90, 55, 0.12); border-color: rgba(185, 90, 55, 0.4); color: rgba(185, 90, 55, 1); }
 
         /* ═══ SCROLL HINT ═══ */
         #scroll-hint {
@@ -258,7 +264,7 @@
     <!-- BOTTOM BAR -->
     <div id="bottom-bar">
         <button id="obs-theme-btn" onclick="toggleTheme()"><i id="theme-toggle-icon" class="fas fa-moon"></i> THEME</button>
-        <a id="obs-back" href="../index.html">← kiarashfa.github.io</a>
+        <a id="obs-back" href="../index.html"><i class="fas fa-house"></i> HOME</a>
     </div>
 
     <!-- SCROLL HINT -->
