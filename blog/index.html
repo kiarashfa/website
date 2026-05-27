@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Kiarash Farajzadehahary - Blog">
     <meta name="author" content="Kiarash Farajzadehahary">
-    <link rel="canonical" href="https://kiarashfa.github.io/pages/blog.html">
+    <link rel="canonical" href="https://kiarashfa.github.io/website/blog">
     <title>Blog | KiarashFa</title>
 
     <!-- Favicons -->
@@ -316,7 +316,7 @@
                     '';
                 
                 postView.innerHTML = `
-                    <a href="blog.html" class="back-button">
+                    <a href="./" class="back-button">
                         <i class="fas fa-arrow-left"></i> Back to Blog
                     </a>
                     <div class="post-full">
@@ -354,7 +354,7 @@
 
                 // Update canonical to this specific post URL
                 const canonical = document.querySelector('link[rel="canonical"]');
-                if (canonical) {canonical.href = `https://kiarashfa.github.io/pages/blog.html?post=${post.id}`;}
+                if (canonical) {canonical.href = `https://kiarashfa.github.io/website/blog/?post=${post.id}`;}
                 
                 // Inject structured data (Schema.org Article + ImageObject)
                 removeSchema();
@@ -374,7 +374,7 @@
                 if (post.image) {
                     schema["image"] = {
                         "@type": "ImageObject",
-                        "url": `${window.location.origin}/blog/${post.image}`,
+                        "url": `${window.location.origin}/blog/files/${post.image}`,
                         "description": post.imageAlt || post.title
                     };
                 }
