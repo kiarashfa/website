@@ -82,7 +82,7 @@ What makes SVMs particularly clever is the kernel trick. Real-world data is rare
 
 SVMs were dominant in machine learning before deep learning took over, and they remain a strong choice for problems with small to medium-sized datasets, high-dimensional feature spaces, and clear margin-based separation between classes. In polymer science, SVMs have been used for tasks like classifying polymerization regimes, distinguishing between different types of degradation behavior, or identifying defective samples from quality control data. They are also mathematically elegant, which is a nice bonus if that sort of thing appeals to you. Where they struggle is with very large datasets and with problems where the class boundaries are highly irregular and complex, territories where deep neural networks tend to have the advantage.
 
-![Diagram of machine learning methods: ANN, CNN, RNN, random forests, gradient boosting, SVM, autoencoders, and GANs; from Farajzadehahary et al. Progress in Polymer Science 2025](./2026-02-05-ML_Fig2.jpg)
+![Diagram of machine learning methods: ANN, CNN, RNN, random forests, gradient boosting, SVM, autoencoders, and GANs; from Farajzadehahary et al. Progress in Polymer Science 2025](./files/2026-02-05-ML_Fig2.jpg)
 
 *Overview of machine learning methods: artificial neural networks (ANN), convolutional neural networks (CNN), recurrent neural networks (RNN), random forests, gradient boosting, support vector machines (SVM), autoencoders, and generative adversarial networks (GAN). From Farajzadehahary et al., ["Adding machine learning to the polymer reaction engineering toolbox,"](https://doi.org/10.1016/j.progpolymsci.2025.102029) Progress in Polymer Science, Vol. 170, 2025. Reproduced by the first author.*
 
