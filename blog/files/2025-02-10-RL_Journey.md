@@ -93,7 +93,7 @@ Most RL courses either stay theoretical or dump you into complex libraries witho
 ## Download and Start Learning
 Ready to begin? I've packaged all the notebooks together for you. Inside you'll find the complete progression from Notebook 1 (FrozenLake) through Notebook 6 (Snake), plus both bonus notebooks (Pong and Lunar Lander). Don't skip ahead – trust me, each one builds crucial intuition for the next.
 
-**[Download the Complete RL Course Notebooks (RAR)](https://kiarashfa.github.io/assets/resources/Materials_RL.rar)**
+**[Download the Complete RL Course Notebooks (RAR)](https://kiarashfa.github.io/website/resources/files/Materials_RL.rar)**
 
 And hey, if you end up using RL for something cool (whether it's games, robotics, optimization, or controlling chemical reactors), I'd love to hear about it. That's the best part of sharing knowledge... seeing where people take it next.
 
