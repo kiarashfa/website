@@ -30,7 +30,7 @@ If you want to know the technical details, including the model architectures, tr
 
 The interface is intentionally simple. The [main page](https://polymatai.pythonanywhere.com/) gives you an overview of all four models with links to each one. Each prediction page has a single input field (or two for reactivity ratios), a predict button, and the result displayed right there. There's also a [Guide page](https://polymatai.pythonanywhere.com/guide) that helps you with SMILES notation if you're not familiar with it.
 
-I also recently integrated PolymatAI directly into my [personal website's Resources page](https://kiarashfa.github.io/pages/resources.html), so you can run predictions without even leaving the page. Just click on any of the four property icons, and a prediction panel opens up right there.
+I also recently integrated PolymatAI directly into my [personal website's Resources page](https://kiarashfa.github.io/website/resources/), so you can run predictions without even leaving the page. Just click on any of the four property icons, and a prediction panel opens up right there.
 
 ## Why Free and Open-Access?
 
