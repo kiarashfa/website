@@ -338,8 +338,8 @@
                 <div class="publication-preview" onclick="toggleCard(this.closest('.publication-card'))">
                     <div class="publication-header">
                         <h3 class="publication-title">
-                            PCINNs for RAFT Polymerization with Active Learning
-                            <span class="status-badge"><i class="fas fa-flask"></i> Ongoing</span>
+                            PCINNs for Multi-Objective Optimization in Continuous Flow
+                            <span class="status-badge"><i class="fas fa-flask"></i>In preparation</span>
                         </h3>
                         <i class="fas fa-chevron-down expand-icon"></i>
                     </div>
@@ -373,10 +373,12 @@
                             <span class="authors-label">Authors:</span> <span class="authors-list">Kiarash Farajzadehahary, et al.</span>
                         </p>
                         <p class="publication-description">
-                            Extending PCINNs into RAFT polymerization territory with three ambitious goals: optimizing kinetic rate constants
-                            using trained PINNs as fast surrogates, generating Pareto fronts via multi-objective optimization (NSGA-II) to
-                            balance competing objectives like conversion vs. residence time, and deploying active learning that uses ensemble
-                            prediction uncertainty to guide the selection of the next most informative experiment.
+                            Automated flow chemistry lets a model decide which experiment to run next, but in polymer synthesis data are scarce and
+                            every experiment counts. We ran a multi-objective Bayesian optimization of RAFT polymerization in continuous flow,
+                            balancing competing objectives such as production rate and molecular weight control, and compared two surrogate models
+                            driving it: a conventional Gaussian process and a PCINN that carries the polymerization kinetics inside it.
+                            Both found high-performing conditions, but the PCINN got there in significantly fewer iterations and explored the
+                            design space far more efficiently, showing that chemical knowledge pays off most when data are limited.
                         </p>
                     </div>
                     <div class="publication-links">
